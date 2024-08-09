@@ -28,6 +28,31 @@
   color: #61dafb;
 }
 
+.button {
+  background-color: lightblue;
+  border-radius: 12px;
+  width: 140px;
+  height: 40px;
+  margin-left: auto;
+  margin-right: 5%;
+}
+
+.header-website {
+  background-color: lightgrey;
+  display: flex;
+  align-items: center
+}
+
+.map-naver-view {
+  min-height: 500px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.title-website {
+  margin-left: 35px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
