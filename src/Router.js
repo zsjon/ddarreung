@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import mainPage from "./mainPage";
+import MainPage from "./MainPage";
 
 const Router = () => {
     return (
         <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Routes>
-                <Route path='/' element={<mainPage />} />
+                <Route path='/' element={<MainPage />} />
             </Routes>
         </BrowserRouter>
     );
