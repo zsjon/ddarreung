@@ -1,44 +1,33 @@
-// import {NavermapsProvider} from "react-naver-maps";
-//
-//
-// const MainPage = () => {
-//
-//
-//
-//     return (
-//         <NavermapsProvider
-//             ncpClientId='ahznufizx8'
-//             // or finClientId, govClientId
-//         >
-//
-//         </NavermapsProvider>
-//     );
-//
-// };
-//
-// export default MainPage;
-
-import React from 'react'
-// import MapNavigation from './MapNavigation'
-// import GlobalCSS from '../../Style/GlobalCSS'
-import NaverMapContainer from './NaverMapContainer'
-import { NavermapsProvider } from 'react-naver-maps';
-// css 초기화 ! Map 페이지만 적용
-
+import { useEffect, useRef } from 'react';
 
 const MainPage = () => {
+    const mapElement = useRef(null);
+    const { naver } = window;
+
+    useEffect(() => {
+        if (!mapElement.current || !naver) return;
+
+        // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
+        const location = new naver.maps.LatLng(37.5656, 126.9769);
+        const mapOptions = {
+            center: location,
+            zoom: 17,
+            zoomControl: true,
+        };
+
+        const map = new naver.maps.Map(mapElement.current, mapOptions);
+        new naver.maps.Marker({
+            position: location,
+            map,
+        });
+    }, []);
+
     return (
-
-        <NavermapsProvider
-            ncpClientId='ahznufizx8'>
-        {/*<GlobalCSS />*/}
-        {/*<MapNavigation />*/}
-        <NaverMapContainer />
-        </NavermapsProvider>
-
-)
-}
+        <>
+            <h1>Naver Map - Default</h1>
+            <div ref={mapElement} style={{ minHeight: '400px' }} />
+        </>
+    );
+};
 
 export default MainPage;
-// <NaverMapsProvider
-//     ncpClientId='ahznufizx8'/>
