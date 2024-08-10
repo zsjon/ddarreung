@@ -113,27 +113,18 @@
 // export default MainPage;
 
 import React, { useEffect, useRef, useState } from 'react';
-import cctvImage from './cctv.png';
-import cctvImage2 from './cctv2.jpg';
-import cctvImage3 from './cctv3.jpg';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { columns } from "./columns";
 import {Drawer} from "@mui/material";
+import {collection, getDocs} from "firebase/firestore";
+import {db} from "./firebase"
 
 const MainPage = () => {
     const mapElement = useRef(null);
     const { naver } = window;
 
-    const rows = [
-        { id: 1, object: "따릉이", latitude: "37.548769", longitude: "127.120038", address: "서울특별시 강동구 선사로 83-66", image: cctvImage },
-        { id: 2, object: "따릉이2", latitude: "37.521302", longitude: "126.984974", address: "서울특별시 용산구 서빙고로 185", image: cctvImage2 },
-        { id: 3, object: "따릉이3", latitude: "37.552973", longitude: "126.984190", address: "서울특별시 용산구 용산동2가", image: cctvImage3 },
-        { id: 4, object: "따릉이4", latitude: "37.493379", longitude: "126.919990", address: "서울특별시 동작구 여의대방로20길 33" },
-        { id: 5, object: "따릉이5", latitude: "37.564087", longitude: "126.891791", address: "서울특별시 마포구 상암동 482" },
-        { id: 6, object: "따릉이6", latitude: "37.526674", longitude: "126.934719", address: "서울특별시 영등포구 여의동로 330" }
-    ];
-
+    const [rows, setRows] = useState([]);
     const [map, setMap] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
@@ -148,6 +139,26 @@ const MainPage = () => {
         longitude: 127.0276188,
     });
 
+
+    //TODO: refactoring
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, "your-collection-name"));
+                const fetchedRows = querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    latitude: doc.lat,
+                    longitude: doc.lon
+                }));
+                setRows(fetchedRows);
+            } catch (error) {
+                console.error("Error fetching data from Firestore:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+    
     useEffect(() => {
         const updateLocation = () => {
             if (navigator.geolocation) {
@@ -233,7 +244,7 @@ const MainPage = () => {
             <div ref={mapElement} className='map-naver-view'></div>
             <Box>
                 <DataGrid
-                    rows={rows} //위 rows의 임의 데이터를 데이터그리드에 적용.
+                    rows={rows} // Firestore 데이터를 데이터그리드에 적용.
                     columns={columns}
                     onCellClick={handleObjectClick}
                     initialState={{
@@ -256,7 +267,7 @@ const MainPage = () => {
                 {selectedRow && (
                     <Box p={2} width="250px" textAlign="center">
                         <h2>{selectedRow.object}</h2>
-                        <img src={selectedRow.image} alt="Placeholder" style={{ width: '100%', height: 'auto' }} />
+                        <img src={`https://via.placeholder.com/200`} alt="Placeholder" style={{ width: '100%', height: 'auto' }} />
                         <p>{selectedRow.address}</p>
                     </Box>
                 )}
