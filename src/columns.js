@@ -1,22 +1,22 @@
 export const columns = [
     {
-        field: 'id',
+        field: 'index',
         headerName: 'No.',
         hide: true
     },
     {
-        field: 'object',
+        field: 'id',
         headerName: '유실물',
         flex: 1
     },
     {
         field: 'latitude',
-        headerName: 'x좌표',
+        headerName: '위도',
         flex: 1
     },
     {
         field: 'longitude',
-        headerName: 'y좌표',
+        headerName: '경도',
         flex: 1
     },
 ];

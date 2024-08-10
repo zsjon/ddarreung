@@ -1,124 +1,13 @@
-// import { useEffect, useRef } from 'react';
-//
-// const MainPage = () => {
-//     const mapElement = useRef(null);
-//     const { naver } = window;
-//
-//     useEffect(() => {
-//         if (!mapElement.current || !naver) return;
-//
-//         // 지도에 표시할 위치의 위도와 경도 좌표를 파라미터로 넣어줍니다.
-//         const location = new naver.maps.LatLng(37.5656, 126.9769);
-//         const mapOptions = {
-//             center: location,
-//             zoom: 17,
-//             zoomControl: true,
-//         };
-//
-//         const map = new naver.maps.Map(mapElement.current, mapOptions);
-//         new naver.maps.Marker({
-//             position: location,
-//             map,
-//         });
-//     }, []);
-//
-//     return (
-//         <>
-//             <h1>Naver Map - Default</h1>
-//             <div ref={mapElement} style={{ minHeight: '400px' }} />
-//         </>
-//     );
-// };
-//
-// export default MainPage;
-
-// import React, { useEffect, useRef, useState } from 'react';
-// import Box from '@mui/material/Box';
-// import { DataGrid } from '@mui/x-data-grid';
-// import {columns} from "./columns";
-//
-// const MainPage = () => {
-//     const mapElement = useRef(null);
-//     const { naver } = window;
-//
-//     const [myLocation, setMyLocation] = useState({});
-//
-//     useEffect(() => {
-//         if (navigator.geolocation) {
-//             navigator.geolocation.getCurrentPosition(success, error);
-//         }
-//         if (!mapElement.current || !naver) return;
-//
-//         const location = new naver.maps.LatLng(myLocation.latitude, myLocation.longitude);
-//         const mapOptions = {
-//             center: location,
-//             zoom: 17,
-//             zoomControl: true,
-//         };
-//
-//         const map = new naver.maps.Map(mapElement.current, mapOptions);
-//         new naver.maps.Marker({
-//             position: location,
-//             map,
-//         });
-//     }, [mapElement, myLocation]);
-//
-//     const rows = [
-//         {object: "따릉이", location: "111"},
-//         {object: "따릉이", location: "111"},
-//         {object: "따릉이", location: "111"},
-//         {object: "따릉이", location: "111"},
-//         {object: "따릉이", location: "111"},
-//         {object: "따릉이", location: "111"}
-//     ];
-//
-//     return (
-//         <React.Fragment>
-//             <h1>Naver Map - Current Position</h1>
-//             <div ref={mapElement} style={{ minHeight: '400px' }}>
-//         </div>
-//         <Box>
-//             <DataGrid
-//                 rows={rows.rows}
-//                 columns={columns}
-//                 initialState={{
-//                     pagination: {
-//                         paginationModel: {
-//                             pageSize: 5
-//                         },
-//                     },
-//                 }}
-//                 pageSizeOptions={[5]}
-//                 checkboxSelection
-//                 disableRowSelectionOnClick
-//             />
-//         </Box>
-//         </React.Fragment>
-//     );
-//
-//     // 위치추적에 성공했을때 위치 값을 넣어줍니다.
-//     function success(position) {
-//         setMyLocation({
-//             latitude: position.coords.latitude,
-//             longitude: position.coords.longitude,
-//         });
-//     }
-//
-//     // 위치 추적에 실패 했을때 초기값을 넣어줍니다.
-//     function error() {
-//         setMyLocation({ latitude: 37.4979517, longitude: 127.0276188 }); //강남역 좌표
-//     }
-// };
-//
-// export default MainPage;
-
 import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { columns } from "./columns";
-import {Drawer} from "@mui/material";
-import {collection, getDocs} from "firebase/firestore";
-import {db} from "./firebase"
+import { Drawer } from "@mui/material";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./firebase";
+import cctvImage from './cctv.png';
+import cctvImage2 from './cctv2.jpg';
+import cctvImage3 from './cctv3.jpg';
 
 const MainPage = () => {
     const mapElement = useRef(null);
@@ -129,26 +18,22 @@ const MainPage = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
 
-    // const [myLocation, setMyLocation] = useState({
-    //     latitude: 37.4979517, // 초기값 = 강남역 좌표
-    //     longitude: 127.0276188,
-    // });
-
     const [myLocation, setMyLocation] = useState({
         latitude: 37.4979517, // 초기값 = 강남역 좌표
         longitude: 127.0276188,
     });
 
-
-    //TODO: refactoring
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, "your-collection-name"));
-                const fetchedRows = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    latitude: doc.lat,
-                    longitude: doc.lon
+                const querySnapshot = await getDocs(collection(db, "missing-seoul-bike"));
+                const fetchedRows = querySnapshot.docs.map((doc, index) => ({
+                    index: index + 1,
+                    id: doc.data().id,
+                    latitude: doc.data().lat,
+                    longitude: doc.data().lon,
+                    imageUrl: doc.data().imageUrl,
+                    address: doc.data().address,
                 }));
                 setRows(fetchedRows);
             } catch (error) {
@@ -158,7 +43,7 @@ const MainPage = () => {
 
         fetchData();
     }, []);
-    
+
     useEffect(() => {
         const updateLocation = () => {
             if (navigator.geolocation) {
@@ -203,18 +88,22 @@ const MainPage = () => {
         };
 
         const newMap = new naver.maps.Map(mapElement.current, mapOptions);
-
-
-        rows.forEach((row) => {
-            new naver.maps.Marker({
-                position: new naver.maps.LatLng(parseFloat(row.latitude), parseFloat(row.longitude)),
-                map: newMap,
-                title: row.object,
-            });
-        });
-
         setMap(newMap);
-    }, [naver]);
+
+        // Firestore에서 가져온 데이터 기반으로 마커 표시
+        if (rows.length > 0) {
+            rows.forEach((row) => {
+                const markerPosition = new naver.maps.LatLng(parseFloat(row.latitude), parseFloat(row.longitude));
+
+                // 마커 생성
+                new naver.maps.Marker({
+                    position: markerPosition, // 마커 위치 지정
+                    map: newMap,              // 마커를 표시할 지도 객체 지정
+                    title: row.id,            // 마커의 제목 지정
+                });
+            });
+        }
+    }, [naver, rows]);
 
     const handleObjectClick = (params) => {
         const row = rows.find(r => r.id === params.id);
@@ -247,14 +136,6 @@ const MainPage = () => {
                     rows={rows} // Firestore 데이터를 데이터그리드에 적용.
                     columns={columns}
                     onCellClick={handleObjectClick}
-                    initialState={{
-                        // pagination: {
-                        //     paginationModel: {
-                        //         pageSize: 5
-                        //     },
-                        // },   // 모든 rows를 한 페이지 안에 모두 보이게. 대신 DataGrid 컴포넌트 구성상 최대 100개까지만 보일 수 있음.
-                    }}
-                    // pageSizeOptions={[5]}
                     checkboxSelection
                     disableRowSelectionOnClick
                 />
@@ -266,8 +147,8 @@ const MainPage = () => {
             >
                 {selectedRow && (
                     <Box p={2} width="250px" textAlign="center">
-                        <h2>{selectedRow.object}</h2>
-                        <img src={`https://via.placeholder.com/200`} alt="Placeholder" style={{ width: '100%', height: 'auto' }} />
+                        <h2>{selectedRow.id}</h2>
+                        <img src={selectedRow.imageUrl} alt="Missing bike" style={{ width: '100%', height: 'auto' }} />
                         <p>{selectedRow.address}</p>
                     </Box>
                 )}
@@ -277,3 +158,13 @@ const MainPage = () => {
 };
 
 export default MainPage;
+
+
+// const 임의_데이터 = [
+//     { id: 1, object: "따릉이", latitude: "37.548769", longitude: "127.120038", address: "서울특별시 강동구 선사로 83-66", image: cctvImage },
+//     { id: 2, object: "따릉이2", latitude: "37.521302", longitude: "126.984974", address: "서울특별시 용산구 서빙고로 185", image: cctvImage2 },
+//     { id: 3, object: "따릉이3", latitude: "37.552973", longitude: "126.984190", address: "서울특별시 용산구 용산동2가", image: cctvImage3 },
+//     { id: 4, object: "따릉이4", latitude: "37.493379", longitude: "126.919990", address: "서울특별시 동작구 여의대방로20길 33" },
+//     { id: 5, object: "따릉이5", latitude: "37.564087", longitude: "126.891791", address: "서울특별시 마포구 상암동 482" },
+//     { id: 6, object: "따릉이6", latitude: "37.526674", longitude: "126.934719", address: "서울특별시 영등포구 여의동로 330" }
+// ];
