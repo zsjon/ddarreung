@@ -1,3 +1,5 @@
+/*MainPage.js로 대체*/
+
 import logo from './logo.svg';
 import './App.css';
 

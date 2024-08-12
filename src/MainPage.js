@@ -5,6 +5,7 @@ import { columns } from "./columns";
 import { Drawer } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
+
 import cctvImage from './cctv.png';
 import cctvImage2 from './cctv2.jpg';
 import cctvImage3 from './cctv3.jpg';
@@ -17,12 +18,24 @@ const MainPage = () => {
     const [map, setMap] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
+    const [selectedOption, setSelectedOption] = useState('');
 
     const [myLocation, setMyLocation] = useState({
         latitude: 37.4979517, // 초기값 = 강남역 좌표
         longitude: 127.0276188,
     });
 
+    // select 컴포넌트의 button으로 특정 위치를 선택하면, 해당 위치로 지도 업데이트
+    const handleSelectChange = (event) => {
+        const value = event.target.value;
+        setSelectedOption(value);
+
+        //TODO: 네이버 지도 API에서 해당 지역을 표시
+
+        console.log("selected option: ", value);
+    };
+
+    // Firebase의 Firestore에서 데이터 가져오기
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -43,6 +56,7 @@ const MainPage = () => {
 
         fetchData();
     }, []);
+
 
     useEffect(() => {
         const updateLocation = () => {
@@ -122,12 +136,14 @@ const MainPage = () => {
         <React.Fragment>
             <div className='header-website'>
                 <h1 className='title-website'>유실 따릉이 위치 현황</h1>
-                <select className='button'>
+                <select className='button' value={selectedOption} onChange={handleSelectChange}>
                     <option>지역 선택</option>
                     <option>한강공원 반포지구</option>
                     <option>한강공원 잠실지구</option>
                     <option>보라매공원</option>
                     <option>남산공원</option>
+                    <option>서울숲</option>
+                    <option>여의도공원</option>
                 </select>
             </div>
             <div ref={mapElement} className='map-naver-view'></div>
