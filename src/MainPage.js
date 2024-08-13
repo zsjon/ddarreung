@@ -59,7 +59,7 @@ const MainPage = () => {
                     return reject('Reverse Geocoding failed');
                 }
 
-                const result = response.v2.results[0];
+                const result = response.v2.results[0];  //받아온 지역의 주소를 단위별로 분할하여 최종 주소지를 도출
                 const area1 = result.region.area1.name || '';
                 const area2 = result.region.area2.name || '';
                 const area3 = result.region.area3.name || '';

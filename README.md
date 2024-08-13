@@ -1,70 +1,25 @@
-# Getting Started with Create React App
+# 2024 서울 지능형 사물인터넷(AIoT) 해커톤 대회 출품작 - 따릉이 회수 시스템(가제)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### 출품분야: 아두이노 활용 시제품 제작
 
-## Available Scripts
+### 주요 기능
 
-In the project directory, you can run:
+#### - 각 공원마다 설치되어 있는 CCTV가 1시간마다 촬영중인 사진을 촬영
 
-### `npm start`
+#### 만약 해당 CCTV의 화면에 따릉이가 일정 시간 이상 존재 시, 해당 CCTV의 위치를 서버로 전송
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+#### 관리자는 관리자 페이지를 통해 미반납 따릉이들의 위치를 파악함
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### 회수자는 어플리케이션을 통해 미반납 따릉이가 촬영된 CCTV의 위치로 가서 따릉이 회수 후 '회수 완료' 버튼을 누름
 
-### `npm test`
+#### 이후 회수된 따릉이의 정보는 서버에서 삭제되게 됨.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Used Technologies
 
-### `npm run build`
+#### 1. Naver Map API
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### 2. FireBase DB
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### 3. TensorFlow Light(TFLite)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+#### 4. RaspBerryPi 3.5
