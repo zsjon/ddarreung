@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import { Drawer, Modal } from "@mui/material";
+import { Drawer, Modal, Button } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
 import ParkOptions from './ParkOptions';
@@ -191,7 +191,7 @@ const MainPage = () => {
         if (row) {
             const location = new naver.maps.LatLng(parseFloat(row.cctvLat), parseFloat(row.cctvLon));
             map.setCenter(location);
-            map.setZoom(17);
+            map.setZoom(19);
 
             // 기존에 그려진 원과 마커가 있으면 제거
             if (circle) {
@@ -276,6 +276,17 @@ const MainPage = () => {
         setModalOpen(true);
     };
 
+    // Drawer 창이 닫힐 때 유실 따릉이 마커와 원 삭제
+    const handleCloseDrawer = () => {
+        bikeMarkers.forEach(marker => marker.setMap(null));
+        setBikeMarkers([]);
+        if (circle) {
+            circle.setMap(null);
+        }
+        setCircle(null);
+        setDrawerOpen(false);
+    };
+
     // 모달 창 닫기
     const handleCloseModal = () => {
         setModalOpen(false);
@@ -310,10 +321,13 @@ const MainPage = () => {
             <Drawer
                 anchor='left'
                 open={drawerOpen}
-                onClose={() => setDrawerOpen(false)}
+                onClose={handleCloseDrawer}  // Drawer 닫을 때 유실 따릉이 마커와 원 삭제
             >
                 {selectedRow && (
                     <Box p={2} width="500px" textAlign="center">
+                        <Button onClick={handleCloseDrawer} variant="contained" color="primary" style={{ marginBottom: '10px' }}>
+                            닫기
+                        </Button>
                         <h2>{selectedRow.id}</h2>
                         <img
                             src={selectedRow.imageUrl}
