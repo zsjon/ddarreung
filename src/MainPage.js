@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Drawer, Modal, Button } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
-import ParkOptions from './ParkOptions';
+import ParkOptions from './ParkOptions'; // 전체 공원 목록
 import { columns_CCTV } from "./columns_CCTV";
 import { columns_Lost } from "./columns_Lost";
 
@@ -15,6 +15,7 @@ const MainPage = () => {
     const [cctvRows, setCctvRows] = useState([]);
     const [visibleCctvRows, setVisibleCctvRows] = useState([]); // 화면에 표시되는 CCTV 데이터
     const [bikeRows, setBikeRows] = useState([]);
+    const [filteredParkOptions, setFilteredParkOptions] = useState([]); // 유실 따릉이를 감지한 CCTV가 있는 공원 목록
     const [visibleBikeRows, setVisibleBikeRows] = useState([]); // 선택된 CCTV 범위 내의 유실 따릉이 데이터
     const [map, setMap] = useState(null);
     const [circle, setCircle] = useState(null); // 원을 관리할 상태
@@ -49,6 +50,7 @@ const MainPage = () => {
 
                 setCctvRows(rowsWithAddress);
                 setVisibleCctvRows(rowsWithAddress); // 초기에는 모든 CCTV를 표시
+                filterParkOptions(rowsWithAddress); // 유실 따릉이를 감지한 CCTV가 있는 공원 목록 필터링
             } catch (error) {
                 console.error("Error fetching data from Firestore:", error);
             }
@@ -107,6 +109,26 @@ const MainPage = () => {
         });
     };
 
+    // 유실 따릉이를 감지한 CCTV가 있는 공원 목록 필터링 함수
+    const filterParkOptions = (cctvRows) => {
+        const parksWithCCTV = [];
+
+        cctvRows.forEach(cctv => {
+            const associatedPark = ParkOptions.find(park => {
+                const cctvLat = parseFloat(cctv.cctvLat);
+                const cctvLon = parseFloat(cctv.cctvLon);
+                const distance = calculateDistance(park.lat, park.lon, cctvLat, cctvLon);
+                return distance <= 1000; // 공원의 중심으로부터 1km 이내에 CCTV가 있는지 확인
+            });
+
+            if (associatedPark && !parksWithCCTV.includes(associatedPark)) {
+                parksWithCCTV.push(associatedPark);
+            }
+        });
+
+        setFilteredParkOptions(parksWithCCTV); // 필터링된 공원 목록 업데이트
+    };
+
     // 좌표 간의 거리를 계산하는 함수 (단위: 미터)
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371e3; // 지구의 반지름 (단위: 미터)
@@ -123,6 +145,19 @@ const MainPage = () => {
 
         const distance = R * c; // 두 점 사이의 거리 (단위: 미터)
         return distance;
+    };
+
+    // CCTV가 감지한 유실물 개수를 계산하는 함수
+    const calculateFoundLost = (cctvLat, cctvLon) => {
+        return bikeRows.filter(bike => {
+            const distance = calculateDistance(
+                parseFloat(cctvLat),
+                parseFloat(cctvLon),
+                parseFloat(bike.latitude),
+                parseFloat(bike.longitude)
+            );
+            return distance <= 50; // CCTV를 중심으로 반경 50m 내에 있는 유실물만 포함
+        }).length;
     };
 
     // 지도 초기화 및 마커 표시 함수
@@ -191,7 +226,7 @@ const MainPage = () => {
         if (row) {
             const location = new naver.maps.LatLng(parseFloat(row.cctvLat), parseFloat(row.cctvLon));
             map.setCenter(location);
-            map.setZoom(19);
+            map.setZoom(17);
 
             // 기존에 그려진 원과 마커가 있으면 제거
             if (circle) {
@@ -263,7 +298,7 @@ const MainPage = () => {
         if (selectedPark && map) {
             const parkLocation = new naver.maps.LatLng(selectedPark.lat, selectedPark.lon);
             map.setCenter(parkLocation);
-            map.setZoom(19);
+            map.setZoom(17);
 
             // 현재 보이는 지도 범위 내의 CCTV 마커만 표시
             updateVisibleMarkers(map);
@@ -299,7 +334,7 @@ const MainPage = () => {
                 <h1 className='title-website'>유실 따릉이 위치 현황</h1>
                 <select className='button' onChange={handleGuChange} value={selectedGu}>
                     <option value="">공원 목록</option>
-                    {ParkOptions.map(park => (
+                    {filteredParkOptions.map(park => (
                         <option key={park.name} value={park.name}>{park.name}</option>
                     ))}
                 </select>
@@ -307,7 +342,10 @@ const MainPage = () => {
             <div ref={mapElement} className='map-naver-view'></div>
             <Box>
                 <DataGrid
-                    rows={visibleCctvRows} // 필터링된 CCTV 데이터만 표시
+                    rows={visibleCctvRows.map(row => ({
+                        ...row,
+                        foundLost: calculateFoundLost(row.cctvLat, row.cctvLon), // 유실물 개수 계산
+                    }))}
                     columns={columns_CCTV}
                     onCellClick={handleObjectClick}
                     checkboxSelection
