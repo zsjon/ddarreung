@@ -16,7 +16,7 @@ export const columns_Lost = [
     },
     {
         field: 'lastFoundTime',
-        headerName: '발견시각',
+        headerName: '최종발견시각',
         flex: 2,
     },
 ];

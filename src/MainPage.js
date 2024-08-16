@@ -7,6 +7,7 @@ import { db } from "./firebase";
 import ParkOptions from './ParkOptions'; // 전체 공원 목록
 import { columns_CCTV } from "./columns_CCTV";
 import { columns_Lost } from "./columns_Lost";
+import { getSeoulForestBoundary } from './PolyBoundary/SeoulForest';
 
 const MainPage = () => {
     const mapElement = useRef(null);
@@ -24,6 +25,7 @@ const MainPage = () => {
     const [selectedGu, setSelectedGu] = useState('');
     const [selectedImage, setSelectedImage] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
+    const [boundaryPolyline, setBoundaryPolyline] = useState(null); // 현재 표시된 폴리라인 상태
 
     const formatFoundTime = (timestamp) => {
         const year = timestamp.slice(0, 2);  // "24"
@@ -262,6 +264,20 @@ const MainPage = () => {
         }
     };
 
+    // 공원 옵션이 변경될 때 폴리라인 업데이트
+    const updateBoundaryPolyline = (parkName) => {
+        if (boundaryPolyline) {
+            boundaryPolyline.setMap(null); // 기존 폴리라인 제거
+        }
+
+        if (parkName === "서울숲") { // 서울숲 옵션이 선택되었을 때만 폴리라인 추가
+            const newPolyline = getSeoulForestBoundary(naver);
+            newPolyline.setMap(map);
+            setBoundaryPolyline(newPolyline); // 새로운 폴리라인 저장
+        }
+        // 다른 공원의 폴리라인을 추가하려면 여기서 조건을 추가
+    };
+
     // Option에 있는 공원 목록 선택 시 변화
     const handleGuChange = (event) => {
         setSelectedGu(event.target.value);
@@ -272,6 +288,7 @@ const MainPage = () => {
             map.setCenter(seoulCenter);
             map.setZoom(12);
             setVisibleCctvRows(cctvRows); // 모든 CCTV를 다시 표시
+            updateBoundaryPolyline(""); // 폴리라인 제거
             return;
         }
 
@@ -280,6 +297,8 @@ const MainPage = () => {
             const parkLocation = new naver.maps.LatLng(selectedPark.lat, selectedPark.lon);
             map.setCenter(parkLocation);
             map.setZoom(17);
+
+            updateBoundaryPolyline(selectedPark.name); // 선택한 공원의 폴리라인을 업데이트
 
             // 현재 보이는 지도 범위 내의 CCTV 마커만 표시
             updateVisibleMarkers(map);
@@ -352,7 +371,6 @@ const MainPage = () => {
                             onClick={() => handleImageClick(selectedImage)}
                         />
                         <p>{selectedRow.cctvAddress}</p>
-                        <p>해당 CCTV가 보여주는 따릉이명, 좌표</p>
                         <Box sx={{ height: 400, width: '100%' }}>
                             <DataGrid
                                 rows={visibleBikeRows} // 필터링된 유실 따릉이 데이터만 표시
