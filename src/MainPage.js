@@ -14,7 +14,6 @@ const MainPage = () => {
 
     const [cctvRows, setCctvRows] = useState([]);
     const [visibleCctvRows, setVisibleCctvRows] = useState([]); // 화면에 표시되는 CCTV 데이터
-    const [bikeRows, setBikeRows] = useState([]);
     const [filteredParkOptions, setFilteredParkOptions] = useState([]); // 유실 따릉이를 감지한 CCTV가 있는 공원 목록
     const [visibleBikeRows, setVisibleBikeRows] = useState([]); // 선택된 CCTV 범위 내의 유실 따릉이 데이터
     const [map, setMap] = useState(null);
@@ -26,59 +25,53 @@ const MainPage = () => {
     const [selectedImage, setSelectedImage] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
 
+    const formatFoundTime = (timestamp) => {
+        const year = timestamp.slice(0, 2);  // "24"
+        const month = timestamp.slice(2, 4); // "08"
+        const day = timestamp.slice(4, 6);   // "14"
+        const hour = timestamp.slice(6, 8);  // "12"
+        const minute = timestamp.slice(8, 10); // "00"
+
+        return `${year}/${month}/${day} ${hour}:${minute}`;
+    };
+
     // Firestore에서 CCTV 데이터를 가져오는 함수
     useEffect(() => {
         const fetchCCTVData = async () => {
             try {
                 const querySnapshot = await getDocs(collection(db, "seoul-cctv"));
-                const fetchedRows = querySnapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    cctvLat: doc.data().cctvLat,
-                    cctvLon: doc.data().cctvLon,
-                    imageUrl: doc.data().imageUrl,
-                    cctvAddress: '',
-                    foundLost: doc.data().foundLost,
-                    foundTime: doc.data().cctvFoundTime.toDate(),
-                }));
+                const fetchedRows = await Promise.all(
+                    querySnapshot.docs.map(async (doc) => {
+                        const data = doc.data();
+                        const bikeCollection = await getDocs(collection(db, `seoul-cctv/${doc.id}/missing-seoul-bike`));
+                        const bikeData = bikeCollection.docs.map(bikeDoc => ({
+                            ...bikeDoc.data(),
+                            firstFoundTime: formatFoundTime(bikeDoc.data().firstFoundTime),
+                            lastFoundTime: formatFoundTime(bikeDoc.data().lastFoundTime),
+                        }));
+                        const address = await getReverseGeocoding(data.lat, data.lon);
 
-                const rowsWithAddress = await Promise.all(
-                    fetchedRows.map(async (row) => {
-                        const address = await getReverseGeocoding(row.cctvLat, row.cctvLon);
-                        return { ...row, cctvAddress: address };
+                        return {
+                            id: data.id,
+                            cctvLat: data.lat,
+                            cctvLon: data.lon,
+                            imageURL: data.imageURL,
+                            cctvAddress: address, // 역지오코딩된 주소 추가
+                            bikeData: bikeData, // 각 CCTV의 유실물 데이터 포함
+                            foundLost: bikeData.length,
+                        };
                     })
                 );
 
-                setCctvRows(rowsWithAddress);
-                setVisibleCctvRows(rowsWithAddress); // 초기에는 모든 CCTV를 표시
-                filterParkOptions(rowsWithAddress); // 유실 따릉이를 감지한 CCTV가 있는 공원 목록 필터링
+                setCctvRows(fetchedRows);
+                setVisibleCctvRows(fetchedRows); // 초기에는 모든 CCTV를 표시
+                filterParkOptions(fetchedRows); // 유실 따릉이를 감지한 CCTV가 있는 공원 목록 필터링
             } catch (error) {
                 console.error("Error fetching data from Firestore:", error);
             }
         };
 
         fetchCCTVData();
-    }, []);
-
-    // Firestore에서 자전거 데이터를 가져오는 함수
-    useEffect(() => {
-        const fetchBikeData = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, "missing-seoul-bike"));
-                const fetchedRows = querySnapshot.docs.map((doc) => ({
-                    id: doc.id,
-                    latitude: doc.data().lat,
-                    longitude: doc.data().lon,
-                    imageUrl: doc.data().imageUrl,
-                    foundTime: doc.data().bikeFoundTime.toDate(),
-                }));
-
-                setBikeRows(fetchedRows);
-            } catch (error) {
-                console.error("Error fetching data from Firestore:", error);
-            }
-        };
-
-        fetchBikeData();
     }, []);
 
     // Reverse Geocoding을 사용하여 좌표에 따른 주소를 역추적하는 함수
@@ -145,19 +138,6 @@ const MainPage = () => {
 
         const distance = R * c; // 두 점 사이의 거리 (단위: 미터)
         return distance;
-    };
-
-    // CCTV가 감지한 유실물 개수를 계산하는 함수
-    const calculateFoundLost = (cctvLat, cctvLon) => {
-        return bikeRows.filter(bike => {
-            const distance = calculateDistance(
-                parseFloat(cctvLat),
-                parseFloat(cctvLon),
-                parseFloat(bike.latitude),
-                parseFloat(bike.longitude)
-            );
-            return distance <= 50; // CCTV를 중심으로 반경 50m 내에 있는 유실물만 포함
-        }).length;
     };
 
     // 지도 초기화 및 마커 표시 함수
@@ -249,20 +229,12 @@ const MainPage = () => {
             setCircle(newCircle); // 상태에 저장하여 다음 클릭 때 삭제 가능하게 설정
 
             // 원 내의 유실 따릉이 찾기
-            const filteredBikes = bikeRows.filter(bike => {
-                const distance = calculateDistance(
-                    parseFloat(row.cctvLat),
-                    parseFloat(row.cctvLon),
-                    parseFloat(bike.latitude),
-                    parseFloat(bike.longitude)
-                );
-                return distance <= newCircle.getRadius();
-            });
+            const filteredBikes = row.bikeData;
 
             // 유실 따릉이 마커 추가
             const newBikeMarkers = filteredBikes.map(bike => {
                 const bikeMarker = new naver.maps.Marker({
-                    position: new naver.maps.LatLng(parseFloat(bike.latitude), parseFloat(bike.longitude)),
+                    position: new naver.maps.LatLng(parseFloat(bike.lat), parseFloat(bike.lon)),
                     map: map,
                     icon: {
                         content: '<div style="background-color:red;width:10px;height:10px;border-radius:50%;"></div>',
@@ -277,7 +249,16 @@ const MainPage = () => {
             setVisibleBikeRows(filteredBikes); // 모달에 표시할 유실 따릉이 데이터 업데이트
 
             setSelectedRow(row);
+            setSelectedImage(filteredBikes.length > 0 ? filteredBikes[0].imageURL : row.imageURL);
             setDrawerOpen(true);
+        }
+    };
+
+    // Drawer 내 유실물 클릭 시의 변화 (이미지 변경)
+    const handleBikeRowClick = (params) => {
+        const bike = visibleBikeRows.find(b => b.id === params.id);
+        if (bike) {
+            setSelectedImage(bike.imageURL); // 선택한 유실물 이미지로 변경
         }
     };
 
@@ -305,9 +286,9 @@ const MainPage = () => {
         }
     };
 
-    // 이미지 클릭 시 모달 창 열기
-    const handleImageClick = (imageUrl) => {
-        setSelectedImage(imageUrl);
+    // 이미지 클릭 시 모달 창 열기 (확대)
+    const handleImageClick = (imageURL) => {
+        setSelectedImage(imageURL);
         setModalOpen(true);
     };
 
@@ -342,10 +323,7 @@ const MainPage = () => {
             <div ref={mapElement} className='map-naver-view'></div>
             <Box>
                 <DataGrid
-                    rows={visibleCctvRows.map(row => ({
-                        ...row,
-                        foundLost: calculateFoundLost(row.cctvLat, row.cctvLon), // 유실물 개수 계산
-                    }))}
+                    rows={visibleCctvRows}
                     columns={columns_CCTV}
                     onCellClick={handleObjectClick}
                     checkboxSelection
@@ -368,10 +346,10 @@ const MainPage = () => {
                         </Button>
                         <h2>{selectedRow.id}</h2>
                         <img
-                            src={selectedRow.imageUrl}
+                            src={selectedImage} // 유실물 클릭 시 이미지 변경
                             alt="CCTV Image"
                             style={{ width: '100%', height: 'auto', cursor: 'pointer' }}
-                            onClick={() => handleImageClick(selectedRow.imageUrl)}
+                            onClick={() => handleImageClick(selectedImage)}
                         />
                         <p>{selectedRow.cctvAddress}</p>
                         <p>해당 CCTV가 보여주는 따릉이명, 좌표</p>
@@ -379,6 +357,7 @@ const MainPage = () => {
                             <DataGrid
                                 rows={visibleBikeRows} // 필터링된 유실 따릉이 데이터만 표시
                                 columns={columns_Lost}
+                                onCellClick={handleBikeRowClick} // 유실물 클릭 시 이미지 변경
                                 checkboxSelection
                                 disableRowSelectionOnClick
                                 pageSize={10}

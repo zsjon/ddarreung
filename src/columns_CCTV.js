@@ -10,11 +10,6 @@ export const columns_CCTV = [
         flex: 1
     },
     {
-        field: 'foundTime',
-        headerName: '발견 시각',
-        flex: 1
-    },
-    {
         field: 'foundLost',
         headerName: '유실물 개수',
         flex: 1

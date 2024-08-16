@@ -10,8 +10,13 @@ export const columns_Lost = [
         flex: 1
     },
     {
-        field: 'foundTime',
+        field: 'firstFoundTime',
+        headerName: '최초발견시각',
+        flex: 2,
+    },
+    {
+        field: 'lastFoundTime',
         headerName: '발견시각',
-        flex: 2
-    }
+        flex: 2,
+    },
 ];
