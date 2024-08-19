@@ -33,7 +33,7 @@ const MainPage = () => {
         const hour = timestamp.slice(6, 8);  // "12"
         const minute = timestamp.slice(8, 10); // "00"
 
-        return `${day}/${month}/${year} ${hour}:${minute}`;
+        return `${year}/${month}/${day} ${hour}:${minute}`;
     };
 
     // Firestore에서 CCTV 데이터를 가져오는 함수
@@ -47,7 +47,8 @@ const MainPage = () => {
                         const bikeCollection = await getDocs(collection(db, `seoul-cctv/${doc.id}/missing-seoul-bike`));
                         const bikeData = bikeCollection.docs.map(bikeDoc => ({
                             ...bikeDoc.data(),
-                            firstFoundTime: formatFoundTime(bikeDoc.data().firstFoundTime), // 시간 형식 변환
+                            firstFoundTime: formatFoundTime(bikeDoc.data().firstFoundTime),
+                            lastFoundTime: formatFoundTime(bikeDoc.data().lastFoundTime)
                         }));
                         const address = await getReverseGeocoding(data.lat, data.lon);
 
@@ -122,7 +123,7 @@ const MainPage = () => {
         setFilteredParkOptions(parksWithCCTV); // 필터링된 공원 목록 업데이트
     };
 
-    // 좌표 간의 거리를 계산하는 함수 (단위: 미터)
+    // 좌표 간의 거리를 계산하는 함수 (단위: 미터) == 하버사인 공식
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371e3; // 지구의 반지름 (단위: 미터)
         const φ1 = lat1 * (Math.PI / 180);
@@ -206,7 +207,7 @@ const MainPage = () => {
         if (row) {
             const location = new naver.maps.LatLng(parseFloat(row.cctvLat), parseFloat(row.cctvLon));
             map.setCenter(location);
-            map.setZoom(17);
+            map.setZoom(18);
 
             // 기존에 그려진 원과 마커가 있으면 제거
             if (circle) {
