@@ -14,4 +14,9 @@ export const columns_CCTV = [
         headerName: '유실물 개수',
         flex: 1
     },
+    {
+        field: 'lastFoundTime',
+        headerName: '최종 발견 시각',
+        flex: 1
+    },
 ];

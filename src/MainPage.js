@@ -4,39 +4,66 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Drawer, Modal, Button } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
-import ParkOptions from './ParkOptions'; // 공원 목록 데이터를 import합니다.
+import ParkOptions from './ParkOptions'; // 전체 공원 목록
 import { columns_CCTV } from "./columns_CCTV";
 import { columns_Lost } from "./columns_Lost";
 
+// CCTV 방향 저장 객체 (로컬 스토리지에서 불러오기)
+const getCctvDirections = () => {
+    const storedDirections = localStorage.getItem('cctvDirections');
+    return storedDirections ? JSON.parse(storedDirections) : {};
+};
+
+const cctvDirections = getCctvDirections();
+
+const saveCctvDirections = () => {
+    localStorage.setItem('cctvDirections', JSON.stringify(cctvDirections));
+};
+
 const MainPage = () => {
-    const mapElement = useRef(null); // 네이버 지도를 렌더링할 DOM 요소를 참조합니다.
-    const { naver } = window; // 전역 객체에서 네이버 지도 API를 가져옵니다.
+    const mapElement = useRef(null);
+    const { naver } = window;
 
-    const [cctvRows, setCctvRows] = useState([]); // CCTV 데이터를 저장할 상태
-    const [visibleCctvRows, setVisibleCctvRows] = useState([]); // 화면에 표시되는 CCTV 데이터
-    const [filteredParkOptions, setFilteredParkOptions] = useState([]); // 유실 따릉이를 감지한 CCTV가 있는 공원 목록
-    const [visibleBikeRows, setVisibleBikeRows] = useState([]); // 선택된 CCTV 범위 내의 유실 따릉이 데이터
-    const [map, setMap] = useState(null); // 네이버 지도 객체를 저장할 상태
-    const [circle, setCircle] = useState(null); // 원을 관리할 상태
-    const [bikeMarkers, setBikeMarkers] = useState([]); // 유실 따릉이 마커를 관리할 상태
-    const [drawerOpen, setDrawerOpen] = useState(false); // Drawer(슬라이딩 패널) 상태 관리
-    const [selectedRow, setSelectedRow] = useState(null); // 선택된 CCTV 데이터를 저장할 상태
-    const [selectedGu, setSelectedGu] = useState(''); // 선택된 공원 이름
-    const [selectedImage, setSelectedImage] = useState(''); // 선택된 이미지를 저장할 상태
-    const [modalOpen, setModalOpen] = useState(false); // 이미지 모달 창 상태 관리
+    const [cctvRows, setCctvRows] = useState([]);
+    const [visibleCctvRows, setVisibleCctvRows] = useState([]);
+    const [filteredParkOptions, setFilteredParkOptions] = useState([]);
+    const [visibleBikeRows, setVisibleBikeRows] = useState([]);
+    const [map, setMap] = useState(null);
+    const [circle, setCircle] = useState(null);
+    const [bikeMarkers, setBikeMarkers] = useState([]);
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [selectedGu, setSelectedGu] = useState('');
+    const [selectedImage, setSelectedImage] = useState('');
+    const [modalOpen, setModalOpen] = useState(false);
 
-    // "2408141200" -> "24/08/14 12:00" 형식으로 변환하는 함수
+    // 날짜 및 시간 형식을 변환하는 함수
     const formatFoundTime = (timestamp) => {
-        const year = timestamp.slice(0, 2);  // "24"
-        const month = timestamp.slice(2, 4); // "08"
-        const day = timestamp.slice(4, 6);   // "14"
-        const hour = timestamp.slice(6, 8);  // "12"
-        const minute = timestamp.slice(8, 10); // "00"
+        const year = timestamp.slice(0, 2);
+        const month = timestamp.slice(2, 4);
+        const day = timestamp.slice(4, 6);
+        const hour = timestamp.slice(6, 8);
+        const minute = timestamp.slice(8, 10);
 
-        return `${year}/${month}/${day} ${hour}:${minute}`;
+        return `20${year}/${month}/${day} ${hour}:${minute}`;
     };
 
-    // Firestore에서 CCTV 데이터를 가져오는 함수
+    // 반원을 그리는 함수 --> CCTV가 촬영하는 범위를 표현
+    const drawArc = (center, radius, startAngle, endAngle) => {
+        const points = [];
+        const angleStep = (endAngle - startAngle) / 100;
+
+        for (let angle = startAngle; angle <= endAngle; angle += angleStep) {
+            const radian = angle * (Math.PI / 180);
+            const x = center.lng() + radius * Math.cos(radian) / 6378137 * (180 / Math.PI) / Math.cos(center.lat() * Math.PI / 180);
+            const y = center.lat() + radius * Math.sin(radian) / 6378137 * (180 / Math.PI);
+            points.push(new naver.maps.LatLng(y, x));
+        }
+
+        return points;
+    };
+
+    // CCTV가 감지한 유실물 데이터를 가져오는 함수
     useEffect(() => {
         const fetchCCTVData = async () => {
             try {
@@ -48,31 +75,47 @@ const MainPage = () => {
                         const bikeData = bikeCollection.docs.map(bikeDoc => ({
                             ...bikeDoc.data(),
                             firstFoundTime: formatFoundTime(bikeDoc.data().firstFoundTime),
-                            lastFoundTime: formatFoundTime(bikeDoc.data().lastFoundTime)
+                            lastFoundTime: formatFoundTime(bikeDoc.data().lastFoundTime),
+                            lat: bikeDoc.data().lat,
+                            lon: bikeDoc.data().lon,
+                            imageURL: bikeDoc.data().imageURL,
+                            id: bikeDoc.id
                         }));
                         const address = await getReverseGeocoding(data.lat, data.lon);
+
+                        // CCTV별 랜덤 방향 설정 (초기만 설정)
+                        if (!cctvDirections[data.id]) {
+                            cctvDirections[data.id] = Math.floor(Math.random() * 360);
+                            saveCctvDirections(); // 로컬 스토리지에 저장
+                        }
+
+                        // 가장 최근에 발견된 따릉이의 최종 발견 시각
+                        const lastFoundTime = bikeData.length > 0
+                            ? bikeData.reduce((latest, bike) => (bike.lastFoundTime > latest ? bike.lastFoundTime : latest), bikeData[0].lastFoundTime)
+                            : null;
 
                         return {
                             id: data.id,
                             cctvLat: data.lat,
                             cctvLon: data.lon,
                             imageURL: data.imageURL,
-                            cctvAddress: address, // 역지오코딩된 주소 추가
-                            bikeData: bikeData, // 각 CCTV의 유실물 데이터 포함
+                            cctvAddress: address,
+                            bikeData: bikeData,
                             foundLost: bikeData.length,
+                            lastFoundTime: lastFoundTime,
                         };
                     })
                 );
 
-                setCctvRows(fetchedRows); // CCTV 데이터를 상태에 저장
-                setVisibleCctvRows(fetchedRows); // 초기에는 모든 CCTV를 표시
-                filterParkOptions(fetchedRows); // 유실 따릉이를 감지한 CCTV가 있는 공원 목록 필터링
+                setCctvRows(fetchedRows);
+                setVisibleCctvRows(fetchedRows);
+                filterParkOptions(fetchedRows);
             } catch (error) {
                 console.error("Error fetching data from Firestore:", error);
             }
         };
 
-        fetchCCTVData(); // 컴포넌트 마운트 시 CCTV 데이터를 가져옵니다.
+        fetchCCTVData();
     }, []);
 
     // Reverse Geocoding을 사용하여 좌표에 따른 주소를 역추적하는 함수
@@ -112,7 +155,7 @@ const MainPage = () => {
                 const cctvLat = parseFloat(cctv.cctvLat);
                 const cctvLon = parseFloat(cctv.cctvLon);
                 const distance = calculateDistance(park.lat, park.lon, cctvLat, cctvLon);
-                return distance <= 1000; // 공원의 중심으로부터 1km 이내에 CCTV가 있는지 확인
+                return distance <= 300; // 공원의 중심으로부터 1km 이내에 CCTV가 있는지 확인
             });
 
             if (associatedPark && !parksWithCCTV.includes(associatedPark)) {
@@ -120,12 +163,12 @@ const MainPage = () => {
             }
         });
 
-        setFilteredParkOptions(parksWithCCTV); // 필터링된 공원 목록 업데이트
+        setFilteredParkOptions(parksWithCCTV);
     };
 
     // 좌표 간의 거리를 계산하는 함수 (단위: 미터) - 하버사인 공식 사용
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
-        const R = 6371e3; // 지구의 반지름 (단위: 미터)
+        const R = 6371e3;
         const φ1 = lat1 * (Math.PI / 180);
         const φ2 = lat2 * (Math.PI / 180);
         const Δφ = (lat2 - lat1) * (Math.PI / 180);
@@ -137,7 +180,7 @@ const MainPage = () => {
             Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        const distance = R * c; // 두 점 사이의 거리 (단위: 미터)
+        const distance = R * c;
         return distance;
     };
 
@@ -167,7 +210,6 @@ const MainPage = () => {
             });
         }
 
-        // 지도 이동 또는 확대 이벤트 발생 시 필터링된 CCTV 마커만 표시
         naver.maps.Event.addListener(newMap, 'idle', () => {
             updateVisibleMarkers(newMap);
         });
@@ -182,9 +224,8 @@ const MainPage = () => {
             return bounds.hasLatLng(latlng);
         });
 
-        // 지도에서 모든 마커 삭제 후 필터링된 마커 다시 표시
-        currentMap.markers && currentMap.markers.forEach(marker => marker.setMap(null)); // 기존 마커 삭제
-        currentMap.markers = []; // 마커 배열 초기화
+        currentMap.markers && currentMap.markers.forEach(marker => marker.setMap(null));
+        currentMap.markers = [];
 
         filteredCCTV.forEach((row) => {
             const markerPosition = new naver.maps.LatLng(parseFloat(row.cctvLat), parseFloat(row.cctvLon));
@@ -195,13 +236,13 @@ const MainPage = () => {
                 title: row.id,
             });
 
-            currentMap.markers.push(marker); // 새로운 마커 저장
+            currentMap.markers.push(marker);
         });
 
-        setVisibleCctvRows(filteredCCTV); // DataGrid에 필터링된 CCTV 데이터만 표시
+        setVisibleCctvRows(filteredCCTV);
     };
 
-    // CCTV 목록에 있는 CCTV 클릭 시의 변화
+    // CCTV 목록에 있는 CCTV 데이터 클릭 시의 변화
     const handleObjectClick = (params) => {
         const row = visibleCctvRows.find(r => r.id === params.id);
         if (row) {
@@ -215,11 +256,19 @@ const MainPage = () => {
             }
             bikeMarkers.forEach(marker => marker.setMap(null));
 
-            // 새로운 원을 그리기
-            const newCircle = new naver.maps.Circle({
+            // 각 CCTV에 대한 고정된 방향을 가져오기 (현재는 임의 변수로 설정되어 있음)
+            const startAngle = cctvDirections[row.id];
+            const endAngle = startAngle + 180; // 반원이므로 시작 각도 + 180도
+
+            const radius = 50; // 반지름 (단위: 미터)
+
+            // 반원 좌표 생성
+            const arcPoints = drawArc(location, radius, startAngle, endAngle);
+
+            // 반원을 그리는 폴리곤 생성 --> naver map API 활용
+            const newCircle = new naver.maps.Polygon({
                 map: map,
-                center: location,
-                radius: 50, // 반지름 50m
+                paths: [location, ...arcPoints, location],
                 strokeColor: '#5347AA',
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
@@ -227,18 +276,18 @@ const MainPage = () => {
                 fillOpacity: 0.5,
             });
 
-            setCircle(newCircle); // 상태에 저장하여 다음 클릭 때 삭제 가능하게 설정
-
-            // 원 내의 유실 따릉이 찾기
-            const filteredBikes = row.bikeData;
+            setCircle(newCircle);
 
             // 유실 따릉이 마커 추가
-            const newBikeMarkers = filteredBikes.map(bike => {
+            const newBikeMarkers = row.bikeData.map(bike => {
+                const isSingleDetection = bike.firstFoundTime === bike.lastFoundTime;
+                const color = isSingleDetection ? 'yellow' : 'red';
+
                 const bikeMarker = new naver.maps.Marker({
                     position: new naver.maps.LatLng(parseFloat(bike.lat), parseFloat(bike.lon)),
                     map: map,
                     icon: {
-                        content: '<div style="background-color:red;width:10px;height:10px;border-radius:50%;"></div>',
+                        content: `<div style="background-color:${color};width:10px;height:10px;border-radius:50%;"></div>`,
                         anchor: new naver.maps.Point(5, 5),
                     },
                     title: bike.id,
@@ -247,10 +296,10 @@ const MainPage = () => {
             });
 
             setBikeMarkers(newBikeMarkers);
-            setVisibleBikeRows(filteredBikes); // 모달에 표시할 유실 따릉이 데이터 업데이트
+            setVisibleBikeRows(row.bikeData);
 
             setSelectedRow(row);
-            setSelectedImage(filteredBikes.length > 0 ? filteredBikes[0].imageURL : row.imageURL);
+            setSelectedImage(row.bikeData.length > 0 ? row.bikeData[0].imageURL : row.imageURL);
             setDrawerOpen(true);
         }
     };
@@ -259,7 +308,7 @@ const MainPage = () => {
     const handleBikeRowClick = (params) => {
         const bike = visibleBikeRows.find(b => b.id === params.id);
         if (bike) {
-            setSelectedImage(bike.imageURL); // 선택한 유실물 이미지로 변경
+            setSelectedImage(bike.imageURL);
         }
     };
 
@@ -268,11 +317,10 @@ const MainPage = () => {
         setSelectedGu(event.target.value);
 
         if (event.target.value === "") {
-            // "공원 목록" 옵션이 선택된 경우 초기 상태로 되돌리기
             const seoulCenter = new naver.maps.LatLng(37.5505, 126.9780);
             map.setCenter(seoulCenter);
             map.setZoom(12);
-            setVisibleCctvRows(cctvRows); // 모든 CCTV를 다시 표시
+            setVisibleCctvRows(cctvRows);
             return;
         }
 
@@ -282,7 +330,6 @@ const MainPage = () => {
             map.setCenter(parkLocation);
             map.setZoom(17);
 
-            // 현재 보이는 지도 범위 내의 CCTV 마커만 표시
             updateVisibleMarkers(map);
         }
     };
@@ -353,7 +400,7 @@ const MainPage = () => {
                             onClick={() => handleImageClick(selectedImage)}
                         />
                         <p>{selectedRow.cctvAddress}</p>
-                        <p>해당 CCTV가 보여주는 따릉이명, 좌표</p>
+                        <p>해당 CCTV가 보여주는 따릉이 정보</p>
                         <Box sx={{ height: 400, width: '100%' }}>
                             <DataGrid
                                 rows={visibleBikeRows}
