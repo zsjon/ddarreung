@@ -4,26 +4,26 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Drawer, Modal, Button } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
-import ParkOptions from './ParkOptions'; // 전체 공원 목록
+import ParkOptions from './ParkOptions'; // 공원 목록 데이터를 import합니다.
 import { columns_CCTV } from "./columns_CCTV";
 import { columns_Lost } from "./columns_Lost";
 
 const MainPage = () => {
-    const mapElement = useRef(null);
-    const { naver } = window;
+    const mapElement = useRef(null); // 네이버 지도를 렌더링할 DOM 요소를 참조합니다.
+    const { naver } = window; // 전역 객체에서 네이버 지도 API를 가져옵니다.
 
-    const [cctvRows, setCctvRows] = useState([]);
+    const [cctvRows, setCctvRows] = useState([]); // CCTV 데이터를 저장할 상태
     const [visibleCctvRows, setVisibleCctvRows] = useState([]); // 화면에 표시되는 CCTV 데이터
     const [filteredParkOptions, setFilteredParkOptions] = useState([]); // 유실 따릉이를 감지한 CCTV가 있는 공원 목록
     const [visibleBikeRows, setVisibleBikeRows] = useState([]); // 선택된 CCTV 범위 내의 유실 따릉이 데이터
-    const [map, setMap] = useState(null);
+    const [map, setMap] = useState(null); // 네이버 지도 객체를 저장할 상태
     const [circle, setCircle] = useState(null); // 원을 관리할 상태
     const [bikeMarkers, setBikeMarkers] = useState([]); // 유실 따릉이 마커를 관리할 상태
-    const [drawerOpen, setDrawerOpen] = useState(false);
-    const [selectedRow, setSelectedRow] = useState(null);
-    const [selectedGu, setSelectedGu] = useState('');
-    const [selectedImage, setSelectedImage] = useState('');
-    const [modalOpen, setModalOpen] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false); // Drawer(슬라이딩 패널) 상태 관리
+    const [selectedRow, setSelectedRow] = useState(null); // 선택된 CCTV 데이터를 저장할 상태
+    const [selectedGu, setSelectedGu] = useState(''); // 선택된 공원 이름
+    const [selectedImage, setSelectedImage] = useState(''); // 선택된 이미지를 저장할 상태
+    const [modalOpen, setModalOpen] = useState(false); // 이미지 모달 창 상태 관리
 
     // "2408141200" -> "24/08/14 12:00" 형식으로 변환하는 함수
     const formatFoundTime = (timestamp) => {
@@ -64,7 +64,7 @@ const MainPage = () => {
                     })
                 );
 
-                setCctvRows(fetchedRows);
+                setCctvRows(fetchedRows); // CCTV 데이터를 상태에 저장
                 setVisibleCctvRows(fetchedRows); // 초기에는 모든 CCTV를 표시
                 filterParkOptions(fetchedRows); // 유실 따릉이를 감지한 CCTV가 있는 공원 목록 필터링
             } catch (error) {
@@ -72,7 +72,7 @@ const MainPage = () => {
             }
         };
 
-        fetchCCTVData();
+        fetchCCTVData(); // 컴포넌트 마운트 시 CCTV 데이터를 가져옵니다.
     }, []);
 
     // Reverse Geocoding을 사용하여 좌표에 따른 주소를 역추적하는 함수
@@ -123,7 +123,7 @@ const MainPage = () => {
         setFilteredParkOptions(parksWithCCTV); // 필터링된 공원 목록 업데이트
     };
 
-    // 좌표 간의 거리를 계산하는 함수 (단위: 미터) == 하버사인 공식
+    // 좌표 간의 거리를 계산하는 함수 (단위: 미터) - 하버사인 공식 사용
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371e3; // 지구의 반지름 (단위: 미터)
         const φ1 = lat1 * (Math.PI / 180);
@@ -250,7 +250,6 @@ const MainPage = () => {
             setVisibleBikeRows(filteredBikes); // 모달에 표시할 유실 따릉이 데이터 업데이트
 
             setSelectedRow(row);
-            // 첫 번째 유실물 이미지로 설정, 유실물이 없으면 기본 CCTV 이미지로 설정
             setSelectedImage(filteredBikes.length > 0 ? filteredBikes[0].imageURL : row.imageURL);
             setDrawerOpen(true);
         }
@@ -277,7 +276,7 @@ const MainPage = () => {
             return;
         }
 
-        const selectedPark = ParkOptions.find(park => park.name === event.target.value);
+        const selectedPark = filteredParkOptions.find(park => park.name === event.target.value);
         if (selectedPark && map) {
             const parkLocation = new naver.maps.LatLng(selectedPark.lat, selectedPark.lon);
             map.setCenter(parkLocation);
@@ -339,7 +338,7 @@ const MainPage = () => {
             <Drawer
                 anchor='left'
                 open={drawerOpen}
-                onClose={handleCloseDrawer}  // Drawer 닫을 때 유실 따릉이 마커와 원 삭제
+                onClose={handleCloseDrawer}
             >
                 {selectedRow && (
                     <Box p={2} width="500px" textAlign="center">
@@ -348,7 +347,7 @@ const MainPage = () => {
                         </Button>
                         <h2>{selectedRow.id}</h2>
                         <img
-                            src={selectedImage} // 유실물 클릭 시 이미지 변경
+                            src={selectedImage}
                             alt="CCTV Image"
                             style={{ width: '100%', height: 'auto', cursor: 'pointer' }}
                             onClick={() => handleImageClick(selectedImage)}
@@ -357,9 +356,9 @@ const MainPage = () => {
                         <p>해당 CCTV가 보여주는 따릉이명, 좌표</p>
                         <Box sx={{ height: 400, width: '100%' }}>
                             <DataGrid
-                                rows={visibleBikeRows} // 필터링된 유실 따릉이 데이터만 표시
+                                rows={visibleBikeRows}
                                 columns={columns_Lost}
-                                onCellClick={handleBikeRowClick} // 유실물 클릭 시 이미지 변경
+                                onCellClick={handleBikeRowClick}
                                 checkboxSelection
                                 disableRowSelectionOnClick
                                 pageSize={10}
