@@ -16,7 +16,7 @@ export const columns_CCTV = [
     },
     {
         field: 'lastFoundTime',
-        headerName: '최종 발견 시각',
+        headerName: '유실물 최종 감지 시각',
         flex: 1
     },
 ];
