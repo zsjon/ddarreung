@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom'; // useNavigate 추가
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Drawer, Modal, Button } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
-import ParkOptions from './ParkOptions'; // 전체 공원 목록
-import { columns_CCTV } from "./columns_CCTV";
-import { columns_Lost } from "./columns_Lost";
+import { columns_CCTV } from "./columns/columns_CCTV";
+import { columns_Lost } from "./columns/columns_Lost";
+import parkData from "./parkList.json"; // 공원 데이터
 
 // CCTV 방향 저장 객체 (로컬 스토리지에서 불러오기)
 const getCctvDirections = () => {
@@ -20,22 +21,22 @@ const saveCctvDirections = () => {
     localStorage.setItem('cctvDirections', JSON.stringify(cctvDirections));
 };
 
-const MainPage = () => {
+const Selected_park = () => {
+    const { parkName } = useParams(); // URL에서 공원명 가져오기
     const mapElement = useRef(null);
-    const { naver } = window;
+    const navigate = useNavigate(); // useNavigate 훅 사용
 
     const [cctvRows, setCctvRows] = useState([]);
     const [visibleCctvRows, setVisibleCctvRows] = useState([]);
-    const [filteredParkOptions, setFilteredParkOptions] = useState([]);
-    const [visibleBikeRows, setVisibleBikeRows] = useState([]);
     const [map, setMap] = useState(null);
     const [circle, setCircle] = useState(null);
     const [bikeMarkers, setBikeMarkers] = useState([]);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
-    const [selectedGu, setSelectedGu] = useState('');
     const [selectedImage, setSelectedImage] = useState('');
     const [modalOpen, setModalOpen] = useState(false);
+    const [filteredParkOptions, setFilteredParkOptions] = useState([]); // 필터링된 공원 목록
+    const [visibleBikeRows, setVisibleBikeRows] = useState([]);
 
     // 날짜 및 시간 형식을 변환하는 함수
     const formatFoundTime = (timestamp) => {
@@ -44,7 +45,6 @@ const MainPage = () => {
         const day = timestamp.slice(4, 6);
         const hour = timestamp.slice(6, 8);
         const minute = timestamp.slice(8, 10);
-
         return `20${year}/${month}/${day} ${hour}:${minute}`;
     };
 
@@ -57,7 +57,7 @@ const MainPage = () => {
             const radian = angle * (Math.PI / 180);
             const x = center.lng() + radius * Math.cos(radian) / 6378137 * (180 / Math.PI) / Math.cos(center.lat() * Math.PI / 180);
             const y = center.lat() + radius * Math.sin(radian) / 6378137 * (180 / Math.PI);
-            points.push(new naver.maps.LatLng(y, x));
+            points.push(new window.naver.maps.LatLng(y, x));
         }
 
         return points;
@@ -107,28 +107,56 @@ const MainPage = () => {
                     })
                 );
 
-                setCctvRows(fetchedRows);
-                setVisibleCctvRows(fetchedRows);
-                filterParkOptions(fetchedRows);
+                // 선택된 공원과 가까운 CCTV 필터링
+                const selectedPark = parkData.DATA.find(park => park.p_park === parkName);
+                if (!selectedPark) {
+                    console.error("선택된 공원을 찾을 수 없습니다.");
+                    return;
+                }
+
+                const filteredCCTV = fetchedRows.filter(cctv => {
+                    const distance = calculateDistance(
+                        parseFloat(selectedPark.latitude), parseFloat(selectedPark.longitude),
+                        parseFloat(cctv.cctvLat), parseFloat(cctv.cctvLon)
+                    );
+                    return distance <= 300 && cctv.bikeData.length > 0; // 300m 이내의 CCTV
+                });
+
+                setCctvRows(filteredCCTV);
+                setVisibleCctvRows(filteredCCTV);
+
+                // 유실물이 발견된 공원 목록 필터링
+                const parksWithCCTV = parkData.DATA.filter((park) => {
+                    const hasMatchingCCTV = fetchedRows.some(cctv => {
+                        const distance = calculateDistance(
+                            parseFloat(park.latitude), parseFloat(park.longitude),
+                            parseFloat(cctv.cctvLat), parseFloat(cctv.cctvLon)
+                        );
+                        return distance <= 300 && cctv.bikeData.length > 0;
+                    });
+                    return hasMatchingCCTV;
+                });
+
+                setFilteredParkOptions(parksWithCCTV); // 유실물이 발견된 공원만 설정
+
             } catch (error) {
                 console.error("Error fetching data from Firestore:", error);
             }
         };
-
         fetchCCTVData();
-    }, []);
+    }, [parkName]);
 
     // Reverse Geocoding을 사용하여 좌표에 따른 주소를 역추적하는 함수
     const getReverseGeocoding = (latitude, longitude) => {
         return new Promise((resolve, reject) => {
-            naver.maps.Service.reverseGeocode({
-                coords: new naver.maps.LatLng(latitude, longitude),
+            window.naver.maps.Service.reverseGeocode({
+                coords: new window.naver.maps.LatLng(latitude, longitude),
                 orders: [
-                    naver.maps.Service.OrderType.ADDR,
-                    naver.maps.Service.OrderType.ROAD_ADDR
+                    window.naver.maps.Service.OrderType.ADDR,
+                    window.naver.maps.Service.OrderType.ROAD_ADDR
                 ].join(',')
             }, function(status, response) {
-                if (status === naver.maps.Service.Status.ERROR) {
+                if (status === window.naver.maps.Service.Status.ERROR) {
                     return reject('Reverse Geocoding failed');
                 }
 
@@ -146,107 +174,56 @@ const MainPage = () => {
         });
     };
 
-    // 유실 따릉이를 감지한 CCTV가 있는 공원 목록 필터링 함수
-    const filterParkOptions = (cctvRows) => {
-        const parksWithCCTV = [];
-
-        cctvRows.forEach(cctv => {
-            const associatedPark = ParkOptions.find(park => {
-                const cctvLat = parseFloat(cctv.cctvLat);
-                const cctvLon = parseFloat(cctv.cctvLon);
-                const distance = calculateDistance(park.lat, park.lon, cctvLat, cctvLon);
-                return distance <= 300; // 공원의 중심으로부터 1km 이내에 CCTV가 있는지 확인
-            });
-
-            if (associatedPark && !parksWithCCTV.includes(associatedPark)) {
-                parksWithCCTV.push(associatedPark);
-            }
-        });
-
-        setFilteredParkOptions(parksWithCCTV);
-    };
-
-    // 좌표 간의 거리를 계산하는 함수 (단위: 미터) - 하버사인 공식 사용
+    // 좌표 간의 거리를 계산하는 함수 (단위: 미터)
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371e3;
         const φ1 = lat1 * (Math.PI / 180);
         const φ2 = lat2 * (Math.PI / 180);
         const Δφ = (lat2 - lat1) * (Math.PI / 180);
         const Δλ = (lon2 - lon1) * (Math.PI / 180);
-
         const a =
             Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
             Math.cos(φ1) * Math.cos(φ2) *
             Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        const distance = R * c;
-        return distance;
+        return R * c;
     };
 
     // 지도 초기화 및 마커 표시 함수
     useEffect(() => {
-        if (!mapElement.current || !naver) return;
+        if (!mapElement.current || !window.naver) return;
 
-        const location = new naver.maps.LatLng(37.5505, 126.9780);
+        const selectedPark = parkData.DATA.find(park => park.p_park === parkName);
+        if (!selectedPark) return;
+
+        const location = new window.naver.maps.LatLng(parseFloat(selectedPark.latitude), parseFloat(selectedPark.longitude));
         const mapOptions = {
             center: location,
-            zoom: 12,
+            zoom: 17,
             zoomControl: true,
         };
 
-        const newMap = new naver.maps.Map(mapElement.current, mapOptions);
+        const newMap = new window.naver.maps.Map(mapElement.current, mapOptions);
         setMap(newMap);
 
         if (cctvRows.length > 0) {
             cctvRows.forEach((row) => {
-                const markerPosition = new naver.maps.LatLng(parseFloat(row.cctvLat), parseFloat(row.cctvLon));
+                const markerPosition = new window.naver.maps.LatLng(parseFloat(row.cctvLat), parseFloat(row.cctvLon));
 
-                new naver.maps.Marker({
+                new window.naver.maps.Marker({
                     position: markerPosition,
                     map: newMap,
                     title: row.id,
                 });
             });
         }
-
-        naver.maps.Event.addListener(newMap, 'idle', () => {
-            updateVisibleMarkers(newMap);
-        });
-    }, [naver, cctvRows]);
-
-    // 지도 범위 내의 마커들을 업데이트하는 함수
-    const updateVisibleMarkers = (currentMap) => {
-        const bounds = currentMap.getBounds();
-
-        const filteredCCTV = cctvRows.filter(row => {
-            const latlng = new naver.maps.LatLng(parseFloat(row.cctvLat), parseFloat(row.cctvLon));
-            return bounds.hasLatLng(latlng);
-        });
-
-        currentMap.markers && currentMap.markers.forEach(marker => marker.setMap(null));
-        currentMap.markers = [];
-
-        filteredCCTV.forEach((row) => {
-            const markerPosition = new naver.maps.LatLng(parseFloat(row.cctvLat), parseFloat(row.cctvLon));
-
-            const marker = new naver.maps.Marker({
-                position: markerPosition,
-                map: currentMap,
-                title: row.id,
-            });
-
-            currentMap.markers.push(marker);
-        });
-
-        setVisibleCctvRows(filteredCCTV);
-    };
+    }, [cctvRows, parkName]);
 
     // CCTV 목록에 있는 CCTV 데이터 클릭 시의 변화
     const handleObjectClick = (params) => {
         const row = visibleCctvRows.find(r => r.id === params.id);
         if (row) {
-            const location = new naver.maps.LatLng(parseFloat(row.cctvLat), parseFloat(row.cctvLon));
+            const location = new window.naver.maps.LatLng(parseFloat(row.cctvLat), parseFloat(row.cctvLon));
             map.setCenter(location);
             map.setZoom(18);
 
@@ -266,7 +243,7 @@ const MainPage = () => {
             const arcPoints = drawArc(location, radius, startAngle, endAngle);
 
             // 반원을 그리는 폴리곤 생성 --> naver map API 활용
-            const newCircle = new naver.maps.Polygon({
+            const newCircle = new window.naver.maps.Polygon({
                 map: map,
                 paths: [location, ...arcPoints, location],
                 strokeColor: '#5347AA',
@@ -283,12 +260,12 @@ const MainPage = () => {
                 const isSingleDetection = bike.firstFoundTime === bike.lastFoundTime;
                 const color = isSingleDetection ? 'yellow' : 'red';
 
-                const bikeMarker = new naver.maps.Marker({
-                    position: new naver.maps.LatLng(parseFloat(bike.lat), parseFloat(bike.lon)),
+                const bikeMarker = new window.naver.maps.Marker({
+                    position: new window.naver.maps.LatLng(parseFloat(bike.lat), parseFloat(bike.lon)),
                     map: map,
                     icon: {
                         content: `<div style="background-color:${color};width:10px;height:10px;border-radius:50%;"></div>`,
-                        anchor: new naver.maps.Point(5, 5),
+                        anchor: new window.naver.maps.Point(5, 5),
                     },
                     title: bike.id,
                 });
@@ -304,40 +281,18 @@ const MainPage = () => {
         }
     };
 
+    // 이미지 클릭 시 모달 창 열기 (확대)
+    const handleImageClick = (imageURL) => {
+        setSelectedImage(imageURL);
+        setModalOpen(true);
+    };
+
     // Drawer 내 유실물 클릭 시의 변화 (이미지 변경)
     const handleBikeRowClick = (params) => {
         const bike = visibleBikeRows.find(b => b.id === params.id);
         if (bike) {
             setSelectedImage(bike.imageURL);
         }
-    };
-
-    // Option에 있는 공원 목록 선택 시 변화
-    const handleGuChange = (event) => {
-        setSelectedGu(event.target.value);
-
-        if (event.target.value === "") {
-            const seoulCenter = new naver.maps.LatLng(37.5505, 126.9780);
-            map.setCenter(seoulCenter);
-            map.setZoom(12);
-            setVisibleCctvRows(cctvRows);
-            return;
-        }
-
-        const selectedPark = filteredParkOptions.find(park => park.name === event.target.value);
-        if (selectedPark && map) {
-            const parkLocation = new naver.maps.LatLng(selectedPark.lat, selectedPark.lon);
-            map.setCenter(parkLocation);
-            map.setZoom(17);
-
-            updateVisibleMarkers(map);
-        }
-    };
-
-    // 이미지 클릭 시 모달 창 열기 (확대)
-    const handleImageClick = (imageURL) => {
-        setSelectedImage(imageURL);
-        setModalOpen(true);
     };
 
     // Drawer 창이 닫힐 때 유실 따릉이 마커와 원 삭제
@@ -357,14 +312,29 @@ const MainPage = () => {
         setSelectedImage('');
     };
 
+    // 우측 상단 공원 선택 옵션 변경 시
+    const handleParkChange = (event) => {
+        const selectedParkName = event.target.value;
+        if (selectedParkName) {
+            navigate(`/park/${encodeURIComponent(selectedParkName)}`); // 선택된 공원 페이지로 이동
+        }
+    };
+
+    // 제목 클릭 시 메인 페이지로 돌아가는 함수
+    const handleTitleClick = () => {
+        navigate("/"); // 메인 페이지로 이동
+    };
+
     return (
         <React.Fragment>
             <div className='header-website'>
-                <h1 className='title-website'>유실 따릉이 위치 현황</h1>
-                <select className='button' onChange={handleGuChange} value={selectedGu}>
-                    <option value="">공원 목록</option>
+                <h1 className='title-website' onClick={handleTitleClick} style={{ cursor: 'pointer' }}>
+                    {parkName} 유실물 현황
+                </h1>
+                <select className='button' onChange={handleParkChange} value={parkName}>
+                    <option value="">공원 선택</option>
                     {filteredParkOptions.map(park => (
-                        <option key={park.name} value={park.name}>{park.name}</option>
+                        <option key={park.p_park} value={park.p_park}>{park.p_park}</option>
                     ))}
                 </select>
             </div>
@@ -382,6 +352,8 @@ const MainPage = () => {
                     pagination
                 />
             </Box>
+
+            {/* Drawer for detailed view */}
             <Drawer
                 anchor='left'
                 open={drawerOpen}
@@ -417,6 +389,8 @@ const MainPage = () => {
                     </Box>
                 )}
             </Drawer>
+
+            {/* Modal for enlarged image */}
             <Modal
                 open={modalOpen}
                 onClose={handleCloseModal}
@@ -441,4 +415,4 @@ const MainPage = () => {
     );
 };
 
-export default MainPage;
+export default Selected_park;

@@ -4,16 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] CCTV 범위 변경 및 발견 시각 기반 따릉이 구분">
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 웹아이콘 추가">
+      <change afterPath="$PROJECT_DIR$/public/bicycle.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/columns_CCTV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns_CCTV.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/columns_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns_Lost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/logo192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/logo512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/selected_park.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/columns_CCTV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns/columns_CCTV.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/columns_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns/columns_Lost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/firebase.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -32,7 +47,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/minse/Desktop/Gongmojeon/ddarreung&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/minse/Desktop/Gongmojeon/ddarreung/public&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -46,7 +61,11 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\public" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\src\columns" />
       <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\public" />
       <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\src" />
     </key>
@@ -78,7 +97,14 @@
       <workItem from="1724291715884" duration="12475000" />
       <workItem from="1724324000656" duration="2364000" />
       <workItem from="1724388898435" duration="1772000" />
-      <workItem from="1724741515881" duration="113000" />
+      <workItem from="1724741515881" duration="202000" />
+      <workItem from="1724741863354" duration="1539000" />
+      <workItem from="1724819834352" duration="1320000" />
+      <workItem from="1724826823699" duration="1690000" />
+      <workItem from="1724838931068" duration="1606000" />
+      <workItem from="1725075767265" duration="7000" />
+      <workItem from="1726805287517" duration="10114000" />
+      <workItem from="1726973080568" duration="13582000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -104,7 +130,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724303275330</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="[ADD] 웹아이콘 추가">
+      <option name="closed" value="true" />
+      <created>1724741657902</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1724741657902</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,6 +159,7 @@
     <MESSAGE value="[ADD] 최종발견시각 출력방식 변경" />
     <MESSAGE value="[ADD] 공원 API 목록 변경" />
     <MESSAGE value="[ADD] CCTV 범위 변경 및 발견 시각 기반 따릉이 구분" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] CCTV 범위 변경 및 발견 시각 기반 따릉이 구분" />
+    <MESSAGE value="[ADD] 웹아이콘 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 웹아이콘 추가" />
   </component>
 </project>
