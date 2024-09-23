@@ -4,19 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 웹아이콘 추가">
-      <change afterPath="$PROJECT_DIR$/public/bicycle.png" afterDir="false" />
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 메인페이지 추가 및 공원별 페이지 구현">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/logo192.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/logo512.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MainPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/selected_park.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/columns_CCTV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns/columns_CCTV.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/columns_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns/columns_Lost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/firebase.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/selected_park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/selected_park.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +94,8 @@
       <workItem from="1724838931068" duration="1606000" />
       <workItem from="1725075767265" duration="7000" />
       <workItem from="1726805287517" duration="10114000" />
-      <workItem from="1726973080568" duration="13582000" />
+      <workItem from="1726973080568" duration="13994000" />
+      <workItem from="1727066636703" duration="12365000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -138,7 +129,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724741657902</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="[ADD] 메인페이지 추가 및 공원별 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1726991413504</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1726991413504</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,6 +159,7 @@
     <MESSAGE value="[ADD] 공원 API 목록 변경" />
     <MESSAGE value="[ADD] CCTV 범위 변경 및 발견 시각 기반 따릉이 구분" />
     <MESSAGE value="[ADD] 웹아이콘 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 웹아이콘 추가" />
+    <MESSAGE value="[ADD] 메인페이지 추가 및 공원별 페이지 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 메인페이지 추가 및 공원별 페이지 구현" />
   </component>
 </project>

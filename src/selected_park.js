@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // useNavigate 추가
+import { useParams, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Drawer, Modal, Button } from "@mui/material";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { columns_CCTV } from "./columns/columns_CCTV";
 import { columns_Lost } from "./columns/columns_Lost";
@@ -25,7 +25,6 @@ const Selected_park = () => {
     const { parkName } = useParams(); // URL에서 공원명 가져오기
     const mapElement = useRef(null);
     const navigate = useNavigate(); // useNavigate 훅 사용
-
     const [cctvRows, setCctvRows] = useState([]);
     const [visibleCctvRows, setVisibleCctvRows] = useState([]);
     const [map, setMap] = useState(null);
@@ -37,6 +36,9 @@ const Selected_park = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [filteredParkOptions, setFilteredParkOptions] = useState([]); // 필터링된 공원 목록
     const [visibleBikeRows, setVisibleBikeRows] = useState([]);
+    const [currentAngle, setCurrentAngle] = useState(cctvDirections); // 각도 상태 관리를 위한 변수
+    const [pageSize, setPageSize] = useState(10);
+    const [selectedRows, setSelectedRows] = useState([]);   // modal에서 선택된 데이터 삭제를 위한 변수
 
     // 날짜 및 시간 형식을 변환하는 함수
     const formatFoundTime = (timestamp) => {
@@ -48,7 +50,7 @@ const Selected_park = () => {
         return `20${year}/${month}/${day} ${hour}:${minute}`;
     };
 
-    // 반원을 그리는 함수 --> CCTV가 촬영하는 범위를 표현
+    // 부채꼴을 그리는 함수
     const drawArc = (center, radius, startAngle, endAngle) => {
         const points = [];
         const angleStep = (endAngle - startAngle) / 100;
@@ -63,7 +65,7 @@ const Selected_park = () => {
         return points;
     };
 
-    // CCTV가 감지한 유실물 데이터를 가져오는 함수
+    // CCTV 데이터 불러오기
     useEffect(() => {
         const fetchCCTVData = async () => {
             try {
@@ -107,7 +109,6 @@ const Selected_park = () => {
                     })
                 );
 
-                // 선택된 공원과 가까운 CCTV 필터링
                 const selectedPark = parkData.DATA.find(park => park.p_park === parkName);
                 if (!selectedPark) {
                     console.error("선택된 공원을 찾을 수 없습니다.");
@@ -125,7 +126,10 @@ const Selected_park = () => {
                 setCctvRows(filteredCCTV);
                 setVisibleCctvRows(filteredCCTV);
 
-                // 유실물이 발견된 공원 목록 필터링
+                if (fetchedRows.length < 10) {
+                    setPageSize(fetchedRows.length);  // rows 개수에 맞춰 pageSize 설정
+                }
+
                 const parksWithCCTV = parkData.DATA.filter((park) => {
                     const hasMatchingCCTV = fetchedRows.some(cctv => {
                         const distance = calculateDistance(
@@ -146,7 +150,50 @@ const Selected_park = () => {
         fetchCCTVData();
     }, [parkName]);
 
-    // Reverse Geocoding을 사용하여 좌표에 따른 주소를 역추적하는 함수
+    const handleDeleteSelectedRows = async () => {
+        if (selectedRows.length === 0) {
+            console.log(selectedRows);
+            alert("삭제할 행을 선택해주세요.");
+            return;
+        }
+
+        try {
+            // Loop through selected rows and delete each from Firestore
+            for (const rowId of selectedRows) {
+                await deleteDoc(doc(db, `seoul-cctv/${selectedRow.id}/missing-seoul-bike/${rowId}`)); // Correct Firestore path
+            }
+
+            // Update UI after deletion
+            setVisibleBikeRows((prevRows) => prevRows.filter((row) => !selectedRows.includes(row.id)));
+            setSelectedRows([]); // Reset selection
+            alert("삭제가 완료되었습니다.");
+        } catch (error) {
+            console.error("Error deleting documents: ", error);
+            alert("삭제 중 오류가 발생했습니다.");
+        }
+    };
+
+    useEffect(() => {
+        let direction = 1; // 회전 방향 (1은 시계방향, -1은 반시계방향)
+
+        const updateAngle = () => {
+            setCurrentAngle((prevAngles) => {
+                const updatedAngles = { ...prevAngles };
+                Object.keys(updatedAngles).forEach((id) => {
+                    updatedAngles[id] += 5 * direction;
+                    if (updatedAngles[id] >= 180 || updatedAngles[id] <= 0) {
+                        direction *= -1; // 각도가 0~180 범위를 넘어가면 방향 반전
+                    }
+                });
+                saveCctvDirections();
+                return updatedAngles;
+            });
+        };
+
+        const intervalId = setInterval(updateAngle, 3000); // 3초마다 5도씩 회전
+        return () => clearInterval(intervalId); // 컴포넌트 언마운트 시 클리어
+    }, []);
+
     const getReverseGeocoding = (latitude, longitude) => {
         return new Promise((resolve, reject) => {
             window.naver.maps.Service.reverseGeocode({
@@ -174,7 +221,6 @@ const Selected_park = () => {
         });
     };
 
-    // 좌표 간의 거리를 계산하는 함수 (단위: 미터)
     const calculateDistance = (lat1, lon1, lat2, lon2) => {
         const R = 6371e3;
         const φ1 = lat1 * (Math.PI / 180);
@@ -189,7 +235,6 @@ const Selected_park = () => {
         return R * c;
     };
 
-    // 지도 초기화 및 마커 표시 함수
     useEffect(() => {
         if (!mapElement.current || !window.naver) return;
 
@@ -227,22 +272,18 @@ const Selected_park = () => {
             map.setCenter(location);
             map.setZoom(18);
 
-            // 기존에 그려진 원과 마커가 있으면 제거
             if (circle) {
                 circle.setMap(null);
             }
             bikeMarkers.forEach(marker => marker.setMap(null));
 
-            // 각 CCTV에 대한 고정된 방향을 가져오기 (현재는 임의 변수로 설정되어 있음)
-            const startAngle = cctvDirections[row.id];
-            const endAngle = startAngle + 180; // 반원이므로 시작 각도 + 180도
+            const startAngle = currentAngle[row.id];
+            const endAngle = startAngle + 180;
 
-            const radius = 50; // 반지름 (단위: 미터)
+            const radius = 50;
 
-            // 반원 좌표 생성
             const arcPoints = drawArc(location, radius, startAngle, endAngle);
 
-            // 반원을 그리는 폴리곤 생성 --> naver map API 활용
             const newCircle = new window.naver.maps.Polygon({
                 map: map,
                 paths: [location, ...arcPoints, location],
@@ -255,7 +296,6 @@ const Selected_park = () => {
 
             setCircle(newCircle);
 
-            // 유실 따릉이 마커 추가
             const newBikeMarkers = row.bikeData.map(bike => {
                 const isSingleDetection = bike.firstFoundTime === bike.lastFoundTime;
                 const color = isSingleDetection ? 'yellow' : 'red';
@@ -281,13 +321,22 @@ const Selected_park = () => {
         }
     };
 
-    // 이미지 클릭 시 모달 창 열기 (확대)
+    const handleParkChange = (event) => {   // 우측 상단 리스트에 존재하는 공원으로 클릭 시 이동
+        const selectedParkName = event.target.value;
+        if (selectedParkName) {
+            navigate(`/park/${encodeURIComponent(selectedParkName)}`);
+        }
+    };
+
+    const handleTitleClick = () => {    // 메인 페이지로 이동
+        navigate("/");
+    };
+
     const handleImageClick = (imageURL) => {
         setSelectedImage(imageURL);
         setModalOpen(true);
     };
 
-    // Drawer 내 유실물 클릭 시의 변화 (이미지 변경)
     const handleBikeRowClick = (params) => {
         const bike = visibleBikeRows.find(b => b.id === params.id);
         if (bike) {
@@ -295,7 +344,6 @@ const Selected_park = () => {
         }
     };
 
-    // Drawer 창이 닫힐 때 유실 따릉이 마커와 원 삭제
     const handleCloseDrawer = () => {
         bikeMarkers.forEach(marker => marker.setMap(null));
         setBikeMarkers([]);
@@ -306,23 +354,9 @@ const Selected_park = () => {
         setDrawerOpen(false);
     };
 
-    // 모달 창 닫기
     const handleCloseModal = () => {
         setModalOpen(false);
         setSelectedImage('');
-    };
-
-    // 우측 상단 공원 선택 옵션 변경 시
-    const handleParkChange = (event) => {
-        const selectedParkName = event.target.value;
-        if (selectedParkName) {
-            navigate(`/park/${encodeURIComponent(selectedParkName)}`); // 선택된 공원 페이지로 이동
-        }
-    };
-
-    // 제목 클릭 시 메인 페이지로 돌아가는 함수
-    const handleTitleClick = () => {
-        navigate("/"); // 메인 페이지로 이동
     };
 
     return (
@@ -344,12 +378,15 @@ const Selected_park = () => {
                     rows={visibleCctvRows}
                     columns={columns_CCTV}
                     onCellClick={handleObjectClick}
-                    checkboxSelection
                     disableRowSelectionOnClick
                     getRowId={(row) => row.id}
-                    pageSize={10}
-                    rowsPerPageOptions={[10, 20, 50]}
+                    rowsPerPageOptions={[10, 50, 100]}
                     pagination
+                    // initialState={{
+                    //     pagination: { paginationModel: { pageSize: 10 } }
+                    // }}
+                    pageSize={pageSize}
+                    onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                 />
             </Box>
 
@@ -378,14 +415,25 @@ const Selected_park = () => {
                                 rows={visibleBikeRows}
                                 columns={columns_Lost}
                                 onCellClick={handleBikeRowClick}
+                                getRowId={(row) => row.id}
+                                onSelectionModelChange={(newSelection) => {
+                                    setSelectedRows(newSelection); // 선택된 행 ID를 상태에 저장
+                                    console.log(newSelection); // 선택된 행 출력
+                                }}
+                                selectionModel={selectedRows} // 현재 선택된 항목을 유지
                                 checkboxSelection
                                 disableRowSelectionOnClick
-                                pageSize={10}
-                                rowsPerPageOptions={[10, 20, 50]}
-                                pagination
-                                autoHeight
+                                rowsPerPageOptions={[10, 50, 100]}
+                                // initialState={{
+                                //     pagination: { paginationModel: { pageSize: 10 } }
+                                // }}
+                                pageSize={pageSize}
+                                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                             />
                         </Box>
+                        <Button onClick={handleDeleteSelectedRows} variant="contained" color="primary">
+                            삭제
+                        </Button>
                     </Box>
                 )}
             </Drawer>
