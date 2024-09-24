@@ -150,25 +150,20 @@ const Selected_park = () => {
         fetchCCTVData();
     }, [parkName]);
 
-    const handleDeleteSelectedRows = async () => {
-        if (selectedRows.length === 0) {
-            console.log(selectedRows);
-            alert("삭제할 행을 선택해주세요.");
-            return;
-        }
-
+    const handleDeleteRow = async (rowId) => {
         try {
-            // Loop through selected rows and delete each from Firestore
-            for (const rowId of selectedRows) {
-                await deleteDoc(doc(db, `seoul-cctv/${selectedRow.id}/missing-seoul-bike/${rowId}`)); // Correct Firestore path
-            }
+            // Firestore에서 데이터 삭제
+            await deleteDoc(doc(db, `seoul-cctv/${selectedRow.id}/missing-seoul-bike/${rowId}`));
 
-            // Update UI after deletion
-            setVisibleBikeRows((prevRows) => prevRows.filter((row) => !selectedRows.includes(row.id)));
-            setSelectedRows([]); // Reset selection
+            // DataGrid의 visibleBikeRows 상태를 업데이트하여 즉시 반영
+            setVisibleBikeRows((prevRows) => prevRows.filter((row) => row.id !== rowId));
+
+            // 선택된 행 초기화 (필요시)
+            setSelectedRows([]);
+
             alert("삭제가 완료되었습니다.");
         } catch (error) {
-            console.error("Error deleting documents: ", error);
+            console.error("Error deleting document: ", error);
             alert("삭제 중 오류가 발생했습니다.");
         }
     };
@@ -413,28 +408,18 @@ const Selected_park = () => {
                         <Box sx={{ height: 400, width: '100%' }}>
                             <DataGrid
                                 rows={visibleBikeRows}
-                                columns={columns_Lost}
-                                onCellClick={handleBikeRowClick}
+                                columns={columns_Lost(handleDeleteRow)} // Pass handleDeleteRow to columns_Lost
                                 getRowId={(row) => row.id}
-                                onSelectionModelChange={(newSelection) => {
-                                    setSelectedRows(newSelection); // 선택된 행 ID를 상태에 저장
-                                    console.log(newSelection); // 선택된 행 출력
-                                }}
-                                selectionModel={selectedRows} // 현재 선택된 항목을 유지
-                                checkboxSelection
                                 disableRowSelectionOnClick
-                                rowsPerPageOptions={[10, 50, 100]}
-                                // initialState={{
-                                //     pagination: { paginationModel: { pageSize: 10 } }
-                                // }}
                                 pageSize={pageSize}
                                 onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                                rowsPerPageOptions={[10, 50, 100]}
+                                onSelectionModelChange={(newSelection) => setSelectedRows(newSelection)}
+                                selectionModel={selectedRows}
                             />
                         </Box>
-                        <Button onClick={handleDeleteSelectedRows} variant="contained" color="primary">
-                            삭제
-                        </Button>
                     </Box>
+
                 )}
             </Drawer>
 
