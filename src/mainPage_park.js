@@ -50,25 +50,28 @@ const MainPage_park = () => {
         fetchCCTVData();
     }, []);
 
-    // 공원 데이터와 CCTV 데이터 매칭 및 필터링
+    // 공원 데이터와 CCTV 데이터를 매칭하고 모든 공원을 표시하는 함수
     useEffect(() => {
+        // 필터링하지 않고 모든 공원을 표시하고, CCTV 수가 많은 순으로 정렬
         const parksWithCCTV = parkData.DATA.map((park) => {
-            // 공원과 가까운 CCTV 중 유실물을 감지한 CCTV를 필터링
             const matchingCCTVs = cctvRows.filter(cctv => {
                 const distance = calculateDistance(
                     parseFloat(park.latitude), parseFloat(park.longitude),
                     parseFloat(cctv.lat), parseFloat(cctv.lon)
                 );
-                return distance <=300 && cctv.bikeData.length > 0; // 300m 이내에 유실물을 감지한 CCTV
+                return distance <= 300 && cctv.bikeData.length > 0;
             });
 
             return {
                 ...park,
                 cctvCount: matchingCCTVs.length // 유실물을 감지한 CCTV 대수를 추가
             };
-        }).filter(park => park.cctvCount > 0); // 유실물을 감지한 CCTV가 있는 공원만 필터링
+        });
 
-        setFilteredParkRows(parksWithCCTV);
+        // cctvCount 기준으로 내림차순 정렬
+        const sortedParks = parksWithCCTV.sort((a, b) => b.cctvCount - a.cctvCount);
+
+        setFilteredParkRows(sortedParks);
     }, [cctvRows]);
 
     // 좌표 간의 거리를 계산하는 함수 (단위: 미터)
@@ -97,11 +100,11 @@ const MainPage_park = () => {
     return (
         <React.Fragment>
             <div className='header-website'>
-                <h1 className='title-website'>유실물 감지 공원 목록</h1>
+                <h1 className='title-website'>공원 목록 (CCTV 수가 많은 순)</h1>
             </div>
             <Box>
                 <DataGrid
-                    rows={filteredParkRows} // 유실물을 감지한 공원만 출력
+                    rows={filteredParkRows} // 모든 공원을 출력
                     columns={columns_Park}
                     getRowId={(row) => row.p_idx}
                     pageSizeOptions={[10, 50, 100]}

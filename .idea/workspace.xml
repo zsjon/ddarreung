@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 시간별 각도별 CCTV 범위 변화 적용">
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 데이터 삭제버튼 추가">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/columns/columns_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns/columns_Lost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/selected_park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/selected_park.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mainPage_park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/mainPage_park.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reportWebVitals.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reportWebVitals.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +99,9 @@
       <workItem from="1726973080568" duration="13994000" />
       <workItem from="1727066636703" duration="12554000" />
       <workItem from="1727140971665" duration="1585000" />
-      <workItem from="1727161184994" duration="5046000" />
+      <workItem from="1727161184994" duration="7062000" />
+      <workItem from="1727225814204" duration="1308000" />
+      <workItem from="1727244954942" duration="10203000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -148,7 +151,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727080399376</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="[ADD] 데이터 삭제버튼 추가">
+      <option name="closed" value="true" />
+      <created>1727169121333</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1727169121333</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -172,6 +183,7 @@
     <MESSAGE value="[ADD] 웹아이콘 추가" />
     <MESSAGE value="[ADD] 메인페이지 추가 및 공원별 페이지 구현" />
     <MESSAGE value="[ADD] 시간별 각도별 CCTV 범위 변화 적용" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 시간별 각도별 CCTV 범위 변화 적용" />
+    <MESSAGE value="[ADD] 데이터 삭제버튼 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 데이터 삭제버튼 추가" />
   </component>
 </project>

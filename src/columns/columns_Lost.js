@@ -18,14 +18,28 @@ export const columns_Lost = (handleDeleteRow) => [
     },
     {
         field: "delete",
-        headerName: "Delete",
+        headerName: "회수",
         renderCell: (params) => (
             <Button
                 variant="contained"
-                color="secondary"
+                color="primary"
                 onClick={() => handleDeleteRow(params.id)} // Pass rowId to delete handler
             >
-                삭제
+                회수 완료
+            </Button>
+        ),
+    },
+    {
+        field: "bugFix",
+        headerName: "버그 신고",
+        renderCell: (params) => (
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleDeleteRow(params.id)} // Pass rowId to delete handler
+            >
+                오류
+                
             </Button>
         ),
     },
