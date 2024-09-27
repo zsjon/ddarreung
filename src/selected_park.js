@@ -8,6 +8,7 @@ import { db } from "./firebase";
 import { columns_CCTV } from "./columns/columns_CCTV";
 import { columns_Lost } from "./columns/columns_Lost";
 import parkData from "./parkList.json"; // 공원 데이터
+import { IoListOutline } from "react-icons/io5"; // 아이콘 
 
 // CCTV 방향 저장 객체 (로컬 스토리지에서 불러오기)
 const getCctvDirections = () => {
@@ -39,6 +40,8 @@ const Selected_park = () => {
     const [currentAngle, setCurrentAngle] = useState(cctvDirections); // 각도 상태 관리를 위한 변수
     const [pageSize, setPageSize] = useState(10);
     const [selectedRows, setSelectedRows] = useState([]);   // modal에서 선택된 데이터 삭제를 위한 변수
+    const [suspiciousItemCount,setSuspiciousItemCount] = useState(0);
+    const [lostItemCount,setLostItemCount] = useState(0);
 
     // 날짜 및 시간 형식을 변환하는 함수
     const formatFoundTime = (timestamp) => {
@@ -259,6 +262,75 @@ const Selected_park = () => {
         }
     }, [cctvRows, parkName]);
 
+    // 공원에 존재하는 마커 모든 마커 표시
+    // 모든 따릉이 데이터를 지도에 표시하는 함수
+    const allMakerDisplay = () => {
+        if (!map || visibleCctvRows.length === 0) return; // 지도와 CCTV 데이터가 있을 때만 실행
+    
+        // 기존 마커 제거
+        bikeMarkers.forEach(marker => marker.setMap(null));
+        setBikeMarkers([]); // 마커 상태 초기화
+    
+        const newBikeMarkers = [];
+    
+        visibleCctvRows.forEach((cctvRow) => {
+            cctvRow.bikeData.forEach((bike) => {
+                const isSingleDetection = bike.firstFoundTime === bike.lastFoundTime;
+                const color = isSingleDetection ? 'yellow' : 'red';
+    
+                const bikeMarker = new window.naver.maps.Marker({
+                    position: new window.naver.maps.LatLng(parseFloat(bike.lat), parseFloat(bike.lon)),
+                    map: map, // 지도에 마커 추가
+                    color : color,
+                    icon: {
+                        content: `<div style="background-color:${color};width:10px;height:10px;border-radius:50%;"></div>`,
+                        anchor: new window.naver.maps.Point(5, 5),
+                    },
+                    title: bike.id, // 마커의 ID
+                });
+    
+                newBikeMarkers.push(bikeMarker);
+            });
+        });
+    
+        setBikeMarkers(newBikeMarkers); // 생성된 마커 상태에 저장
+    };
+    
+
+    useEffect(() => {
+        if (visibleCctvRows.length > 0) {
+            allMakerDisplay(); // visibleCctvRows가 업데이트될 때마다 마커를 다시 그림
+        }
+    }, [visibleCctvRows, map]);
+    
+    // 유실물들의 수를 세는 함수, 의심, 분실 두 종류의 분실물들의 수를 업데이트 함.
+    const itemCount = (bikeMarkers) => {
+        let suspiciousCount = 0;
+        let lostCount = 0;
+    
+        bikeMarkers.forEach((eachBikeMarker) => {
+            const color = eachBikeMarker.icon.content.includes('yellow') ? 'yellow' : 'red'; // 마커의 색상 확인
+    
+            if (color === "yellow") {
+                suspiciousCount++;
+            } else if (color === "red") {
+                lostCount++;
+            }
+        });
+    
+        setSuspiciousItemCount(suspiciousCount); // 카운트 업데이트
+        setLostItemCount(lostCount);
+    };
+
+    
+    // bikeMarkers가 업데이트된 후에 유실물 개수를 카운트
+    useEffect(() => {
+        if (bikeMarkers.length > 0) {
+            itemCount(bikeMarkers); 
+        }
+    }, [bikeMarkers]); // bikeMarkers가 변경될 때마다 실행
+    
+
     // CCTV 목록에 있는 CCTV 데이터 클릭 시의 변화
     const handleObjectClick = (params) => {
         const row = visibleCctvRows.find(r => r.id === params.id);
@@ -347,6 +419,7 @@ const Selected_park = () => {
         }
         setCircle(null);
         setDrawerOpen(false);
+        allMakerDisplay();
     };
 
     const handleCloseModal = () => {
@@ -357,8 +430,12 @@ const Selected_park = () => {
     return (
         <React.Fragment>
             <div className='header-website'>
+                <button className='to-main-menu' onClick={handleTitleClick} style={{ cursor: 'pointer' }}><IoListOutline size="48"/></button>
                 <h1 className='title-website' onClick={handleTitleClick} style={{ cursor: 'pointer' }}>
                     {parkName} 유실물 현황
+                </h1>
+                <h1 className='lost-item-count'>
+                    의심:{suspiciousItemCount} 분실:{lostItemCount}
                 </h1>
                 <select className='button' onChange={handleParkChange} value={parkName}>
                     <option value="">공원 선택</option>
