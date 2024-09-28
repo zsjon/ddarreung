@@ -1,6 +1,6 @@
 import {Button} from "@mui/material";
 
-export const columns_Lost = (handleDeleteRow) => [
+export const columns_Lost = (handleRetrieve) => [
     {
         field: "id",
         headerName: "유실물 ID",
@@ -23,7 +23,7 @@ export const columns_Lost = (handleDeleteRow) => [
             <Button
                 variant="contained"
                 color="primary"
-                onClick={() => handleDeleteRow(params.id)} // Pass rowId to delete handler
+                onClick={() => handleRetrieve(params.id)} // Pass rowId to delete handler
             >
                 회수 완료
             </Button>
@@ -36,7 +36,7 @@ export const columns_Lost = (handleDeleteRow) => [
             <Button
                 variant="contained"
                 color="primary"
-                onClick={() => handleDeleteRow(params.id)} // Pass rowId to delete handler
+                onClick={() => handleRetrieve(params.id)} // Pass rowId to delete handler
             >
                 오류
                 
