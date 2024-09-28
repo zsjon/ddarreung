@@ -13,6 +13,8 @@
   }
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -28,29 +30,72 @@
   color: #61dafb;
 }
 
+
+/* 크기 조정. */
 .button {
-  background-color: lightblue;
-  border-radius: 12px;
-  width: 140px;
+  font-family: 'Nanum Gothic', sans-serif;
+  background-color: white;
+  /*background-color: lightblue;*/
+  /*border-radius: 12px;*/
+  font-size: 18px;
+  width: 200px;
   height: 40px;
-  margin-left: auto;
-  margin-right: 5%;
+  margin-right: 3%;
 }
 
 .header-website {
-  background-color: lightgrey;
+  /*background-color: #39c95d;*/
+  background-color: white;
   display: flex;
-  align-items: center
+  align-items: center;
+  border-width: 0px 0px 3px;
+  border-style: solid;
+  border-color: #aaa;
+}
+
+/*메인메뉴로 돌아가는 버튼 css*/
+.to-main-menu{
+  border-radius: 5px;
+  padding: 2px;
+  background-color: white;
+  margin-left: 1%;
+}
+
+/*유실물 갯수 정보 css*/
+.lost-item-count{
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: 500;
+  font-size: 30px;
+  color: black;
+  border: 2px solid;
+  border-radius: 16px;
+  padding: 5px;
+  margin-left: auto;
+  margin-right: 2%;
+}
+
+/* 메인메뉴 제목 css*/
+.main-title-website{
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  padding: 11px;
+  margin-left: 2%;
+}
+
+/*지도 페이지 css, 폰트 추가, 크기 조정, 페딩, 마진 조정*/
+.title-website{
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  padding: 11px;
+  margin-left: 10px;
 }
 
 .map-naver-view {
   min-height: 500px;
   width: 90%;
   margin: 0 auto;
-}
-
-.title-website {
-  margin-left: 35px;
 }
 
 @keyframes App-logo-spin {

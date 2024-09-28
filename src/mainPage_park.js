@@ -100,7 +100,7 @@ const MainPage_park = () => {
     return (
         <React.Fragment>
             <div className='header-website'>
-                <h1 className='title-website'>공원 목록 (CCTV 수가 많은 순)</h1>
+                <h1 className='main-title-website'>공원 목록 (CCTV 수가 많은 순)</h1>
             </div>
             <Box>
                 <DataGrid
