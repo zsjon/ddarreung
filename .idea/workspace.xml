@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 감지 CCTV 내림차순 정렬 및 버그 신고 버튼 추가">
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 회수버튼 클릭 시 프론트에서 사라지게 변경">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/columns/columns_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns/columns_Lost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/selected_park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/selected_park.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Router.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,10 +23,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -109,7 +107,10 @@
       <workItem from="1727255964651" duration="215000" />
       <workItem from="1727313757320" duration="524000" />
       <workItem from="1727334839150" duration="114000" />
-      <workItem from="1727488588868" duration="8951000" />
+      <workItem from="1727488588868" duration="9079000" />
+      <workItem from="1727660662438" duration="527000" />
+      <workItem from="1727669128218" duration="78000" />
+      <workItem from="1727761800901" duration="1681000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -175,7 +176,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727256065735</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="[ADD] 회수버튼 클릭 시 프론트에서 사라지게 변경">
+      <option name="closed" value="true" />
+      <created>1727502632653</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1727502632653</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -201,6 +210,7 @@
     <MESSAGE value="[ADD] 시간별 각도별 CCTV 범위 변화 적용" />
     <MESSAGE value="[ADD] 데이터 삭제버튼 추가" />
     <MESSAGE value="[ADD] 감지 CCTV 내림차순 정렬 및 버그 신고 버튼 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 감지 CCTV 내림차순 정렬 및 버그 신고 버튼 추가" />
+    <MESSAGE value="[ADD] 회수버튼 클릭 시 프론트에서 사라지게 변경" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 회수버튼 클릭 시 프론트에서 사라지게 변경" />
   </component>
 </project>
