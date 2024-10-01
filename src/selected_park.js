@@ -50,7 +50,7 @@ const Selected_park = () => {
         const day = timestamp.slice(4, 6);
         const hour = timestamp.slice(6, 8);
         const minute = timestamp.slice(8, 10);
-        return `20${year}/${month}/${day} ${hour}:${minute}`;
+        return `${year}/${month}/${day} ${hour}:${minute}`;
     };
 
     // 부채꼴을 그리는 함수
@@ -159,6 +159,27 @@ const Selected_park = () => {
 
 // 유실물 회수 처리
     const handleRetrieve = async (rowId) => {
+        const now = new Date();
+        const formattedTime = `${String(now.getFullYear()).slice(2)}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
+
+        try {
+            // rowId를 이용하여 Firestore 문서 업데이트
+            const bikeDocRef = doc(db, `seoul-cctv/${selectedRow.id}/missing-seoul-bike/${rowId}`);
+            await updateDoc(bikeDocRef, {
+                retrieveYn: true,
+                retrieveTime: formattedTime
+            });
+
+            // DataGrid에서 해당 row 제거
+            setVisibleBikeRows((prevRows) => prevRows.filter((row) => row.id !== rowId));
+            alert("회수가 완료되었습니다.");
+        } catch (error) {
+            console.error("Error updating document: ", error);
+            alert("회수 중 오류가 발생했습니다.");
+        }
+    };
+
+    const handleReportBug = async (rowId) => {
         const now = new Date();
         const formattedTime = `${String(now.getFullYear()).slice(2)}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
 
@@ -436,7 +457,7 @@ const Selected_park = () => {
         <React.Fragment>
             <div className='header-website'>
                 <button className='to-main-menu' onClick={handleTitleClick} style={{ cursor: 'pointer' }}><IoListOutline size="48"/></button>
-                <h1 className='title-website' onClick={handleTitleClick} style={{ cursor: 'pointer' }}>
+                <h1 className='title-website'>
                     {parkName} 유실물 현황
                 </h1>
                 <h1 className='lost-item-count'>
@@ -471,7 +492,7 @@ const Selected_park = () => {
                 onClose={handleCloseDrawer}
             >
                 {selectedRow && (
-                    <Box p={2} width="500px" textAlign="center">
+                    <Box p={2} width="550px" textAlign="center">
                         <Button onClick={handleCloseDrawer} variant="contained" color="primary" style={{ marginBottom: '10px' }}>
                             닫기
                         </Button>
@@ -487,7 +508,7 @@ const Selected_park = () => {
                         <Box sx={{ height: 400, width: '100%' }}>
                             <DataGrid
                                 rows={visibleBikeRows}
-                                columns={columns_Lost(handleRetrieve)} // Pass handleRetrieve to columns_Lost
+                                columns={columns_Lost(handleRetrieve, handleReportBug)} // Pass handleRetrieve to columns_Lost
                                 getRowId={(row) => row.id}
                                 disableRowSelectionOnClick
                                 pageSize={pageSize}

@@ -5,8 +5,8 @@ export const columns_CCTV = [
         // flex: 1
     },
     {
-        field: 'cctvAddress',
-        headerName: '주소',
+        field: 'cctvAddress',   // 차후 고정형||회전형 2가지로 분류하기
+        headerName: 'CCTV 종류',
         flex: 1
     },
     {

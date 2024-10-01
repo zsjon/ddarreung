@@ -1,6 +1,8 @@
 import {Button} from "@mui/material";
+import BugReportIcon from '@mui/icons-material/BugReport';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
-export const columns_Lost = (handleRetrieve) => [
+export const columns_Lost = (handleRetrieve, handleReportBug) => [
     {
         field: "id",
         headerName: "유실물 ID",
@@ -9,34 +11,41 @@ export const columns_Lost = (handleRetrieve) => [
     {
         field: "firstFoundTime",
         headerName: "최초 발견 시각",
-        flex: 2,
+        flex: 3,
     },
     {
         field: "lastFoundTime",
         headerName: "최종 발견 시각",
-        flex: 2,
+        flex: 3,
     },
     {
         field: "delete",
         headerName: "회수",
+        flex: 2,
         renderCell: (params) => (
             <Button
-                variant="contained"
+                size="small"
+                startIcon={<AssignmentTurnedInIcon/>}
+                variant="outlined"
                 color="primary"
                 onClick={() => handleRetrieve(params.id)} // Pass rowId to delete handler
             >
-                회수 완료
+                회수
             </Button>
         ),
     },
     {
         field: "bugFix",
         headerName: "버그 신고",
+        flex: 2,
         renderCell: (params) => (
             <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleRetrieve(params.id)} // Pass rowId to delete handler
+                size="small"
+                startIcon={<BugReportIcon/>}
+                fontSize="small"
+                variant="outlined"
+                color="error"
+                onClick={() => handleReportBug(params.id)} // Pass rowId to delete handler
             >
                 오류
                 

@@ -1,7 +1,7 @@
 export const columns_Park = [
     {
         field: 'p_idx',
-        headerName: 'ID',
+        headerName: '공원 ID',
         width: 80,
     },
     {

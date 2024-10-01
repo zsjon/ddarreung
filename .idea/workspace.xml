@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 회수버튼 클릭 시 프론트에서 사라지게 변경">
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[Change] 라우팅 방식 HashRouter로 변경">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/columns/columns_CCTV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns/columns_CCTV.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/columns/columns_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns/columns_Lost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/columns/columns_Park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns/columns_Park.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/selected_park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/selected_park.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +116,7 @@
       <workItem from="1727488588868" duration="9079000" />
       <workItem from="1727660662438" duration="527000" />
       <workItem from="1727669128218" duration="78000" />
-      <workItem from="1727761800901" duration="1681000" />
+      <workItem from="1727761800901" duration="9443000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -184,7 +190,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727502632653</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="[Change] 라우팅 방식 HashRouter로 변경">
+      <option name="closed" value="true" />
+      <created>1727763560439</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1727763560439</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -211,6 +225,7 @@
     <MESSAGE value="[ADD] 데이터 삭제버튼 추가" />
     <MESSAGE value="[ADD] 감지 CCTV 내림차순 정렬 및 버그 신고 버튼 추가" />
     <MESSAGE value="[ADD] 회수버튼 클릭 시 프론트에서 사라지게 변경" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 회수버튼 클릭 시 프론트에서 사라지게 변경" />
+    <MESSAGE value="[Change] 라우팅 방식 HashRouter로 변경" />
+    <option name="LAST_COMMIT_MESSAGE" value="[Change] 라우팅 방식 HashRouter로 변경" />
   </component>
 </project>
