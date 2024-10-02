@@ -1,4 +1,4 @@
-# 2024 서울 지능형 사물인터넷(AIoT) 해커톤 대회 출품작 - 따릉이 회수 시스템(가제)
+![image](https://github.com/user-attachments/assets/4f8a9fb9-9d3c-42f8-81cd-21216e13ec2d)# 2024 서울 지능형 사물인터넷(AIoT) 해커톤 대회 출품작 - 따릉이 회수 시스템(가제)
 
 ### 출품분야: 아두이노 활용 시제품 제작
 
@@ -26,13 +26,22 @@
 
 ### Used Technologies
 
-#### 1. Naver Map API
+#### 1. React
 
-#### 2. FireBase DB
+#### 2. FireBase
 
 #### 3. TensorFlow Light(TFLite)
 
-#### 4. RaspBerryPi 3.5
+#### 4. YOLOv5
+
+#### 5. RaspBerryPi 4
+
+#### 6. MQTT(Message Queuing Telemetry transport)
+
+#### --------------------
+
+### 프로토타입 시연 영상 링크:
+#### https://youtu.be/f8VLiJ7wRhE
 
 #### --------------------
 
