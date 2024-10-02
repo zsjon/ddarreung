@@ -4,11 +4,16 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { Drawer, Modal, Button } from "@mui/material";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
-import { db } from "./firebase";
-import { columns_CCTV } from "./columns/columns_CCTV";
-import { columns_Lost } from "./columns/columns_Lost";
-import parkData from "./parkList.json"; // 공원 데이터
-import { IoListOutline } from "react-icons/io5"; // 아이콘
+import { db } from "../firebase";
+import { columns_CCTV } from "../columns/columns_CCTV";
+import { columns_Lost } from "../columns/columns_Lost";
+import parkData from "../parkList.json"; // 공원 데이터
+import { IoListOutline } from "react-icons/io5";
+import ImageModal from "../Components/ImageModal";
+import HeaderPage from "../Components/HeaderPage";
+import NaverMap from "../Components/NaverMap";
+import CCTVTable from "../Components/cctvTable";
+import CCTVDrawer from "../Components/Drawer"; // 아이콘
 
 // CCTV 방향 저장 객체 (로컬 스토리지에서 불러오기)
 const getCctvDirections = () => {
@@ -87,7 +92,8 @@ const Selected_park = () => {
                                 imageURL: bikeDoc.data().imageURL,
                                 id: bikeDoc.id,
                                 retrieveYn: bikeDoc.data().retrieveYn || false, // 회수되지 않은 유실물의 기본 status는 false
-                                retrieveTime: bikeDoc.data().retrieveTime || null
+                                retrieveTime: bikeDoc.data().retrieveTime || null,
+                                fixed: bikeDoc.data().fixed || false
                             }))
                             .filter(bike => !bike.retrieveYn); // retrieveYn이 false인 데이터만 표시
                         const address = await getReverseGeocoding(data.lat, data.lon);
@@ -98,6 +104,7 @@ const Selected_park = () => {
                             saveCctvDirections(); // 로컬 스토리지에 저장
                         }
 
+                        const fixed = data.fixed || false;
                         // 가장 최근에 발견된 따릉이의 최종 발견 시각
                         const lastFoundTime = bikeData.length > 0
                             ? bikeData.reduce((latest, bike) => (bike.lastFoundTime > latest ? bike.lastFoundTime : latest), bikeData[0].lastFoundTime)
@@ -112,6 +119,7 @@ const Selected_park = () => {
                             bikeData: bikeData,
                             foundLost: bikeData.length,
                             lastFoundTime: lastFoundTime,
+                            fixed: fixed
                         };
                     })
                 );
@@ -207,9 +215,12 @@ const Selected_park = () => {
             setCurrentAngle((prevAngles) => {
                 const updatedAngles = { ...prevAngles };
                 Object.keys(updatedAngles).forEach((id) => {
-                    updatedAngles[id] += 5 * direction;
-                    if (updatedAngles[id] >= 180 || updatedAngles[id] <= 0) {
-                        direction *= -1; // 각도가 0~180 범위를 넘어가면 방향 반전
+                    const cctv = cctvRows.find(cctv => cctv.id === id);
+                    if (cctv && !cctv.fixed) { // 회전형 CCTV일 때만 회전
+                        updatedAngles[id] += 5;
+                        if (updatedAngles[id] >= 180 || updatedAngles[id] <= 0) {
+                            updatedAngles[id] *= -1; // 각도가 0~180 범위를 넘어가면 방향 반전
+                        }
                     }
                 });
                 saveCctvDirections();
@@ -455,94 +466,42 @@ const Selected_park = () => {
 
     return (
         <React.Fragment>
-            <div className='header-website'>
-                <button className='to-main-menu' onClick={handleTitleClick} style={{ cursor: 'pointer' }}><IoListOutline size="48"/></button>
-                <h1 className='title-website'>
-                    {parkName} 유실물 현황
-                </h1>
-                <h1 className='lost-item-count'>
-                    의심:{suspiciousItemCount} 분실:{lostItemCount}
-                </h1>
-                <select className='button' onChange={handleParkChange} value={parkName}>
-                    <option value="">공원 선택</option>
-                    {filteredParkOptions.map(park => (
-                        <option key={park.p_park} value={park.p_park}>{park.p_park}</option>
-                    ))}
-                </select>
-            </div>
-            <div ref={mapElement} className='map-naver-view'></div>
-            <Box>
-                <DataGrid
-                    rows={visibleCctvRows}
-                    columns={columns_CCTV}
-                    onCellClick={handleObjectClick}
-                    disableRowSelectionOnClick
-                    getRowId={(row) => row.id}
-                    rowsPerPageOptions={[10, 50, 100]}
-                    pagination
-                    pageSize={pageSize}
-                    onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                />
-            </Box>
-
-            {/* Drawer for detailed view */}
-            <Drawer
-                anchor='left'
+            <HeaderPage
+                parkName={parkName}
+                suspiciousItemCount={suspiciousItemCount}
+                lostItemCount={lostItemCount}
+                filteredParkOptions={filteredParkOptions}
+                onParkChange={handleParkChange}
+                onTitleClick={handleTitleClick}
+            />
+            <NaverMap
+                cctvRows={visibleCctvRows}
+                bikeMarkers={bikeMarkers}
+                parkName={parkName}
+                mapElementRef={mapElement}
+                onMarkerClick={handleObjectClick}
+            />
+            <CCTVTable
+                rows={visibleCctvRows}
+                pageSize={pageSize}
+                setPageSize={setPageSize}
+                onRowClick={handleObjectClick}
+            />
+            <CCTVDrawer
                 open={drawerOpen}
+                selectedRow={selectedRow}
+                selectedImage={selectedImage}
                 onClose={handleCloseDrawer}
-            >
-                {selectedRow && (
-                    <Box p={2} width="550px" textAlign="center">
-                        <Button onClick={handleCloseDrawer} variant="contained" color="primary" style={{ marginBottom: '10px' }}>
-                            닫기
-                        </Button>
-                        <h2>{selectedRow.id}</h2>
-                        <img
-                            src={selectedImage}
-                            alt="CCTV Image"
-                            style={{ width: '100%', height: 'auto', cursor: 'pointer' }}
-                            onClick={() => handleImageClick(selectedImage)}
-                        />
-                        <p>{selectedRow.cctvAddress}</p>
-                        <p>해당 CCTV가 보여주는 따릉이 정보</p>
-                        <Box sx={{ height: 400, width: '100%' }}>
-                            <DataGrid
-                                rows={visibleBikeRows}
-                                columns={columns_Lost(handleRetrieve, handleReportBug)} // Pass handleRetrieve to columns_Lost
-                                getRowId={(row) => row.id}
-                                disableRowSelectionOnClick
-                                pageSize={pageSize}
-                                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                                rowsPerPageOptions={[10, 50, 100]}
-                                onSelectionModelChange={(newSelection) => setSelectedRows(newSelection)}
-                                selectionModel={selectedRows}
-                            />
-                        </Box>
-                    </Box>
-                )}
-            </Drawer>
-
-            {/* Modal for enlarged image */}
-            <Modal
+                bikeRows={visibleBikeRows}
+                onRetrieve={handleRetrieve}
+                onReportBug={handleReportBug}
+                onImageClick={handleImageClick}
+            />
+            <ImageModal
                 open={modalOpen}
+                imageURL={selectedImage}
                 onClose={handleCloseModal}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 1200,
-                    bgcolor: 'background.paper',
-                    border: '2px solid #000',
-                    boxShadow: 24,
-                    p: 4
-                }}>
-                    <img src={selectedImage} alt="Expanded CCTV" style={{ width: '100%', height: 'auto' }} />
-                </Box>
-            </Modal>
+            />
         </React.Fragment>
     );
 };

@@ -5,9 +5,10 @@ export const columns_CCTV = [
         // flex: 1
     },
     {
-        field: 'cctvAddress',   // 차후 고정형||회전형 2가지로 분류하기
+        field: 'fixed',   // 차후 고정형||회전형 2가지로 분류하기
         headerName: 'CCTV 종류',
-        flex: 1
+        flex: 1,
+        renderCell: (params) => (params.value ? '고정형' : '회전형'),
     },
     {
         field: 'foundLost',

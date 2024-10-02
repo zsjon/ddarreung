@@ -1,7 +1,7 @@
 import React from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import Selected_park from "./selected_park";
-import MainPage_park from "./mainPage_park";
+import Selected_park from "./Page/selected_park";
+import MainPage_park from "./Page/mainPage_park";
 
 const Router = () => {
     return (

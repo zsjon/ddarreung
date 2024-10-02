@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom'; // useNavigate 임포트
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebase";
-import { columns_Park } from "./columns/columns_Park";
-import parkData from "./parkList.json"; // 공원 데이터
+import { db } from "../firebase";
+import { columns_Park } from "../columns/columns_Park";
+import parkData from "../parkList.json"; // 공원 데이터
 
 const MainPage_park = () => {
     const [cctvRows, setCctvRows] = useState([]);
