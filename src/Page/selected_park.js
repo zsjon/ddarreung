@@ -14,6 +14,7 @@ import HeaderPage from "../Components/HeaderPage";
 import NaverMap from "../Components/NaverMap";
 import CCTVTable from "../Components/cctvTable";
 import CCTVDrawer from "../Components/Drawer"; // 아이콘
+import '../App.css';
 
 // CCTV 방향 저장 객체 (로컬 스토리지에서 불러오기)
 const getCctvDirections = () => {
@@ -165,7 +166,7 @@ const Selected_park = () => {
         fetchCCTVData();
     }, [parkName]);
 
-// 유실물 회수 처리
+    // 유실물 회수 처리
     const handleRetrieve = async (rowId) => {
         const now = new Date();
         const formattedTime = `${String(now.getFullYear()).slice(2)}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
@@ -186,7 +187,8 @@ const Selected_park = () => {
             alert("회수 중 오류가 발생했습니다.");
         }
     };
-
+    
+    // 리포트 버그 신고 기능. 보여주기용
     const handleReportBug = async (rowId) => {
         const now = new Date();
         const formattedTime = `${String(now.getFullYear()).slice(2)}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
@@ -382,7 +384,7 @@ const Selected_park = () => {
             bikeMarkers.forEach(marker => marker.setMap(null));
 
             const startAngle = currentAngle[row.id];
-            const endAngle = startAngle + 180;
+            const endAngle = row.fixed ? startAngle + 66 : startAngle + 180;    // cctv가 고정형인 경우 기존 화각인 66도, 회전형인 경우 180도로 설정
 
             const radius = 50;
 
@@ -465,28 +467,29 @@ const Selected_park = () => {
     };
 
     return (
-        <React.Fragment>
+        <div className={`main-content ${drawerOpen ? 'drawer-open' : ''}`}> {/* Drawer가 열리면 화면이 밀림 */}
             <HeaderPage
                 parkName={parkName}
                 suspiciousItemCount={suspiciousItemCount}
                 lostItemCount={lostItemCount}
                 filteredParkOptions={filteredParkOptions}
                 onParkChange={handleParkChange}
-                onTitleClick={handleTitleClick}
+                onTitleClick={() => navigate("/")}  // 홈페이지로 이동
             />
             <NaverMap
                 cctvRows={visibleCctvRows}
                 bikeMarkers={bikeMarkers}
                 parkName={parkName}
                 mapElementRef={mapElement}
-                onMarkerClick={handleObjectClick}
             />
-            <CCTVTable
-                rows={visibleCctvRows}
-                pageSize={pageSize}
-                setPageSize={setPageSize}
-                onRowClick={handleObjectClick}
-            />
+            <Box className="data-grid">
+                <CCTVTable
+                    rows={visibleCctvRows}
+                    pageSize={pageSize}
+                    setPageSize={setPageSize}
+                    onRowClick={handleObjectClick}
+                />
+            </Box>
             <CCTVDrawer
                 open={drawerOpen}
                 selectedRow={selectedRow}
@@ -500,9 +503,9 @@ const Selected_park = () => {
             <ImageModal
                 open={modalOpen}
                 imageURL={selectedImage}
-                onClose={handleCloseModal}
+                onClose={() => setModalOpen(false)}
             />
-        </React.Fragment>
+        </div>
     );
 };
 

@@ -1,8 +1,9 @@
 import {Button} from "@mui/material";
 import BugReportIcon from '@mui/icons-material/BugReport';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import ImageIcon from '@mui/icons-material/Image';
 
-export const columns_Lost = (handleRetrieve, handleReportBug) => [
+export const columns_Lost = (handleImageClick, handleRetrieve, handleReportBug) => [
     {
         field: "id",
         headerName: "유실물 ID",
@@ -19,6 +20,22 @@ export const columns_Lost = (handleRetrieve, handleReportBug) => [
         flex: 3,
     },
     {
+        field: "imageCheck",
+        headerName: "사진 확인",
+        flex: 2,
+        renderCell: (params) => (
+            <Button
+                size="small"
+                startIcon={<ImageIcon />}
+                variant="outlined"
+                color="primary"
+                onClick={() => handleImageClick(params.row.imageURL)} // 이미지 URL을 넘겨줌
+            >
+                확인
+            </Button>
+        ),
+    },
+    {
         field: "delete",
         headerName: "회수",
         flex: 2,
@@ -27,7 +44,7 @@ export const columns_Lost = (handleRetrieve, handleReportBug) => [
                 size="small"
                 startIcon={<AssignmentTurnedInIcon/>}
                 variant="outlined"
-                color="primary"
+                color="success"
                 onClick={() => handleRetrieve(params.id)} // Pass rowId to delete handler
             >
                 회수

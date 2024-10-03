@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
-import {Modal} from "@mui/material";
+import { Modal, Typography } from "@mui/material";
+
 // 모달 컴포넌트
 const ImageModal = ({ open, imageURL, onClose }) => {
     return (
@@ -20,7 +21,18 @@ const ImageModal = ({ open, imageURL, onClose }) => {
                 boxShadow: 24,
                 p: 4
             }}>
-                <img src={imageURL} alt="Expanded CCTV" style={{ width: '100%', height: 'auto' }} />
+                {imageURL ? (
+                    <img
+                        src={imageURL}
+                        alt="Expanded CCTV"
+                        style={{ width: '100%', height: 'auto' }}
+                        onError={(e) => { e.target.onerror = null; e.target.src = "/bicycle.png"; }} // 이미지 로드 실패 시 대체 이미지 표시
+                    />
+                ) : (
+                    <Typography variant="h6" component="h2" sx={{ textAlign: 'center' }}>
+                        이미지가 없습니다.
+                    </Typography>
+                )}
             </Box>
         </Modal>
     );

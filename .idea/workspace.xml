@@ -4,13 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 버튼 UI 수정 및 페이지 새로고침 개선">
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 각 UI 컴포넌트화 및 CCTV 분류화">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ParkOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ParkOptions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/columns/columns_CCTV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns/columns_CCTV.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mainPage_park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Page/mainPage_park.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/selected_park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Page/selected_park.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Drawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Drawer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/ImageModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ImageModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/NaverMap.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NaverMap.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/lostItemTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/lostItemTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Page/selected_park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Page/selected_park.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/columns/columns_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns/columns_Lost.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +28,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -117,7 +120,9 @@
       <workItem from="1727660662438" duration="527000" />
       <workItem from="1727669128218" duration="78000" />
       <workItem from="1727761800901" duration="9639000" />
-      <workItem from="1727837852349" duration="7465000" />
+      <workItem from="1727837852349" duration="23598000" />
+      <workItem from="1727921114410" duration="2181000" />
+      <workItem from="1727923327787" duration="12393000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -207,7 +212,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727773381404</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="[ADD] 각 UI 컴포넌트화 및 CCTV 분류화">
+      <option name="closed" value="true" />
+      <created>1727846597993</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1727846597993</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,6 +249,7 @@
     <MESSAGE value="[ADD] 회수버튼 클릭 시 프론트에서 사라지게 변경" />
     <MESSAGE value="[Change] 라우팅 방식 HashRouter로 변경" />
     <MESSAGE value="[ADD] 버튼 UI 수정 및 페이지 새로고침 개선" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 버튼 UI 수정 및 페이지 새로고침 개선" />
+    <MESSAGE value="[ADD] 각 UI 컴포넌트화 및 CCTV 분류화" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 각 UI 컴포넌트화 및 CCTV 분류화" />
   </component>
 </project>

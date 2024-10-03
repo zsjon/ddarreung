@@ -98,6 +98,21 @@
   margin: 0 auto;
 }
 
+/*드로어 css*/
+.drawer-open {
+  margin-left: 680px; /* Drawer의 너비에 맞게 페이지 전체가 밀림 */
+}
+
+.naver-map {
+  flex-grow: 1; /* 지도는 남은 화면을 채움 */
+  height: 100vh; /* 높이는 화면 전체를 사용 */
+}
+
+.data-grid {
+  width: 100%; /* 데이터 그리드가 남은 화면을 차지 */
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
