@@ -4,15 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 각 UI 컴포넌트화 및 CCTV 분류화">
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] Drawer 수정 및 CCTV별 화각 수정, 사진 확인 버튼 추가">
+      <change afterPath="$PROJECT_DIR$/src/Components/parkListTable.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/calculateDistance.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/fetchCCTVData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Drawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Drawer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/ImageModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/ImageModal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/NaverMap.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NaverMap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/lostItemTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/lostItemTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Page/mainPage_park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Page/mainPage_park.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Page/selected_park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Page/selected_park.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/columns/columns_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/columns/columns_Lost.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +123,7 @@
       <workItem from="1727761800901" duration="9639000" />
       <workItem from="1727837852349" duration="23598000" />
       <workItem from="1727921114410" duration="2181000" />
-      <workItem from="1727923327787" duration="12393000" />
+      <workItem from="1727923327787" duration="23177000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -220,7 +221,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727846597993</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="[ADD] Drawer 수정 및 CCTV별 화각 수정, 사진 확인 버튼 추가">
+      <option name="closed" value="true" />
+      <created>1727936591416</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1727936591416</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,6 +259,7 @@
     <MESSAGE value="[Change] 라우팅 방식 HashRouter로 변경" />
     <MESSAGE value="[ADD] 버튼 UI 수정 및 페이지 새로고침 개선" />
     <MESSAGE value="[ADD] 각 UI 컴포넌트화 및 CCTV 분류화" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 각 UI 컴포넌트화 및 CCTV 분류화" />
+    <MESSAGE value="[ADD] Drawer 수정 및 CCTV별 화각 수정, 사진 확인 버튼 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] Drawer 수정 및 CCTV별 화각 수정, 사진 확인 버튼 추가" />
   </component>
 </project>

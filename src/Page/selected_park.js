@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
-import { Drawer, Modal, Button } from "@mui/material";
+// import { DataGrid } from '@mui/x-data-grid';
+// import { Drawer, Modal, Button } from "@mui/material";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import { columns_CCTV } from "../columns/columns_CCTV";
-import { columns_Lost } from "../columns/columns_Lost";
+// import { columns_CCTV } from "../columns/columns_CCTV";
+// import { columns_Lost } from "../columns/columns_Lost";
 import parkData from "../parkList.json"; // 공원 데이터
-import { IoListOutline } from "react-icons/io5";
+// import { IoListOutline } from "react-icons/io5";
 import ImageModal from "../Components/ImageModal";
 import HeaderPage from "../Components/HeaderPage";
 import NaverMap from "../Components/NaverMap";
@@ -45,9 +45,10 @@ const Selected_park = () => {
     const [visibleBikeRows, setVisibleBikeRows] = useState([]);
     const [currentAngle, setCurrentAngle] = useState(cctvDirections); // 각도 상태 관리를 위한 변수
     const [pageSize, setPageSize] = useState(10);
-    const [selectedRows, setSelectedRows] = useState([]);   // modal에서 선택된 데이터 삭제를 위한 변수
+    // const [selectedRows, setSelectedRows] = useState([]);   // modal에서 선택된 데이터 삭제를 위한 변수
     const [suspiciousItemCount, setSuspiciousItemCount] = useState(0);
     const [lostItemCount, setLostItemCount] = useState(0);
+    const [selectedCctvLocation, setSelectedCctvLocation] = useState(null);
 
     // 날짜 및 시간 형식을 변환하는 함수
     const formatFoundTime = (timestamp) => {
@@ -94,7 +95,8 @@ const Selected_park = () => {
                                 id: bikeDoc.id,
                                 retrieveYn: bikeDoc.data().retrieveYn || false, // 회수되지 않은 유실물의 기본 status는 false
                                 retrieveTime: bikeDoc.data().retrieveTime || null,
-                                fixed: bikeDoc.data().fixed || false
+                                fixed: bikeDoc.data().fixed || false,
+                                streamURL: bikeDoc.data().streamURL,
                             }))
                             .filter(bike => !bike.retrieveYn); // retrieveYn이 false인 데이터만 표시
                         const address = await getReverseGeocoding(data.lat, data.lon);
@@ -120,7 +122,7 @@ const Selected_park = () => {
                             bikeData: bikeData,
                             foundLost: bikeData.length,
                             lastFoundTime: lastFoundTime,
-                            fixed: fixed
+                            fixed: fixed,
                         };
                     })
                 );
@@ -166,53 +168,111 @@ const Selected_park = () => {
         fetchCCTVData();
     }, [parkName]);
 
-    // 유실물 회수 처리
+// 유실물 회수 처리
     const handleRetrieve = async (rowId) => {
         const now = new Date();
         const formattedTime = `${String(now.getFullYear()).slice(2)}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
 
         try {
-            // rowId를 이용하여 Firestore 문서 업데이트
+            // Firestore 업데이트
             const bikeDocRef = doc(db, `seoul-cctv/${selectedRow.id}/missing-seoul-bike/${rowId}`);
             await updateDoc(bikeDocRef, {
                 retrieveYn: true,
                 retrieveTime: formattedTime
             });
 
-            // DataGrid에서 해당 row 제거
+            // 유실물이 0이면 해당 CCTV 제거
+            setCctvRows((prevCctvRows) =>
+                prevCctvRows.filter(cctv => {
+                    if (cctv.id === selectedRow.id) {
+                        const updatedBikeData = cctv.bikeData.filter(bike => bike.id !== rowId);
+                        if (updatedBikeData.length === 0) {
+                            return false;  // 유실물이 0이면 CCTV row를 제거
+                        }
+                        return { ...cctv, bikeData: updatedBikeData };
+                    }
+                    return cctv;
+                })
+            );
+
+            setVisibleCctvRows((prevVisibleCctvRows) =>
+                prevVisibleCctvRows.filter(cctv => {
+                    if (cctv.id === selectedRow.id) {
+                        const updatedBikeData = cctv.bikeData.filter(bike => bike.id !== rowId);
+                        if (updatedBikeData.length === 0) {
+                            return false;  // 유실물이 0이면 CCTV row를 제거
+                        }
+                        return { ...cctv, bikeData: updatedBikeData };
+                    }
+                    return cctv;
+                })
+            );
+
             setVisibleBikeRows((prevRows) => prevRows.filter((row) => row.id !== rowId));
+
+            // 선택된 CCTV 중심으로 지도 업데이트
+            setSelectedCctvLocation(selectedRow);
+
             alert("회수가 완료되었습니다.");
         } catch (error) {
             console.error("Error updating document: ", error);
             alert("회수 중 오류가 발생했습니다.");
         }
     };
-    
-    // 리포트 버그 신고 기능. 보여주기용
+
+// 오류 신고 처리
     const handleReportBug = async (rowId) => {
         const now = new Date();
         const formattedTime = `${String(now.getFullYear()).slice(2)}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}`;
 
         try {
-            // rowId를 이용하여 Firestore 문서 업데이트
+            // Firestore 업데이트
             const bikeDocRef = doc(db, `seoul-cctv/${selectedRow.id}/missing-seoul-bike/${rowId}`);
             await updateDoc(bikeDocRef, {
                 retrieveYn: true,
                 retrieveTime: formattedTime
             });
 
-            // DataGrid에서 해당 row 제거
+            // 유실물이 0이면 해당 CCTV 제거
+            setCctvRows((prevCctvRows) =>
+                prevCctvRows.filter(cctv => {
+                    if (cctv.id === selectedRow.id) {
+                        const updatedBikeData = cctv.bikeData.filter(bike => bike.id !== rowId);
+                        if (updatedBikeData.length === 0) {
+                            return false;  // 유실물이 0이면 CCTV row를 제거
+                        }
+                        return { ...cctv, bikeData: updatedBikeData };
+                    }
+                    return cctv;
+                })
+            );
+
+            setVisibleCctvRows((prevVisibleCctvRows) =>
+                prevVisibleCctvRows.filter(cctv => {
+                    if (cctv.id === selectedRow.id) {
+                        const updatedBikeData = cctv.bikeData.filter(bike => bike.id !== rowId);
+                        if (updatedBikeData.length === 0) {
+                            return false;  // 유실물이 0이면 CCTV row를 제거
+                        }
+                        return { ...cctv, bikeData: updatedBikeData };
+                    }
+                    return cctv;
+                })
+            );
+
             setVisibleBikeRows((prevRows) => prevRows.filter((row) => row.id !== rowId));
-            alert("회수가 완료되었습니다.");
+
+            // 선택된 CCTV 중심으로 지도 업데이트
+            setSelectedCctvLocation(selectedRow);
+
+            alert("오류 신고가 완료되었습니다.");
         } catch (error) {
             console.error("Error updating document: ", error);
-            alert("회수 중 오류가 발생했습니다.");
+            alert("오류 신고 중 문제가 발생했습니다.");
         }
     };
 
     useEffect(() => {
-        let direction = 1; // 회전 방향 (1은 시계방향, -1은 반시계방향)
-
         const updateAngle = () => {
             setCurrentAngle((prevAngles) => {
                 const updatedAngles = { ...prevAngles };
@@ -377,14 +437,15 @@ const Selected_park = () => {
             const location = new window.naver.maps.LatLng(parseFloat(row.cctvLat), parseFloat(row.cctvLon));
             map.setCenter(location);
             map.setZoom(18);
-
+            // 마커 중심 CCTV 위치로 설정
+            setSelectedCctvLocation(row);
             if (circle) {
                 circle.setMap(null);
             }
             bikeMarkers.forEach(marker => marker.setMap(null));
 
             const startAngle = currentAngle[row.id];
-            const endAngle = row.fixed ? startAngle + 66 : startAngle + 180;    // cctv가 고정형인 경우 기존 화각인 66도, 회전형인 경우 180도로 설정
+            const endAngle = startAngle + 180;
 
             const radius = 50;
 
@@ -443,13 +504,6 @@ const Selected_park = () => {
         setModalOpen(true);
     };
 
-    const handleBikeRowClick = (params) => {
-        const bike = visibleBikeRows.find(b => b.id === params.id);
-        if (bike) {
-            setSelectedImage(bike.imageURL);
-        }
-    };
-
     const handleCloseDrawer = () => {
         bikeMarkers.forEach(marker => marker.setMap(null));
         setBikeMarkers([]);
@@ -461,11 +515,6 @@ const Selected_park = () => {
         allMakerDisplay();
     };
 
-    const handleCloseModal = () => {
-        setModalOpen(false);
-        setSelectedImage('');
-    };
-
     return (
         <div className={`main-content ${drawerOpen ? 'drawer-open' : ''}`}> {/* Drawer가 열리면 화면이 밀림 */}
             <HeaderPage
@@ -474,13 +523,14 @@ const Selected_park = () => {
                 lostItemCount={lostItemCount}
                 filteredParkOptions={filteredParkOptions}
                 onParkChange={handleParkChange}
-                onTitleClick={() => navigate("/")}  // 홈페이지로 이동
+                onTitleClick={handleTitleClick}
             />
             <NaverMap
                 cctvRows={visibleCctvRows}
                 bikeMarkers={bikeMarkers}
                 parkName={parkName}
                 mapElementRef={mapElement}
+                selectedCctvLocation={selectedCctvLocation}
             />
             <Box className="data-grid">
                 <CCTVTable

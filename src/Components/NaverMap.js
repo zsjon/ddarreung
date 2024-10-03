@@ -78,8 +78,19 @@ const NaverMap = ({ cctvRows, bikeMarkers, parkName, mapElementRef, selectedCctv
 
         // 지도 중심을 해당 CCTV로 이동하고 줌 레벨을 확대
         mapRef.current.setCenter(location);
-        mapRef.current.setZoom(18); // 확대 레벨 설정
+        mapRef.current.setZoom(18);
+
+        // 부채꼴 및 마커 다시 그리기
+        drawArcAndMarkers(selectedCctvLocation);
+
     }, [selectedCctvLocation]);
+
+    const drawArcAndMarkers = (cctvLocation) => {
+        // 기존 로직: 부채꼴과 유실물 마커를 그리는 부분
+        if (cctvLocation.bikeData.length > 0) {
+            // 부채꼴 및 마커 표시 로직
+        }
+    };
 
     return <div ref={mapElementRef} style={{ width: '100%', height: '500px' }} />;
 };
