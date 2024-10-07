@@ -21,8 +21,14 @@ export const columns_Congestion_Park = [
         flex: 1,
     },
     {
-        field: 'peopleCount',
-        headerName: '공원 혼잡도',
-        width: 200,
+        field: 'congestionLevel',  // 혼잡도 필드 추가
+        headerName: '혼잡도',
+        flex: 1,
+        renderCell: (params) => (
+            <span style={{
+                color: params.value === '혼잡' ? 'red' : params.value === '보통' ? 'orange' : 'green'}}>
+                {params.value}
+            </span>
+        ),
     },
 ];

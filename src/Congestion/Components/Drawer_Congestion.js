@@ -17,11 +17,6 @@ const CCTVDrawer_Congestion = ({ open, selectedRow, selectedImage, onClose, onRe
 
                     {/* 실시간 영상 스트리밍 */}
                     <Box>
-                        {/*<img*/}
-                        {/*    src={process.env.PUBLIC_URL + '/peopleREC.mp4'}  // 각 CCTV의 streamURL을 사용하여 실시간 스트리밍*/}
-                        {/*    alt="Live CCTV Stream"*/}
-                        {/*    style={{ width: '100%', height: 'auto' }}*/}
-                        {/*/>*/}
                         <ReactPlayer    // 임의의 로컬 동영상 재생
                             url={process.env.PUBLIC_URL + '/peopleREC.mp4'}
                             playing={true}
@@ -33,9 +28,9 @@ const CCTVDrawer_Congestion = ({ open, selectedRow, selectedImage, onClose, onRe
 
                     <p>{selectedRow.cctvAddress}</p>
                     <Box>
-                        <h1>구역 혼잡도: </h1>
+                        {/* selectedRow에 포함된 혼잡도(congestionLevel) 값을 표시 */}
+                        <h1>구역 혼잡도: {selectedRow.congestionLevel}</h1>
                     </Box>
-                {/*    실시간 영상에 박싱된 사람 수에 따라 혼잡도 구분.*/}
                 </Box>
             )}
         </Drawer>

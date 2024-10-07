@@ -4,41 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 메인페이지 제작 및 혼잡도 파악 페이지 분류">
-      <change afterPath="$PROJECT_DIR$/src/Congestion/Columns/columns_Congestion_Drawer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Congestion/Components/HeaderPage_Congestion.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Congestion/Components/cctvTable_Congestion.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Congestion/Components/peopleCountTable.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Congestion/Page/selected_park_Congestion.js" afterDir="false" />
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 혼잡도 현황 페이지 개선 및 컴포넌트 구조 정리">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Columns/columns_CCTV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Columns/columns_Lost_CCTV.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Columns/columns_Congestion_Count.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Columns/columns_Congestion_CCTV.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Columns/columns_Congestion_Park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Columns/columns_Congestion_Park.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Columns/columns_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Columns/columns_Lost_Drawer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Columns/columns_Lost_Park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Columns/columns_Lost_Park.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Drawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/HeaderPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/HeaderPage_Lost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/ImageModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ImageModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/NaverMap.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/NaverMap.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/ParkOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ParkOptions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/cctvTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/cctvTable_Lost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/lostItemTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/lostItemsTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/parkListTable_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Components/parkListTable_Congestion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/parkListTable_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/parkListTable_Lost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Page/mainPage_congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Page/mainPage_congestion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Page/mainPage_lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Page/mainPage_lost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Page/selected_park_Congestion.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Page/selected_park_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Page/selected_park_Lost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Page/startPage_admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPage/startPage_admin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/Router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/firebase.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/firebase.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/fetchCCTVData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/fetchCCTVData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Congestion/Columns/columns_Congestion_CCTV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Columns/columns_Congestion_CCTV.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Congestion/Columns/columns_Congestion_Park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Columns/columns_Congestion_Park.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Congestion/Components/parkListTable_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Components/parkListTable_Congestion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Congestion/Page/mainPage_congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Page/mainPage_congestion.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +123,7 @@
       <workItem from="1727923327787" duration="23281000" />
       <workItem from="1728019643888" duration="325000" />
       <workItem from="1728270864907" duration="26998000" />
-      <workItem from="1728308492543" duration="2197000" />
+      <workItem from="1728308492543" duration="7131000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -282,7 +253,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728286899647</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="[ADD] 혼잡도 현황 페이지 개선 및 컴포넌트 구조 정리">
+      <option name="closed" value="true" />
+      <created>1728310807523</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1728310807523</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -315,6 +294,7 @@
     <MESSAGE value="[ADD] Drawer 수정 및 CCTV별 화각 수정, 사진 확인 버튼 추가" />
     <MESSAGE value="[ADD] 실시간 CCTV 스트리밍 추가" />
     <MESSAGE value="[ADD] 메인페이지 제작 및 혼잡도 파악 페이지 분류" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 메인페이지 제작 및 혼잡도 파악 페이지 분류" />
+    <MESSAGE value="[ADD] 혼잡도 현황 페이지 개선 및 컴포넌트 구조 정리" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 혼잡도 현황 페이지 개선 및 컴포넌트 구조 정리" />
   </component>
 </project>

@@ -16,7 +16,8 @@ export const columns_Congestion_CCTV = [
         headerName: '혼잡도',
         flex: 1,
         renderCell: (params) => (
-            <span style={{ color: params.value === '혼잡' ? 'red' : params.value === '보통' ? 'orange' : 'green' }}>
+            <span style={{
+                color: params.value === '혼잡' ? 'red' : params.value === '보통' ? 'orange' : 'green' }}>
                 {params.value}
             </span>
         )
