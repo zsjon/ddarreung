@@ -28,7 +28,7 @@ const saveCctvDirections = () => {
     localStorage.setItem('cctvDirections', JSON.stringify(cctvDirections));
 };
 
-const Selected_park = () => {
+const Selected_park_Congestion = () => {
     const { parkName } = useParams(); // URL에서 공원명 가져오기
     const mapElement = useRef(null);
     const navigate = useNavigate(); // useNavigate 훅 사용
@@ -491,7 +491,7 @@ const Selected_park = () => {
     const handleParkChange = (event) => {   // 우측 상단 리스트에 존재하는 공원으로 클릭 시 이동
         const selectedParkName = event.target.value;
         if (selectedParkName) {
-            navigate(`/park/${encodeURIComponent(selectedParkName)}`);
+            navigate(`/park-congestion/${encodeURIComponent(selectedParkName)}`);
         }
     };
 
@@ -559,4 +559,4 @@ const Selected_park = () => {
     );
 };
 
-export default Selected_park;
+export default Selected_park_Congestion;

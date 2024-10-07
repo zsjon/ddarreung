@@ -1,3 +1,4 @@
+// 유실물 탐지 페이지용 CCTV별 유실물 Column.
 import {Button} from "@mui/material";
 import BugReportIcon from '@mui/icons-material/BugReport';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';

@@ -1,4 +1,4 @@
-import {columns_Lost} from "../columns/columns_Lost";
+import {columns_Lost} from "../Columns/columns_Lost";
 import Box from "@mui/material/Box";
 import {DataGrid} from "@mui/x-data-grid";
 // 유실물 DataGrid 컴포넌트

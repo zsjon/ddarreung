@@ -1,4 +1,4 @@
-import {columns_CCTV} from "../columns/columns_CCTV";
+import {columns_CCTV} from "../Columns/columns_CCTV";
 import Box from "@mui/material/Box";
 import {DataGrid} from "@mui/x-data-grid";
 // CCTV DataGrid 컴포넌트

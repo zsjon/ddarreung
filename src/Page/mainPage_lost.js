@@ -4,10 +4,10 @@
 // import { useNavigate } from 'react-router-dom'; // useNavigate 임포트
 // import { collection, getDocs } from "firebase/firestore";
 // import { db } from "../firebase";
-// import { columns_Park } from "../columns/columns_Park";
+// import { columns_Lost_Park } from "../columns/columns_Lost_Park";
 // import parkData from "../parkList.json"; // 공원 데이터
 //
-// const MainPage_park = () => {
+// const MainPage_lost = () => {
 //     const [cctvRows, setCctvRows] = useState([]);
 //     const [filteredParkRows, setFilteredParkRows] = useState([]);
 //     const navigate = useNavigate(); // useNavigate 초기화
@@ -105,7 +105,7 @@
 //             <Box>
 //                 <DataGrid
 //                     rows={filteredParkRows} // 모든 공원을 출력
-//                     columns={columns_Park}
+//                     columns={columns_Lost_Park}
 //                     getRowId={(row) => row.p_idx}
 //                     pageSizeOptions={[10, 50, 100]}
 //                     pagination
@@ -120,16 +120,16 @@
 //     );
 // };
 //
-// export default MainPage_park;
+// export default MainPage_lost;
 
 
 import React, { useEffect, useState } from 'react';
 import { fetchCCTVData } from '../utils/fetchCCTVData'; // CCTV 데이터를 가져오는 함수
 import { calculateDistance } from '../utils/calculateDistance'; // 거리 계산 유틸리티 함수
 import parkData from "../parkList.json"; // 공원 데이터
-import ParkListTable from '../Components/parkListTable'; // 공원 리스트 테이블
+import ParkListTable_Lost from '../Components/parkListTable_Lost'; // 공원 리스트 테이블
 
-const MainPage_park = () => {
+const MainPage_lost = () => {
     const [cctvRows, setCctvRows] = useState([]);
     const [filteredParkRows, setFilteredParkRows] = useState([]);
 
@@ -181,9 +181,9 @@ const MainPage_park = () => {
             <div className='header-website'>
                 <h1 className='main-title-website'>공원 목록 (CCTV 수가 많은 순)</h1>
             </div>
-            <ParkListTable filteredParkRows={filteredParkRows} /> {/* 공원 리스트 컴포넌트 */}
+            <ParkListTable_Lost filteredParkRows={filteredParkRows} /> {/* 공원 리스트 컴포넌트 */}
         </React.Fragment>
     );
 };
 
-export default MainPage_park;
+export default MainPage_lost;

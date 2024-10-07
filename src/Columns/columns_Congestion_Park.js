@@ -1,4 +1,5 @@
-export const columns_Park = [
+// 혼잡도 분석 페이지용 혼잡도 Column.
+export const columns_Congestion_Park = [
     {
         field: 'p_idx',
         headerName: '공원 ID',
@@ -20,8 +21,8 @@ export const columns_Park = [
         flex: 1,
     },
     {
-        field: 'cctvCount',
-        headerName: '유실물 발견 CCTV 대수',
+        field: 'peopleCount',
+        headerName: '공원 혼잡도',
         width: 200,
     },
 ];
