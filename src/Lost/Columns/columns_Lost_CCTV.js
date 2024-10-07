@@ -1,5 +1,5 @@
 // 유실물 탐지 페이지용 공원별 CCTV Column.
-export const columns_CCTV = [
+export const columns_Lost_CCTV = [
     {
         field: 'id',
         headerName: 'CCTV ID',

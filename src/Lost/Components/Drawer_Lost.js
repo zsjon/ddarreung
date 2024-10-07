@@ -1,10 +1,11 @@
-import LostItemsTable from "./lostItemTable";
+import LostItemsTable from "./lostItemsTable";
 import { Button, Drawer } from "@mui/material";
 import Box from "@mui/material/Box";
 
-const streamURL1 = "http://192.168.1.26:8000/stream.mjpg";
+// const streamURL1 = "http://192.168.1.26:8000/stream.mjpg";
+const recURL = "http://192.168.1.38:8000/stream.mjpg";
 // Drawer 컴포넌트
-const CCTVDrawer = ({ open, selectedRow, selectedImage, onClose, onRetrieve, onReportBug, bikeRows, onImageClick }) => {
+const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve, onReportBug, bikeRows, onImageClick }) => {
     return (
         <Drawer anchor='left' open={open} onClose={onClose}>
             {selectedRow && (
@@ -13,11 +14,10 @@ const CCTVDrawer = ({ open, selectedRow, selectedImage, onClose, onRetrieve, onR
                         닫기
                     </Button>
                     <h2>{selectedRow.id}</h2>
-
                     {/* 실시간 영상 스트리밍 */}
                     <Box>
                         <img
-                            src={streamURL1}  // 각 CCTV의 streamURL을 사용하여 실시간 스트리밍
+                            src={recURL}  // 각 CCTV의 streamURL을 사용하여 실시간 스트리밍
                             alt="Live CCTV Stream"
                             style={{ width: '100%', height: 'auto' }}
                         />
@@ -31,4 +31,4 @@ const CCTVDrawer = ({ open, selectedRow, selectedImage, onClose, onRetrieve, onR
     );
 };
 
-export default CCTVDrawer;
+export default CCTVDrawer_Lost;

@@ -4,17 +4,18 @@ import Box from '@mui/material/Box';
 // import { DataGrid } from '@mui/x-data-grid';
 // import { Drawer, Modal, Button } from "@mui/material";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase";
-// import { columns_CCTV } from "../columns/columns_CCTV";
-// import { columns_Lost } from "../columns/columns_Lost";
-import parkData from "../parkList.json"; // 공원 데이터
+import { db } from "../../utils/firebase";
+// import { columns_Lost_CCTV } from "../columns/columns_Lost_CCTV";
+// import { columns_Lost_Drawer } from "../columns/columns_Lost_Drawer";
+import parkData from "../../parkList.json"; // 공원 데이터
 // import { IoListOutline } from "react-icons/io5";
-import ImageModal from "../Components/ImageModal";
-import HeaderPage from "../Components/HeaderPage";
-import NaverMap from "../Components/NaverMap";
-import CCTVTable from "../Components/cctvTable";
-import CCTVDrawer from "../Components/Drawer"; // 아이콘
-import '../App.css';
+import ImageModal from "../../utils/ImageModal";
+import HeaderPage_Lost from "../Components/HeaderPage_Lost";
+import NaverMap from "../../utils/NaverMap";
+import CctvTable_Lost from "../Components/cctvTable_Lost";
+import CCTVDrawer from "../Components/Drawer_Lost"; // 아이콘
+import '../../App.css';
+import CCTVDrawer_Lost from "../Components/Drawer_Lost";
 
 // CCTV 방향 저장 객체 (로컬 스토리지에서 불러오기)
 const getCctvDirections = () => {
@@ -28,7 +29,7 @@ const saveCctvDirections = () => {
     localStorage.setItem('cctvDirections', JSON.stringify(cctvDirections));
 };
 
-const Selected_park_Congestion = () => {
+const Selected_park_Lost = () => {
     const { parkName } = useParams(); // URL에서 공원명 가져오기
     const mapElement = useRef(null);
     const navigate = useNavigate(); // useNavigate 훅 사용
@@ -491,12 +492,12 @@ const Selected_park_Congestion = () => {
     const handleParkChange = (event) => {   // 우측 상단 리스트에 존재하는 공원으로 클릭 시 이동
         const selectedParkName = event.target.value;
         if (selectedParkName) {
-            navigate(`/park-congestion/${encodeURIComponent(selectedParkName)}`);
+            navigate(`/park-lost/${encodeURIComponent(selectedParkName)}`);
         }
     };
 
     const handleTitleClick = () => {    // 메인 페이지로 이동
-        navigate("/");
+        navigate('/');
     };
 
     const handleImageClick = (imageURL) => {
@@ -517,7 +518,7 @@ const Selected_park_Congestion = () => {
 
     return (
         <div className={`main-content ${drawerOpen ? 'drawer-open' : ''}`}> {/* Drawer가 열리면 화면이 밀림 */}
-            <HeaderPage
+            <HeaderPage_Lost
                 parkName={parkName}
                 suspiciousItemCount={suspiciousItemCount}
                 lostItemCount={lostItemCount}
@@ -533,14 +534,14 @@ const Selected_park_Congestion = () => {
                 selectedCctvLocation={selectedCctvLocation}
             />
             <Box className="data-grid">
-                <CCTVTable
+                <CctvTable_Lost
                     rows={visibleCctvRows}
                     pageSize={pageSize}
                     setPageSize={setPageSize}
                     onRowClick={handleObjectClick}
                 />
             </Box>
-            <CCTVDrawer
+            <CCTVDrawer_Lost
                 open={drawerOpen}
                 selectedRow={selectedRow}
                 selectedImage={selectedImage}
@@ -559,4 +560,4 @@ const Selected_park_Congestion = () => {
     );
 };
 
-export default Selected_park_Congestion;
+export default Selected_park_Lost;

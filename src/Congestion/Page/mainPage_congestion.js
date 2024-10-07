@@ -1,8 +1,8 @@
 // 혼잡도 파악 메인 페이지.
 import React, { useEffect, useState } from 'react';
-import { fetchCCTVData } from '../utils/fetchCCTVData'; // CCTV 데이터를 가져오는 함수
-import { calculateDistance } from '../utils/calculateDistance'; // 거리 계산 유틸리티 함수
-import parkData from "../parkList.json"; // 공원 데이터
+import { fetchCCTVData } from '../../utils/fetchCCTVData'; // CCTV 데이터를 가져오는 함수
+import { calculateDistance } from '../../utils/calculateDistance'; // 거리 계산 유틸리티 함수
+import parkData from "../../parkList.json"; // 공원 데이터
 import ParkListTable_Congestion from '../Components/parkListTable_Congestion'; // 공원 리스트 테이블
 
 const MainPage_congestion = () => {

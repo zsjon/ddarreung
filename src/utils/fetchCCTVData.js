@@ -135,7 +135,7 @@
 
 
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "./firebase";
 import parkData from "../parkList.json"; // 공원 데이터
 
 // 좌표 간 거리 계산 함수

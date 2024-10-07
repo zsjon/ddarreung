@@ -1,10 +1,10 @@
 import React from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import Selected_park_Lost from "./Page/selected_park_Lost";
-import MainPage_lost from "./Page/mainPage_lost";
-import StartPage_admin from "./Page/startPage_admin";
-import MainPage_congestion from "./Page/mainPage_congestion";
-import Selected_park_Congestion from "./Page/selected_park_Congestion";
+import Selected_park_Lost from "../Lost/Page/selected_park_Lost";
+import MainPage_lost from "../Lost/Page/mainPage_lost";
+import StartPage_admin from "../MainPage/startPage_admin";
+import MainPage_congestion from "../Congestion/Page/mainPage_congestion";
+import Selected_park_Congestion from "../Congestion/Page/selected_park_Congestion";
 
 const Router = () => {
     return (

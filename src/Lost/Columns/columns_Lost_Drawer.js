@@ -4,7 +4,7 @@ import BugReportIcon from '@mui/icons-material/BugReport';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import ImageIcon from '@mui/icons-material/Image';
 
-export const columns_Lost = (handleImageClick, handleRetrieve, handleReportBug) => [
+export const columns_Lost_Drawer = (handleImageClick, handleRetrieve, handleReportBug) => [
     {
         field: "id",
         headerName: "유실물 ID",
