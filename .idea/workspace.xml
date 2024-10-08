@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 혼잡도 현황 페이지 개선 및 컴포넌트 구조 정리">
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] DataGrid 혼잡도 표시 및 Drawer 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Congestion/Columns/columns_Congestion_CCTV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Columns/columns_Congestion_CCTV.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Congestion/Columns/columns_Congestion_Park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Columns/columns_Congestion_Park.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Congestion/Components/parkListTable_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Components/parkListTable_Congestion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Congestion/Page/mainPage_congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Page/mainPage_congestion.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +120,8 @@
       <workItem from="1727923327787" duration="23281000" />
       <workItem from="1728019643888" duration="325000" />
       <workItem from="1728270864907" duration="26998000" />
-      <workItem from="1728308492543" duration="7131000" />
+      <workItem from="1728308492543" duration="7270000" />
+      <workItem from="1728353921179" duration="3378000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -261,7 +259,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728310807523</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="[ADD] DataGrid 혼잡도 표시 및 Drawer 수정">
+      <option name="closed" value="true" />
+      <created>1728320558651</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1728320558651</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -295,6 +301,7 @@
     <MESSAGE value="[ADD] 실시간 CCTV 스트리밍 추가" />
     <MESSAGE value="[ADD] 메인페이지 제작 및 혼잡도 파악 페이지 분류" />
     <MESSAGE value="[ADD] 혼잡도 현황 페이지 개선 및 컴포넌트 구조 정리" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 혼잡도 현황 페이지 개선 및 컴포넌트 구조 정리" />
+    <MESSAGE value="[ADD] DataGrid 혼잡도 표시 및 Drawer 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] DataGrid 혼잡도 표시 및 Drawer 수정" />
   </component>
 </project>
