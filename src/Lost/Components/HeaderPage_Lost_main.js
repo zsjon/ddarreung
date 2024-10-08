@@ -6,7 +6,7 @@ const HeaderPage_Lost_main = ({ parkName, onTitleClick }) => {
             <button className='to-main-menu' onClick={onTitleClick} style={{ cursor: 'pointer' }}>
                 <IoListOutline size="48" />
             </button>
-            <h1 className='title-website'>공원별 유실물 현황</h1>
+            <h1 className='title-website'>공원별 유실 따릉이 현황</h1>
         </div>
     );
 };

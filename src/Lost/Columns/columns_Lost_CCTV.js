@@ -13,12 +13,12 @@ export const columns_Lost_CCTV = [
     },
     {
         field: 'foundLost',
-        headerName: '유실물 개수',
+        headerName: '유실 따릉이 수',
         flex: 1
     },
     {
         field: 'lastFoundTime',
-        headerName: '유실물 최종 감지 시각',
+        headerName: '유실 따릉이 최종 감지 시각',
         flex: 1
     },
 ];

@@ -6,7 +6,7 @@ const HeaderPage_Lost_selected = ({ parkName, suspiciousItemCount, lostItemCount
             <button className='to-main-menu' onClick={onTitleClick} style={{ cursor: 'pointer' }}>
                 <IoListOutline size="48" />
             </button>
-            <h1 className='title-website'>{parkName} 유실물 현황</h1>
+            <h1 className='title-website'>{parkName} 유실 따릉이 현황</h1>
             <h1 className='lost-item-count'>의심:{suspiciousItemCount} 분실:{lostItemCount}</h1>
             <select className='button' onChange={onParkChange} value={parkName}>
                 <option value="">공원 선택</option>

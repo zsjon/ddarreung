@@ -7,7 +7,7 @@ import ImageIcon from '@mui/icons-material/Image';
 export const columns_Lost_Drawer = (handleImageClick, handleRetrieve, handleReportBug) => [
     {
         field: "id",
-        headerName: "유실물 ID",
+        headerName: "유실 따릉이 ID",
         flex: 2,
     },
     {

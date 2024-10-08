@@ -5,14 +5,14 @@ import { calculateDistance } from '../../utils/calculateDistance'; // 거리 계
 import parkData from "../../parkList.json"; // 공원 데이터
 import ParkListTable_Congestion from '../Components/parkListTable_Congestion';
 import HeaderPage_Congestion_main from "../Components/HeaderPage_Congestion_main";
-import {useNavigate} from "react-router-dom"; // 공원 리스트 테이블
+import { useNavigate } from "react-router-dom"; // 공원 리스트 테이블
 
 const MainPage_congestion = () => {
-    const [cctvRows, setCctvRows] = useState([]);
-    const [filteredParkRows, setFilteredParkRows] = useState([]);
+    const [cctvRows, setCctvRows] = useState([]); // CCTV 데이터 상태
+    const [filteredParkRows, setFilteredParkRows] = useState([]); // 공원 데이터 상태
     const navigate = useNavigate(); // useNavigate 훅 사용
 
-    // CCTV 데이터를 불러오는 함수
+    // Firebase에서 CCTV 데이터를 불러오는 함수
     const fetchCCTVData = async () => {
         try {
             const querySnapshot = await getDocs(collection(db, "seoul-cctv"));
@@ -53,7 +53,7 @@ const MainPage_congestion = () => {
     // 공원 데이터와 CCTV 데이터를 매칭하고 모든 공원을 표시하는 함수
     useEffect(() => {
         const fetchData = async () => {
-            await fetchCCTVData();
+            await fetchCCTVData(); // CCTV 데이터 먼저 불러오기
 
             const parksWithCCTV = parkData.DATA.map((park) => {
                 const matchingCCTVs = cctvRows.filter(cctv => {
@@ -87,7 +87,7 @@ const MainPage_congestion = () => {
     }, [cctvRows]); // CCTV 데이터가 변경될 때마다 실행
 
     const handleTitleClick = () => {    // 메인 페이지로 이동
-        navigate("/");
+        navigate("/"); // 메인 페이지로 이동
     };
 
     return (

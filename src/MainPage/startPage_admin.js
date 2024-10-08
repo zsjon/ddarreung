@@ -24,7 +24,7 @@ const StartPage_admin = () => {
                     className="admin-btn-lost"
                     onClick={() => handleNavigate('/park-lost')}
                 >
-                    유실물 파악
+                    유실 따릉이 파악
                 </button>
 
                 {/* 혼잡도 파악 버튼 */}

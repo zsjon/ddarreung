@@ -4,18 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 공원 검색 기능 추가">
-      <change afterPath="$PROJECT_DIR$/src/Congestion/Components/HeaderPage_Congestion_main.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Lost/Components/HeaderPage_Lost_main.js" afterDir="false" />
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 좌상단 버튼 기능 변화">
+      <change afterPath="$PROJECT_DIR$/public/parkImage/seoulsoop.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/parkImage/seoulsoop_cctv0003.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/parkImage/yeouido.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/parkImage/yeouido_cctv0001.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/ChartData.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Congestion/Components/HeaderPage_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Components/HeaderPage_Congestion_selected.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Congestion/Components/parkListTable_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Components/parkListTable_Congestion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Congestion/Page/mainPage_congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Page/mainPage_congestion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Congestion/Page/selected_park_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Page/selected_park_Congestion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Lost/Components/HeaderPage_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/HeaderPage_Lost_selected.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lost/Columns/columns_Lost_CCTV.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Columns/columns_Lost_CCTV.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lost/Columns/columns_Lost_Drawer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Columns/columns_Lost_Drawer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lost/Columns/columns_Lost_Park.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Columns/columns_Lost_Park.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lost/Components/HeaderPage_Lost_main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/HeaderPage_Lost_main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lost/Components/HeaderPage_Lost_selected.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/HeaderPage_Lost_selected.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Lost/Page/mainPage_lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Page/mainPage_lost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Lost/Page/selected_park_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Page/selected_park_Lost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MainPage/startPage_admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/MainPage/startPage_admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,11 +79,11 @@
       <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\public" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\public\parkImage" />
       <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\public" />
       <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\src\utils" />
       <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\src\Lost\Page" />
       <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\src\Congestion\Page" />
-      <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\src\MainPage" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -131,7 +140,8 @@
       <workItem from="1728270864907" duration="26998000" />
       <workItem from="1728308492543" duration="7270000" />
       <workItem from="1728353921179" duration="3515000" />
-      <workItem from="1728363627598" duration="3334000" />
+      <workItem from="1728363627598" duration="3463000" />
+      <workItem from="1728379999790" duration="24368000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -285,7 +295,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728357606576</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="[ADD] 좌상단 버튼 기능 변화">
+      <option name="closed" value="true" />
+      <created>1728367037745</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1728367037745</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -321,6 +339,7 @@
     <MESSAGE value="[ADD] 혼잡도 현황 페이지 개선 및 컴포넌트 구조 정리" />
     <MESSAGE value="[ADD] DataGrid 혼잡도 표시 및 Drawer 수정" />
     <MESSAGE value="[ADD] 공원 검색 기능 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 공원 검색 기능 추가" />
+    <MESSAGE value="[ADD] 좌상단 버튼 기능 변화" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 좌상단 버튼 기능 변화" />
   </component>
 </project>

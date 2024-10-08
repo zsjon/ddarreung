@@ -22,7 +22,7 @@ export const columns_Lost_Park = [
     },
     {
         field: 'cctvCount',
-        headerName: '유실물 발견 CCTV 대수',
+        headerName: '유실 따릉이 발견 CCTV 대수',
         width: 200,
     },
 ];
