@@ -1,6 +1,6 @@
 import {IoListOutline} from "react-icons/io5";
 // selected_park 페이지의 헤더 부분 컴포넌트
-const HeaderPage_Lost = ({ parkName, suspiciousItemCount, lostItemCount, filteredParkOptions, onParkChange, onTitleClick }) => {
+const HeaderPage_Lost_selected = ({ parkName, suspiciousItemCount, lostItemCount, filteredParkOptions, onParkChange, onTitleClick }) => {
     return (
         <div className='header-website'>
             <button className='to-main-menu' onClick={onTitleClick} style={{ cursor: 'pointer' }}>
@@ -18,4 +18,4 @@ const HeaderPage_Lost = ({ parkName, suspiciousItemCount, lostItemCount, filtere
     );
 };
 
-export default HeaderPage_Lost;
+export default HeaderPage_Lost_selected;

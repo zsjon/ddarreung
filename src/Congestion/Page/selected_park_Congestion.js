@@ -7,7 +7,7 @@ import parkData from "../../parkList.json"; // 공원 데이터
 import ImageModal from "../../utils/ImageModal";
 import NaverMap from "../../utils/NaverMap";
 import '../../App.css';
-import HeaderPage_Congestion from "../Components/HeaderPage_Congestion";
+import HeaderPage_Congestion_selected from "../Components/HeaderPage_Congestion_selected";
 import CCTVDrawer_Congestion from "../Components/Drawer_Congestion";
 import CctvTable_Congestion from "../Components/cctvTable_Congestion";
 
@@ -277,7 +277,7 @@ const Selected_park_Congestion = () => {
     };
 
     const handleTitleClick = () => {    // 메인 페이지로 이동
-        navigate("/");
+        navigate("/park-congestion");
     };
 
     const handleCloseDrawer = () => {
@@ -290,7 +290,7 @@ const Selected_park_Congestion = () => {
 
     return (
         <div className={`main-content ${drawerOpen ? 'drawer-open' : ''}`}> {/* Drawer가 열리면 화면이 밀림 */}
-            <HeaderPage_Congestion
+            <HeaderPage_Congestion_selected
                 parkName={parkName}
                 filteredParkOptions={allParkOptions}
                 onParkChange={handleParkChange}

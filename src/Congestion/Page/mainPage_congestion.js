@@ -3,11 +3,14 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from '../../utils/firebase'; // Firebase 연결 파일
 import { calculateDistance } from '../../utils/calculateDistance'; // 거리 계산 유틸리티 함수
 import parkData from "../../parkList.json"; // 공원 데이터
-import ParkListTable_Congestion from '../Components/parkListTable_Congestion'; // 공원 리스트 테이블
+import ParkListTable_Congestion from '../Components/parkListTable_Congestion';
+import HeaderPage_Congestion_main from "../Components/HeaderPage_Congestion_main";
+import {useNavigate} from "react-router-dom"; // 공원 리스트 테이블
 
 const MainPage_congestion = () => {
     const [cctvRows, setCctvRows] = useState([]);
     const [filteredParkRows, setFilteredParkRows] = useState([]);
+    const navigate = useNavigate(); // useNavigate 훅 사용
 
     // CCTV 데이터를 불러오는 함수
     const fetchCCTVData = async () => {
@@ -83,11 +86,13 @@ const MainPage_congestion = () => {
         fetchData();
     }, [cctvRows]); // CCTV 데이터가 변경될 때마다 실행
 
+    const handleTitleClick = () => {    // 메인 페이지로 이동
+        navigate("/");
+    };
+
     return (
         <React.Fragment>
-            <div className='header-website'>
-                <h1 className='main-title-website'>공원 목록 (혼잡도 순)</h1>
-            </div>
+            <HeaderPage_Congestion_main onTitleClick={handleTitleClick}/>
             <ParkListTable_Congestion filteredParkRows={filteredParkRows} /> {/* 공원 리스트 컴포넌트 */}
         </React.Fragment>
     );

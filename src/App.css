@@ -67,6 +67,22 @@
   flex-wrap: nowrap; /* 요소들이 줄바꿈되지 않도록 설정 */
 }
 
+.header-website-main {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  border-width: 0px 0px 3px;
+  border-style: solid;
+  border-color: #aaa;
+  flex-wrap: nowrap; /* 요소들이 줄바꿈되지 않도록 설정 */
+}
+
+/* 헤더 공원 선택창 */
+.header-option {
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
 /* 메인메뉴로 돌아가는 버튼 css */
 .to-main-menu {
   border-radius: 5px;

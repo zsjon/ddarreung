@@ -10,7 +10,7 @@ const ParkListTable_Congestion = ({ filteredParkRows }) => {
     const handleParkNameClick = (params) => {
         if (params.field === 'p_park') {
             const parkName = params.row.p_park;
-            navigate(`/park-Congestion/${encodeURIComponent(parkName)}`); // 공원 이름을 URL에 포함하여 이동
+            navigate(`/park-Congestion/${encodeURIComponent(parkName)}`); // 공원 이름을 URL에 포함하여 이동.
         }
     };
     return (

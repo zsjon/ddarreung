@@ -127,11 +127,14 @@ import React, { useEffect, useState } from 'react';
 import { fetchCCTVData } from '../../utils/fetchCCTVData'; // CCTV 데이터를 가져오는 함수
 import { calculateDistance } from '../../utils/calculateDistance'; // 거리 계산 유틸리티 함수
 import parkData from "../../parkList.json"; // 공원 데이터
-import ParkListTable_Lost from '../Components/parkListTable_Lost'; // 공원 리스트 테이블
+import ParkListTable_Lost from '../Components/parkListTable_Lost';
+import HeaderPage_Lost_main from "../Components/HeaderPage_Lost_main";
+import {useNavigate} from "react-router-dom"; // 공원 리스트 테이블
 
 const MainPage_lost = () => {
     const [cctvRows, setCctvRows] = useState([]);
     const [filteredParkRows, setFilteredParkRows] = useState([]);
+    const navigate = useNavigate();
 
     // 날짜 및 시간 형식을 변환하는 함수
     const formatFoundTime = (timestamp) => {
@@ -176,11 +179,13 @@ const MainPage_lost = () => {
         setFilteredParkRows(sortedParks);
     }, [cctvRows]);
 
+    const handleTitleClick = () => {    // 메인 페이지로 이동
+        navigate("/");
+    };
+
     return (
         <React.Fragment>
-            <div className='header-website'>
-                <h1 className='main-title-website'>공원 목록 (CCTV 수가 많은 순)</h1>
-            </div>
+            <HeaderPage_Lost_main onTitleClick={handleTitleClick}/>
             <ParkListTable_Lost filteredParkRows={filteredParkRows} /> {/* 공원 리스트 컴포넌트 */}
         </React.Fragment>
     );

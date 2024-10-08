@@ -10,7 +10,7 @@ import { db } from "../../utils/firebase";
 import parkData from "../../parkList.json"; // 공원 데이터
 // import { IoListOutline } from "react-icons/io5";
 import ImageModal from "../../utils/ImageModal";
-import HeaderPage_Lost from "../Components/HeaderPage_Lost";
+import HeaderPage_Lost_selected from "../Components/HeaderPage_Lost_selected";
 import NaverMap from "../../utils/NaverMap";
 import CctvTable_Lost from "../Components/cctvTable_Lost";
 import CCTVDrawer from "../Components/Drawer_Lost"; // 아이콘
@@ -497,7 +497,7 @@ const Selected_park_Lost = () => {
     };
 
     const handleTitleClick = () => {    // 메인 페이지로 이동
-        navigate('/');
+        navigate('/park-lost');
     };
 
     const handleImageClick = (imageURL) => {
@@ -518,7 +518,7 @@ const Selected_park_Lost = () => {
 
     return (
         <div className={`main-content ${drawerOpen ? 'drawer-open' : ''}`}> {/* Drawer가 열리면 화면이 밀림 */}
-            <HeaderPage_Lost
+            <HeaderPage_Lost_selected
                 parkName={parkName}
                 suspiciousItemCount={suspiciousItemCount}
                 lostItemCount={lostItemCount}
