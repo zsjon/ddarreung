@@ -5,7 +5,7 @@ import ReactPlayer from "react-player";
 import FanShapeCanvas from "../../utils/FanShapeCanvas"; // 부채꼴 애니메이션 컴포넌트 추가
 import { useState } from 'react';
 
-const recUrl = "http://192.168.1.38:8000/stream.mjpg";
+const recUrl = "http://192.168.1.26:8000/stream.mjpg";
 
 const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve, onReportBug, bikeRows, onImageClick }) => {
     const [modalOpen, setModalOpen] = useState(false); // 모달 창 열림 상태 관리
@@ -39,7 +39,7 @@ const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve
                             <img
                                 src={recUrl}  // 각 CCTV의 streamURL을 사용하여 실시간 스트리밍
                                 alt="Live CCTV Stream"
-                                style={{ width: '50%', height: 'auto' }}
+                                style={{ width: '100%', height: 'auto', alignItems: 'center' }}
                             />
                         </Box>
 

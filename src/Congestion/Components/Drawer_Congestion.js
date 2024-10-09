@@ -5,7 +5,7 @@ import ChartData from "../../utils/ChartData";
 import FanShapeCanvas from "../../utils/FanShapeCanvas";
 import {useState} from "react"; // 차트 컴포넌트를 불러옵니다.
 
-
+const recURl = "http://192.168.1.38:8000/stream.mjpg";
 
 const CCTVDrawer_Congestion = ({ open, selectedRow, onClose }) => {
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
@@ -30,13 +30,17 @@ const CCTVDrawer_Congestion = ({ open, selectedRow, onClose }) => {
 
                     {/* 실시간 영상 스트리밍 */}
                     <Box>
-                        <ReactPlayer
-                            url={process.env.PUBLIC_URL + "/peopleREC.mp4"}
-                            playing={true}
-                            muted={true}
-                            controls={false}
-                            loop={false}
-                        />
+                        {/*<ReactPlayer*/}
+                        {/*    // url={process.env.PUBLIC_URL + "/seoulcongestion_long.mp4"}*/}
+                        {/*    playing={true}*/}
+                        {/*    muted={true}*/}
+                        {/*    controls={false}*/}
+                        {/*    loop={false}*/}
+                        {/*/>*/}
+                        <img src={recURl}
+                             alt="Live streaming"
+                             style={{ width: '50%', height: 'auto' }}
+                             />
                     </Box>
 
                     <p>{selectedRow.cctvAddress}</p>
@@ -74,7 +78,7 @@ const CCTVDrawer_Congestion = ({ open, selectedRow, onClose }) => {
             <Box position="relative" width="100%" height="100%">
                 <img
                     alt="drawer image"
-                    src={process.env.PUBLIC_URL + '/parkImage/seoulsoop_cctv0003.png'} // 로컬 이미지 사용
+                    src={process.env.PUBLIC_URL + '/parkImage/seoulsoop_cctv0003pic.png'} // 로컬 이미지 사용
                     style={{ width: '100%', height: 'auto' }}
                 />
                 <Box position="absolute" top="0" left="0" width="100%" height="100%">
