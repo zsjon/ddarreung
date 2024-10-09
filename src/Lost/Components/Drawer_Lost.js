@@ -82,7 +82,7 @@ const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve
                     >
                         <img
                             alt="drawer image"
-                            src={process.env.PUBLIC_URL + '/parkImage/seoulsoop_cctv0003pic.png'}
+                            src={process.env.PUBLIC_URL + '/parkImage/Seoulsoop_cctv0003pic.png'}
                             style={{ width: '100%', height: '100%' }}
                         />
 
