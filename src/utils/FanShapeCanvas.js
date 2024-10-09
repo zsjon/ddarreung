@@ -7,9 +7,9 @@ const FanShapeCanvas = () => {
 
     // 부채꼴 그리기 함수
     const drawFan = (ctx, angle) => {
-        const x = ctx.canvas.width / 2 - 4; // 중심점 x (이미지의 중심에 맞춤)
-        const y = ctx.canvas.height / 2 - 3; // 중심점 y
-        const radius = Math.min(x, y) - 120; // 반지름 설정, 경계로부터 여유 공간을 줌
+        const x = ctx.canvas.width / 2 + 8; // 중심점 x (이미지의 중심에 맞춤)
+        const y = ctx.canvas.height / 2 - 6; // 중심점 y
+        const radius = Math.min(x, y) - 100; // 반지름 설정, 경계로부터 여유 공간을 줌
 
         // 부채꼴 그리기
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // 캔버스 초기화
@@ -31,7 +31,7 @@ const FanShapeCanvas = () => {
         const render = () => {
             drawFan(ctx, angle); // 부채꼴을 그린다
             setAngle((prevAngle) => {
-                let newAngle = prevAngle + direction * 0.001; // 각도를 더 느리게 0.5도씩 변화
+                let newAngle = prevAngle + direction * 0.005; // 각도를 더 느리게 0.5도씩 변화
                 // 90도 또는 -90도에 도달하면 방향을 바꿈
                 if (newAngle >= 90 || newAngle <= -90) {
                     setDirection(direction * -1); // 방향 전환

@@ -42,19 +42,19 @@ const Selected_park_Congestion = () => {
     const [allParkOptions, setAllParkOptions] = useState([]);
 
     // 부채꼴을 그리는 함수
-    const drawArc = (center, radius, startAngle, endAngle) => {
-        const points = [];
-        const angleStep = (endAngle - startAngle) / 100;
-
-        for (let angle = startAngle; angle <= endAngle; angle += angleStep) {
-            const radian = angle * (Math.PI / 180);
-            const x = center.lng() + radius * Math.cos(radian) / 6378137 * (180 / Math.PI) / Math.cos(center.lat() * Math.PI / 180);
-            const y = center.lat() + radius * Math.sin(radian) / 6378137 * (180 / Math.PI);
-            points.push(new window.naver.maps.LatLng(y, x));
-        }
-
-        return points;
-    };
+    // const drawArc = (center, radius, startAngle, endAngle) => {
+    //     const points = [];
+    //     const angleStep = (endAngle - startAngle) / 100;
+    //
+    //     for (let angle = startAngle; angle <= endAngle; angle += angleStep) {
+    //         const radian = angle * (Math.PI / 180);
+    //         const x = center.lng() + radius * Math.cos(radian) / 6378137 * (180 / Math.PI) / Math.cos(center.lat() * Math.PI / 180);
+    //         const y = center.lat() + radius * Math.sin(radian) / 6378137 * (180 / Math.PI);
+    //         points.push(new window.naver.maps.LatLng(y, x));
+    //     }
+    //
+    //     return points;
+    // };
 
     useEffect(() => {
         // parkData.json에서 모든 공원 목록을 설정
@@ -70,17 +70,19 @@ const Selected_park_Congestion = () => {
                     querySnapshot.docs.map(async (doc) => {
                         const data = doc.data();
                         const congCollection = await getDocs(collection(db, `seoul-cctv/${doc.id}/people-congestion`));
-                        let pplCnt = 0;
+
+                        let averagePeopleCount = 0;
                         let congestionLevel = "원활"; // 기본값을 '원활'로 설정
 
                         if (!congCollection.empty) {
-                            const latestCongDoc = congCollection.docs[0]; // 가장 최근의 혼잡도 문서
-                            pplCnt = parseInt(latestCongDoc.data().pplCnt, 10);
+                            // 가장 최근 문서 찾기
+                            const latestCongDoc = congCollection.docs[congCollection.docs.length - 1]; // 가장 마지막 문서가 가장 최근
+                            averagePeopleCount = parseFloat(latestCongDoc.data().average_people_count); // average_people_count 사용
 
-                            // 혼잡도 계산
-                            if (pplCnt >= 10) {
+                            // 혼잡도 계산: average_people_count 값에 따라 변경
+                            if (averagePeopleCount >= 25) {
                                 congestionLevel = "혼잡";
-                            } else if (pplCnt >= 5) {
+                            } else if (averagePeopleCount >= 10) {
                                 congestionLevel = "보통";
                             }
                         }
@@ -103,7 +105,7 @@ const Selected_park_Congestion = () => {
                             cctvAddress: address,
                             fixed: fixed,
                             congStreamURL: data.conStreamURL,
-                            pplCnt: pplCnt,  // 추가: 감지된 사람 수
+                            averagePeopleCount: averagePeopleCount,  // 추가: 감지된 사람 수
                             congestionLevel: congestionLevel // 추가: 계산된 혼잡도
                         };
                     })
@@ -138,6 +140,7 @@ const Selected_park_Congestion = () => {
         };
         fetchCCTVData();
     }, [parkName]);
+
 
 
     useEffect(() => {
@@ -241,27 +244,27 @@ const Selected_park_Congestion = () => {
             map.setCenter(location);
             map.setZoom(18);
 
-            if (circle) {
-                circle.setMap(null);
-            }
+            // if (circle) {
+            //     circle.setMap(null);
+            // }
+            //
+            // const startAngle = currentAngle[row.id];
+            // const endAngle = row.fixed ? startAngle + 66 : startAngle + 180;
+            // const radius = 50;
 
-            const startAngle = currentAngle[row.id];
-            const endAngle = row.fixed ? startAngle + 66 : startAngle + 180;
-            const radius = 50;
+            // const arcPoints = drawArc(location, radius, startAngle, endAngle);
 
-            const arcPoints = drawArc(location, radius, startAngle, endAngle);
-
-            const newCircle = new window.naver.maps.Polygon({
-                map: map,
-                paths: [location, ...arcPoints, location],
-                strokeColor: '#5347AA',
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: '#E5E5FF',
-                fillOpacity: 0.5,
-            });
-
-            setCircle(newCircle);
+            // const newCircle = new window.naver.maps.Polygon({
+            //     map: map,
+            //     paths: [location, ...arcPoints, location],
+            //     strokeColor: '#5347AA',
+            //     strokeOpacity: 0.8,
+            //     strokeWeight: 2,
+            //     fillColor: '#E5E5FF',
+            //     fillOpacity: 0.5,
+            // });
+            //
+            // setCircle(newCircle);
 
             setSelectedRow(row);
             setSelectedImage(row.imageURL);

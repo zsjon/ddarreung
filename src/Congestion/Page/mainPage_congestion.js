@@ -20,17 +20,17 @@ const MainPage_congestion = () => {
                 querySnapshot.docs.map(async (doc) => {
                     const data = doc.data();
                     const congCollection = await getDocs(collection(db, `seoul-cctv/${doc.id}/people-congestion`));
-                    let pplCnt = 0;
+                    let average_people_count = 0;
                     let congestionLevel = "원활"; // 기본값을 '원활'로 설정
 
                     if (!congCollection.empty) {
-                        const latestCongDoc = congCollection.docs[0]; // 가장 최근의 혼잡도 문서
-                        pplCnt = parseInt(latestCongDoc.data().pplCnt, 10);
+                        const latestCongDoc = congCollection.docs[congCollection.docs.length - 1]; // 가장 최근의 혼잡도 문서
+                        average_people_count = parseFloat(latestCongDoc.data().average_people_count);
 
-                        // 혼잡도 계산
-                        if (pplCnt >= 10) {
+                        // 혼잡도 계산 기준 변경
+                        if (average_people_count >= 25) {
                             congestionLevel = "혼잡";
-                        } else if (pplCnt >= 5) {
+                        } else if (average_people_count >= 10) {
                             congestionLevel = "보통";
                         }
                     }
@@ -39,7 +39,7 @@ const MainPage_congestion = () => {
                         id: data.id,
                         cctvLat: data.lat,
                         cctvLon: data.lon,
-                        pplCnt: pplCnt, // 추가: 감지된 사람 수
+                        average_people_count: average_people_count, // 추가: 감지된 사람 수
                         congestionLevel: congestionLevel // 추가: 계산된 혼잡도
                     };
                 })
@@ -92,7 +92,7 @@ const MainPage_congestion = () => {
 
     return (
         <React.Fragment>
-            <HeaderPage_Congestion_main onTitleClick={handleTitleClick}/>
+            <HeaderPage_Congestion_main onTitleClick={handleTitleClick} />
             <ParkListTable_Congestion filteredParkRows={filteredParkRows} /> {/* 공원 리스트 컴포넌트 */}
         </React.Fragment>
     );

@@ -4,10 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 혼잡도 그래프 및 cctv기반 회전 조정">
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] CCTV 회전 모달창 구현 및 영상 링크 수정">
+      <change afterPath="$PROJECT_DIR$/public/parkImage/Seoulsoop_cctv0003pic.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/parkImage/seoulsoop.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/parkImage/yeouido.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Congestion/Page/mainPage_congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Page/mainPage_congestion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Congestion/Page/selected_park_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Page/selected_park_Congestion.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lost/Page/selected_park_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Page/selected_park_Lost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/ChartData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ChartData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -125,7 +132,8 @@
       <workItem from="1728308492543" duration="7270000" />
       <workItem from="1728353921179" duration="3515000" />
       <workItem from="1728363627598" duration="3463000" />
-      <workItem from="1728379999790" duration="32783000" />
+      <workItem from="1728379999790" duration="33205000" />
+      <workItem from="1728445095025" duration="6579000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -295,7 +303,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728413586907</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="[ADD] CCTV 회전 모달창 구현 및 영상 링크 수정">
+      <option name="closed" value="true" />
+      <created>1728427996891</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1728427996891</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -333,6 +349,7 @@
     <MESSAGE value="[ADD] 공원 검색 기능 추가" />
     <MESSAGE value="[ADD] 좌상단 버튼 기능 변화" />
     <MESSAGE value="[ADD] 혼잡도 그래프 및 cctv기반 회전 조정" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 혼잡도 그래프 및 cctv기반 회전 조정" />
+    <MESSAGE value="[ADD] CCTV 회전 모달창 구현 및 영상 링크 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] CCTV 회전 모달창 구현 및 영상 링크 수정" />
   </component>
 </project>

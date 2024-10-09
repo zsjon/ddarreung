@@ -24,9 +24,12 @@ const ChartData = ({ cctvId }) => {
             querySnapshot.forEach((doc) => {
                 const docData = doc.data();
                 const averagePeopleCount = Math.floor(docData.average_people_count); // 소수점 앞 부분만 가져오기
-                const timestamp = docData.timestamp.slice(0, 12); // 연/월/일/시/분까지만 슬라이스
 
-                labels.push(timestamp); // 타임스탬프를 레이블로 사용
+                // timestamp를 "241008224149"에서 "24/10/08 22:41:49" 형태로 변환
+                const timestamp = docData.timestamp;
+                const formattedTimestamp = `${timestamp.slice(0, 2)}/${timestamp.slice(2, 4)}/${timestamp.slice(4, 6)} ${timestamp.slice(6, 8)}:${timestamp.slice(8, 10)}:${timestamp.slice(10, 12)}`;
+
+                labels.push(formattedTimestamp); // 포맷된 타임스탬프를 레이블로 사용
                 data.push(averagePeopleCount); // 소수점 앞 자리 수를 데이터로 사용
             });
 

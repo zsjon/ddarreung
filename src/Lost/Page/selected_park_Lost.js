@@ -62,19 +62,19 @@ const Selected_park_Lost = () => {
     };
 
     // 부채꼴을 그리는 함수
-    const drawArc = (center, radius, startAngle, endAngle) => {
-        const points = [];
-        const angleStep = (endAngle - startAngle) / 100;
-
-        for (let angle = startAngle; angle <= endAngle; angle += angleStep) {
-            const radian = angle * (Math.PI / 180);
-            const x = center.lng() + radius * Math.cos(radian) / 6378137 * (180 / Math.PI) / Math.cos(center.lat() * Math.PI / 180);
-            const y = center.lat() + radius * Math.sin(radian) / 6378137 * (180 / Math.PI);
-            points.push(new window.naver.maps.LatLng(y, x));
-        }
-
-        return points;
-    };
+    // const drawArc = (center, radius, startAngle, endAngle) => {
+    //     const points = [];
+    //     const angleStep = (endAngle - startAngle) / 100;
+    //
+    //     for (let angle = startAngle; angle <= endAngle; angle += angleStep) {
+    //         const radian = angle * (Math.PI / 180);
+    //         const x = center.lng() + radius * Math.cos(radian) / 6378137 * (180 / Math.PI) / Math.cos(center.lat() * Math.PI / 180);
+    //         const y = center.lat() + radius * Math.sin(radian) / 6378137 * (180 / Math.PI);
+    //         points.push(new window.naver.maps.LatLng(y, x));
+    //     }
+    //
+    //     return points;
+    // };
 
     // CCTV 데이터 불러오기
     useEffect(() => {
@@ -183,36 +183,33 @@ const Selected_park_Lost = () => {
             });
 
             // 유실물이 0이면 해당 CCTV 제거
-            setCctvRows((prevCctvRows) =>
-                prevCctvRows.filter(cctv => {
+            setCctvRows((prevCctvRows) => {
+                const updatedRows = prevCctvRows.map((cctv) => {
                     if (cctv.id === selectedRow.id) {
                         const updatedBikeData = cctv.bikeData.filter(bike => bike.id !== rowId);
-                        if (updatedBikeData.length === 0) {
-                            return false;  // 유실물이 0이면 CCTV row를 제거
-                        }
                         return { ...cctv, bikeData: updatedBikeData };
                     }
                     return cctv;
-                })
-            );
+                }).filter(cctv => cctv.bikeData.length > 0); // 유실물이 0인 CCTV 제거
+                return updatedRows;
+            });
 
-            setVisibleCctvRows((prevVisibleCctvRows) =>
-                prevVisibleCctvRows.filter(cctv => {
+            // 지도 상에서 유실물 마커 제거
+            setBikeMarkers((prevMarkers) => prevMarkers.filter(marker => marker.title !== rowId));
+
+            // DataGrid 테이블 업데이트
+            setVisibleCctvRows((prevVisibleCctvRows) => {
+                const updatedRows = prevVisibleCctvRows.map((cctv) => {
                     if (cctv.id === selectedRow.id) {
                         const updatedBikeData = cctv.bikeData.filter(bike => bike.id !== rowId);
-                        if (updatedBikeData.length === 0) {
-                            return false;  // 유실물이 0이면 CCTV row를 제거
-                        }
                         return { ...cctv, bikeData: updatedBikeData };
                     }
                     return cctv;
-                })
-            );
+                }).filter(cctv => cctv.bikeData.length > 0); // 유실물이 없는 CCTV 제거
+                return updatedRows;
+            });
 
             setVisibleBikeRows((prevRows) => prevRows.filter((row) => row.id !== rowId));
-
-            // 선택된 CCTV 중심으로 지도 업데이트
-            setSelectedCctvLocation(selectedRow);
 
             alert("회수가 완료되었습니다.");
         } catch (error) {
@@ -220,6 +217,7 @@ const Selected_park_Lost = () => {
             alert("회수 중 오류가 발생했습니다.");
         }
     };
+
 
 // 오류 신고 처리
     const handleReportBug = async (rowId) => {
@@ -445,24 +443,24 @@ const Selected_park_Lost = () => {
             }
             bikeMarkers.forEach(marker => marker.setMap(null));
 
-            const startAngle = currentAngle[row.id];
-            const endAngle = startAngle + 180;
-
-            const radius = 50;
-
-            const arcPoints = drawArc(location, radius, startAngle, endAngle);
-
-            const newCircle = new window.naver.maps.Polygon({
-                map: map,
-                paths: [location, ...arcPoints, location],
-                strokeColor: '#5347AA',
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: '#E5E5FF',
-                fillOpacity: 0.5,
-            });
-
-            setCircle(newCircle);
+            // const startAngle = currentAngle[row.id];
+            // const endAngle = startAngle + 180;
+            //
+            // const radius = 50;
+            //
+            // const arcPoints = drawArc(location, radius, startAngle, endAngle);
+            //
+            // const newCircle = new window.naver.maps.Polygon({
+            //     map: map,
+            //     paths: [location, ...arcPoints, location],
+            //     strokeColor: '#5347AA',
+            //     strokeOpacity: 0.8,
+            //     strokeWeight: 2,
+            //     fillColor: '#E5E5FF',
+            //     fillOpacity: 0.5,
+            // });
+            //
+            // setCircle(newCircle);
 
             const newBikeMarkers = row.bikeData.map(bike => {
                 const isSingleDetection = bike.firstFoundTime === bike.lastFoundTime;
