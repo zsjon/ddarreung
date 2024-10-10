@@ -22,17 +22,21 @@ const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve
         <>
             <Drawer anchor='left' open={open} onClose={onClose}>
                 {selectedRow && (
-                    <Box p={2} width="660px" textAlign="center" position="relative">
-                        <Button onClick={onClose} variant="contained" color="primary" style={{ marginBottom: '10px' }}>
-                            닫기
-                        </Button>
-                        {/* 회전형 CCTV만 버튼 표시 */}
-                        {!selectedRow.fixed && (
-                            <Button onClick={handleOpenModal} variant="contained" color="secondary" style={{ marginBottom: '10px' }}>
-                                CCTV 범위 확인
+                    <Box p={1} width="660px" textAlign="center" position="relative">
+                        <Box display="flex" justifyContent="space-between">
+                            <Button onClick={onClose} variant="contained" color="primary" style={{ marginBottom: '10px' }}>
+                                닫기
                             </Button>
-                        )}
-                        <h2>{selectedRow.id}</h2>
+
+                            <h2>{selectedRow.id}</h2>
+
+                            {/* 회전형 CCTV만 버튼 표시 */}
+                            {!selectedRow.fixed && (
+                                <Button onClick={handleOpenModal} variant="contained" color="secondary" style={{ marginBottom: '10px' }}>
+                                    CCTV 범위 확인
+                                </Button>
+                            )}
+                        </Box>
 
                         {/* 실시간 영상 스트리밍 */}
                         <Box width="660px" display='flex' alignItems='center' position="relative">

@@ -19,14 +19,16 @@ const CCTVDrawer_Congestion = ({ open, selectedRow, onClose }) => {
             {selectedRow && (
                 <Box p={2} width="660px" textAlign="center">
                     <Box display="flex" justifyContent="space-between">
-                        <Button onClick={onClose} variant="contained" color="primary" style={{ marginBottom: '10px' }}>
-                            닫기
+                        <Button onClick={onClose} variant="contained" color="primary" style={{ marginBottom: '10px', marginRight: '70px' }}>
+                            닫기      
                         </Button>
+                        
+                        <h2>{selectedRow.id}</h2>
+
                         <Button onClick={handleModalOpen} variant="outlined" color="secondary" style={{ marginBottom: '10px' }}>
-                            CCTV 범위 확인
+                                CCTV 범위 확인
                         </Button>
                     </Box>
-                    <h2>{selectedRow.id}</h2>
 
                     {/* 실시간 영상 스트리밍 */}
                     <Box>
@@ -39,13 +41,14 @@ const CCTVDrawer_Congestion = ({ open, selectedRow, onClose }) => {
                         {/*/>*/}
                         <img src={recURl}
                              alt="Live streaming"
-                             style={{ width: '50%', height: 'auto' }}
+                             style={{ width: '60%', height: 'auto' }}
                              />
                     </Box>
 
                     <p>{selectedRow.cctvAddress}</p>
 
-                    <Box marginBottom="50px">
+                    <Box margin="8px">
+
                         {/* selectedRow에 포함된 혼잡도(congestionLevel) 값을 표시 */}
                         <h1>구역 혼잡도: {selectedRow.congestionLevel}</h1>
                     </Box>
