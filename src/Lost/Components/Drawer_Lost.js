@@ -75,7 +75,7 @@ const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve
 
                         <p>{selectedRow.cctvAddress}</p>
 
-                        <Button onClick={refreshBikeData} variant="contained" color="secondary" style={{ marginBottom: '10px' }}>
+                        <Button onClick={refreshBikeData} variant="contained" color="warning" style={{ marginTop : '15px', marginBottom : '15px', marginLeft : '-30px' }}>
                             정보 업데이트
                         </Button>
 

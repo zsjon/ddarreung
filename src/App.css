@@ -188,7 +188,7 @@ body {
 /* Styling for the logo */
 .admin-logo {
   margin: 50px 0px;
-  width: 200px;
+  width: 330px;
 }
 
 /* Placeholder color for input fields */
@@ -197,7 +197,7 @@ body {
 }
 
 .admin-title {
-  margin-top: -30px;
+  margin-top: -60px;
 }
 
 /* Admin page buttons: 유실물 파악 버튼 스타일 */

@@ -18,8 +18,8 @@ const FanShapeCanvas = ({ angle, isFixed }) => { // isFixed prop 추가
         ctx.arc(
             x, y,
             radius,
-            (Math.PI * (baseAngle - 90)) / 180, // baseAngle - 90도부터 시작
-            (Math.PI * (baseAngle + 90)) / 180  // baseAngle + 90도까지 그리기
+            (Math.PI * (baseAngle - 90)) / 420, // baseAngle - 90도부터 시작
+            (Math.PI * (baseAngle + 90)) / 420  // baseAngle + 90도까지 그리기
         );
         ctx.lineTo(x, y); // 중심으로 선 그리기
         ctx.fillStyle = 'rgba(255, 0, 0, 0.3)'; // 반투명 빨간색
@@ -37,7 +37,7 @@ const FanShapeCanvas = ({ angle, isFixed }) => { // isFixed prop 추가
             const render = () => {
                 drawFan(ctx, currentAngle); // 부채꼴을 그린다
                 setCurrentAngle((prevAngle) => {
-                    let newAngle = prevAngle + direction * 0.0005; // 각도를 0.5도씩 변화
+                    let newAngle = prevAngle + direction * 0.005; // 각도를 0.5도씩 변화
                     // ±90도 범위를 넘으면 회전 방향을 반대로 바꿈
                     if (newAngle >= angle + 90 || newAngle <= angle - 90) {
                         setDirection(direction * -1); // 방향 전환
