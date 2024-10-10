@@ -4,16 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] font css url 수정">
-      <change afterPath="$PROJECT_DIR$/public/parkImage/cctv-0002.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/parkImage/cctv-0004.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/parkImage/cctv-0006.png" afterDir="false" />
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 각 CCTV별 범위 구현 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/parkImage/Seoulsoop_cctv0003pic.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/parkImage/cctv-0003.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/parkImage/yeouido_cctv0001.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/parkImage/cctv-0001.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Congestion/Components/peopleCountTable.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,25 +37,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/minse/Desktop/Gongmojeon/ddarreung/public/parkImage",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "settings.nodejs",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2024.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/minse/Desktop/Gongmojeon/ddarreung/public/parkImage&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.nodejs&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2024.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\public\parkImage" />
@@ -136,7 +129,8 @@
       <workItem from="1728445095025" duration="6781000" />
       <workItem from="1728459203059" duration="2958000" />
       <workItem from="1728475957037" duration="3080000" />
-      <workItem from="1728518782693" duration="34998000" />
+      <workItem from="1728518782693" duration="35297000" />
+      <workItem from="1728560868962" duration="120000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -394,7 +388,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728554703802</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="[ADD] 각 CCTV별 범위 구현 수정">
+      <option name="closed" value="true" />
+      <created>1728560655485</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1728560655485</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -412,7 +414,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="[ADD] 시간별 각도별 CCTV 범위 변화 적용" />
     <MESSAGE value="[ADD] 데이터 삭제버튼 추가" />
     <MESSAGE value="[ADD] 감지 CCTV 내림차순 정렬 및 버그 신고 버튼 추가" />
     <MESSAGE value="[ADD] 회수버튼 클릭 시 프론트에서 사라지게 변경" />
@@ -437,6 +438,7 @@
     <MESSAGE value="[ADD] 고정형 CCTV 각도 설정" />
     <MESSAGE value="[ADD] CCTV 회전속도 조정" />
     <MESSAGE value="[ADD] font css url 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] font css url 수정" />
+    <MESSAGE value="[ADD] 각 CCTV별 범위 구현 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 각 CCTV별 범위 구현 수정" />
   </component>
 </project>

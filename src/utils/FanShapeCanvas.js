@@ -37,7 +37,7 @@ const FanShapeCanvas = ({ angle, isFixed }) => { // isFixed prop 추가
             const render = () => {
                 drawFan(ctx, currentAngle); // 부채꼴을 그린다
                 setCurrentAngle((prevAngle) => {
-                    let newAngle = prevAngle + direction * 0.001; // 각도를 0.5도씩 변화
+                    let newAngle = prevAngle + direction * 0.0005; // 각도를 0.5도씩 변화
                     // ±90도 범위를 넘으면 회전 방향을 반대로 바꿈
                     if (newAngle >= angle + 90 || newAngle <= angle - 90) {
                         setDirection(direction * -1); // 방향 전환
