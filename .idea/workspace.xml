@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 토글별 그래프 수정">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Lost/Page/selected_park_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Page/selected_park_Lost.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/ChartData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ChartData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" afterDir="false" />
-    </list>
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] CCTV별 각도 부여" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -131,7 +125,7 @@
       <workItem from="1728445095025" duration="6781000" />
       <workItem from="1728459203059" duration="2958000" />
       <workItem from="1728475957037" duration="3080000" />
-      <workItem from="1728518782693" duration="23214000" />
+      <workItem from="1728518782693" duration="23758000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -341,7 +335,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728533190044</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="[ADD] CCTV별 각도 부여">
+      <option name="closed" value="true" />
+      <created>1728548621178</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1728548621178</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -359,7 +361,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="[ADD] 최종발견시각 출력방식 변경" />
     <MESSAGE value="[ADD] 공원 API 목록 변경" />
     <MESSAGE value="[ADD] CCTV 범위 변경 및 발견 시각 기반 따릉이 구분" />
     <MESSAGE value="[ADD] 웹아이콘 추가" />
@@ -384,6 +385,7 @@
     <MESSAGE value="[ADD] 대소문자 변경 및 부채꼴 속도 조절" />
     <MESSAGE value="[ADD] 본선 전 최종 영상 처리" />
     <MESSAGE value="[ADD] 토글별 그래프 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 토글별 그래프 수정" />
+    <MESSAGE value="[ADD] CCTV별 각도 부여" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] CCTV별 각도 부여" />
   </component>
 </project>
