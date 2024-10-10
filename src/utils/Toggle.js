@@ -3,15 +3,15 @@ import styled from 'styled-components';
 
 const ToggleWrapper = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: center;
+  margin: 15px
 `;
 
 const ToggleLabel = styled.label`
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
-  margin-right: 10px;
+  width: 350px;
+  height: 60px;
 `;
 
 const ToggleInput = styled.input`
@@ -20,11 +20,11 @@ const ToggleInput = styled.input`
   height: 0;
   
   &:checked + span {
-    background-color: #4caf50;
+    background-color: #4BC0C0;
   }
   
   &:checked + span:before {
-    transform: translateX(26px);
+    transform: translateX(166px);
   }
 `;
 
@@ -34,26 +34,39 @@ const ToggleSlider = styled.span`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #C04BC0;
   border-radius: 34px;
   cursor: pointer;
   transition: 0.4s;
+  z-index: 2;
   
   &:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    width: 170px;
+    height: 46px;
+    left: 6px;
+    bottom: 7px;
     background-color: white;
-    border-radius: 50%;
+    border-radius: 34px;
     transition: 0.4s;
   }
 `;
 
-const ToggleText = styled.span`
-  font-size: 16px;
+const ToggleText1 = styled.span`
+  position: relative;
+  font-size: 20px;
+  top : 14px;
+  right : 28px;
+  z-index: 3;
+`;
+
+const ToggleText2 = styled.span`
+  position: relative;
+  font-size: 20px;
+  top : 14px;
+  left : 28px;
+  z-index: 3;
 `;
 
 const Toggle = ({ isChecked, onChange, labelOn, labelOff }) => {
@@ -62,8 +75,9 @@ const Toggle = ({ isChecked, onChange, labelOn, labelOff }) => {
             <ToggleLabel>
                 <ToggleInput type="checkbox" checked={isChecked} onChange={onChange} />
                 <ToggleSlider />
+                <ToggleText1>{labelOn}</ToggleText1>
+                <ToggleText2>{labelOff}</ToggleText2>
             </ToggleLabel>
-            <ToggleText>{isChecked ? labelOn : labelOff}</ToggleText>
         </ToggleWrapper>
     );
 };
