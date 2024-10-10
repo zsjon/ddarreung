@@ -14,6 +14,8 @@ const ChartData = ({ cctvId }) => {
     });
     const [isRealTime, setIsRealTime] = useState(true);  // 토글 상태 (실시간/시간별 트렌드)
 
+    const MAX_X_VALUES = 12;
+
     // 실시간 데이터를 가져오는 함수
     const fetchRealTimeData = async () => {
         if (!cctvId) return;
@@ -33,12 +35,15 @@ const ChartData = ({ cctvId }) => {
             data.push(averagePeopleCount);
         });
 
+        const limitedLabels = labels.slice(-MAX_X_VALUES);
+        const limitedData = data.slice(-MAX_X_VALUES);
+
         setChartData({
-            labels: labels,
+            labels: limitedLabels,
             datasets: [
                 {
                     label: "Average People Count",
-                    data: data,
+                    data: limitedData,
                     fill: true,
                     backgroundColor: "rgba(75,192,192,0.2)",
                     borderColor: "rgba(75,192,192,1)"
@@ -81,12 +86,15 @@ const ChartData = ({ cctvId }) => {
             data.push(average);
         });
 
+        const limitedLabels = labels.slice(-MAX_X_VALUES);
+        const limitedData = data.slice(-MAX_X_VALUES);
+
         setChartData({
-            labels: labels,
+            labels: limitedLabels,
             datasets: [
                 {
                     label: "Minute Average People Count",
-                    data: data,
+                    data: limitedData,
                     fill: true,
                     backgroundColor: "rgba(192, 75, 192, 0.2)",
                     borderColor: "rgba(192, 75, 192, 1)"

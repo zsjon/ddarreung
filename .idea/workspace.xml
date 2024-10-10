@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 각 CCTV별 범위 구현 수정">
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 각 CCTV 회전 속도 조절">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/ChartData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ChartData.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +130,7 @@
       <workItem from="1728459203059" duration="2958000" />
       <workItem from="1728475957037" duration="3080000" />
       <workItem from="1728518782693" duration="35297000" />
-      <workItem from="1728560868962" duration="120000" />
+      <workItem from="1728560868962" duration="3221000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -396,7 +396,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728560655485</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="[ADD] 각 CCTV 회전 속도 조절">
+      <option name="closed" value="true" />
+      <created>1728561025751</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1728561025751</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -414,7 +422,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="[ADD] 데이터 삭제버튼 추가" />
     <MESSAGE value="[ADD] 감지 CCTV 내림차순 정렬 및 버그 신고 버튼 추가" />
     <MESSAGE value="[ADD] 회수버튼 클릭 시 프론트에서 사라지게 변경" />
     <MESSAGE value="[Change] 라우팅 방식 HashRouter로 변경" />
@@ -439,6 +446,7 @@
     <MESSAGE value="[ADD] CCTV 회전속도 조정" />
     <MESSAGE value="[ADD] font css url 수정" />
     <MESSAGE value="[ADD] 각 CCTV별 범위 구현 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 각 CCTV별 범위 구현 수정" />
+    <MESSAGE value="[ADD] 각 CCTV 회전 속도 조절" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 각 CCTV 회전 속도 조절" />
   </component>
 </project>
