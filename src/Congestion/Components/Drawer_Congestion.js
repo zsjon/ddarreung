@@ -4,7 +4,7 @@ import FanShapeCanvas from "../../utils/FanShapeCanvas";
 import useCctvAngle from "../../utils/useCCTVAngle";
 import ChartData from "../../utils/ChartData"; // 커스텀 훅 가져오기
 
-const recUrl = "http://172.30.1.74:8000/stream.mjpg";
+const recUrl = "http://172.30.1.16:8000/stream.mjpg";
 
 const CCTVDrawer_Congestion = ({ open, selectedRow, onClose }) => {
     const { cctvAngle, modalOpen, handleOpenModal, handleCloseModal } = useCctvAngle(selectedRow, open); // 커스텀 훅 사용

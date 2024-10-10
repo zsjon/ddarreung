@@ -28,9 +28,9 @@ const MainPage_congestion = () => {
                         average_people_count = parseFloat(latestCongDoc.data().average_people_count);
 
                         // 혼잡도 계산 기준 변경
-                        if (average_people_count >= 25) {
+                        if (average_people_count >= 10) {
                             congestionLevel = "혼잡";
-                        } else if (average_people_count >= 10) {
+                        } else if (average_people_count >= 5) {
                             congestionLevel = "보통";
                         }
                     }
