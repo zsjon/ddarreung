@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 // import { DataGrid } from '@mui/x-data-grid';
 // import { Drawer, Modal, Button } from "@mui/material";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 // import { columns_Lost_CCTV } from "../columns/columns_Lost_CCTV";
 // import { columns_Lost_Drawer } from "../columns/columns_Lost_Drawer";
@@ -61,6 +61,23 @@ const Selected_park_Lost = () => {
         return `${year}/${month}/${day} ${hour}:${minute}`;
     };
 
+    const refreshBikeData = async (cctvId) => {
+        const bikeCollection = await getDocs(collection(db, `seoul-cctv/${cctvId}/missing-seoul-bike`));
+        const bikeData = bikeCollection.docs.map(bikeDoc => ({
+            ...bikeDoc.data(),
+            firstFoundTime: formatFoundTime(bikeDoc.data().firstFoundTime),
+            lastFoundTime: formatFoundTime(bikeDoc.data().lastFoundTime),
+            lat: bikeDoc.data().lat,
+            lon: bikeDoc.data().lon,
+            imageURL: bikeDoc.data().imageURL,
+            id: bikeDoc.id,
+            retrieveYn: bikeDoc.data().retrieveYn || false,
+            retrieveTime: bikeDoc.data().retrieveTime || null,
+        })).filter(bike => !bike.retrieveYn); // 회수되지 않은 유실물만 표시
+
+        setVisibleBikeRows(bikeData); // 업데이트된 유실물 데이터 저장
+    };
+
     // 부채꼴을 그리는 함수
     // const drawArc = (center, radius, startAngle, endAngle) => {
     //     const points = [];
@@ -78,10 +95,9 @@ const Selected_park_Lost = () => {
 
     // CCTV 데이터 불러오기
     useEffect(() => {
-        const fetchCCTVData = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, "seoul-cctv"));
-                const fetchedRows = await Promise.all(
+        const fetchCCTVData = () => {
+            const unsubscribe = onSnapshot(collection(db, "seoul-cctv"), (querySnapshot) => {
+                const fetchedRows = Promise.all(
                     querySnapshot.docs.map(async (doc) => {
                         const data = doc.data();
                         const bikeCollection = await getDocs(collection(db, `seoul-cctv/${doc.id}/missing-seoul-bike`));
@@ -94,22 +110,19 @@ const Selected_park_Lost = () => {
                                 lon: bikeDoc.data().lon,
                                 imageURL: bikeDoc.data().imageURL,
                                 id: bikeDoc.id,
-                                retrieveYn: bikeDoc.data().retrieveYn || false, // 회수되지 않은 유실물의 기본 status는 false
+                                retrieveYn: bikeDoc.data().retrieveYn || false,
                                 retrieveTime: bikeDoc.data().retrieveTime || null,
                                 fixed: bikeDoc.data().fixed || false,
                                 streamURL: bikeDoc.data().streamURL,
                             }))
-                            .filter(bike => !bike.retrieveYn); // retrieveYn이 false인 데이터만 표시
+                            .filter(bike => !bike.retrieveYn);
                         const address = await getReverseGeocoding(data.lat, data.lon);
 
-                        // CCTV별 랜덤 방향 설정 (초기만 설정)
                         if (!cctvDirections[data.id]) {
                             cctvDirections[data.id] = Math.floor(Math.random() * 360);
-                            saveCctvDirections(); // 로컬 스토리지에 저장
+                            saveCctvDirections();
                         }
 
-                        const fixed = data.fixed || false;
-                        // 가장 최근에 발견된 따릉이의 최종 발견 시각
                         const lastFoundTime = bikeData.length > 0
                             ? bikeData.reduce((latest, bike) => (bike.lastFoundTime > latest ? bike.lastFoundTime : latest), bikeData[0].lastFoundTime)
                             : null;
@@ -123,49 +136,50 @@ const Selected_park_Lost = () => {
                             bikeData: bikeData,
                             foundLost: bikeData.length,
                             lastFoundTime: lastFoundTime,
-                            fixed: fixed,
+                            fixed: data.fixed || false,
                         };
                     })
                 );
 
-                const selectedPark = parkData.DATA.find(park => park.p_park === parkName);
-                if (!selectedPark) {
-                    console.error("선택된 공원을 찾을 수 없습니다.");
-                    return;
-                }
+                fetchedRows.then((data) => {
+                    const selectedPark = parkData.DATA.find(park => park.p_park === parkName);
+                    if (!selectedPark) return;
 
-                const filteredCCTV = fetchedRows.filter(cctv => {
-                    const distance = calculateDistance(
-                        parseFloat(selectedPark.latitude), parseFloat(selectedPark.longitude),
-                        parseFloat(cctv.cctvLat), parseFloat(cctv.cctvLon)
-                    );
-                    return distance <= 300 && cctv.bikeData.length > 0; // 300m 이내의 CCTV
-                });
-
-                setCctvRows(filteredCCTV);
-                setVisibleCctvRows(filteredCCTV);
-
-                if (fetchedRows.length < 10) {
-                    setPageSize(fetchedRows.length);  // rows 개수에 맞춰 pageSize 설정
-                }
-
-                const parksWithCCTV = parkData.DATA.filter((park) => {
-                    const hasMatchingCCTV = fetchedRows.some(cctv => {
+                    const filteredCCTV = data.filter(cctv => {
                         const distance = calculateDistance(
-                            parseFloat(park.latitude), parseFloat(park.longitude),
-                            parseFloat(cctv.cctvLat), parseFloat(cctv.cctvLon)
+                            parseFloat(selectedPark.latitude),
+                            parseFloat(selectedPark.longitude),
+                            parseFloat(cctv.cctvLat),
+                            parseFloat(cctv.cctvLon)
                         );
                         return distance <= 300 && cctv.bikeData.length > 0;
                     });
-                    return hasMatchingCCTV;
+
+                    setCctvRows(filteredCCTV);
+                    setVisibleCctvRows(filteredCCTV);
+
+                    if (filteredCCTV.length < 10) {
+                        setPageSize(filteredCCTV.length);
+                    }
+
+                    const parksWithCCTV = parkData.DATA.filter(park => {
+                        const hasMatchingCCTV = data.some(cctv => {
+                            const distance = calculateDistance(
+                                parseFloat(park.latitude), parseFloat(park.longitude),
+                                parseFloat(cctv.cctvLat), parseFloat(cctv.cctvLon)
+                            );
+                            return distance <= 300 && cctv.bikeData.length > 0;
+                        });
+                        return hasMatchingCCTV;
+                    });
+
+                    setFilteredParkOptions(parksWithCCTV);
                 });
+            });
 
-                setFilteredParkOptions(parksWithCCTV); // 유실물이 발견된 공원만 설정
-
-            } catch (error) {
-                console.error("Error fetching data from Firestore:", error);
-            }
+            return () => unsubscribe();
         };
+
         fetchCCTVData();
     }, [parkName]);
 
@@ -515,7 +529,7 @@ const Selected_park_Lost = () => {
     };
 
     return (
-        <div className={`main-content ${drawerOpen ? 'drawer-open' : ''}`}> {/* Drawer가 열리면 화면이 밀림 */}
+        <div className={`main-content ${drawerOpen ? 'drawer-open' : ''}`}>
             <HeaderPage_Lost_selected
                 parkName={parkName}
                 suspiciousItemCount={suspiciousItemCount}
@@ -548,6 +562,7 @@ const Selected_park_Lost = () => {
                 onRetrieve={handleRetrieve}
                 onReportBug={handleReportBug}
                 onImageClick={handleImageClick}
+                refreshBikeData={() => refreshBikeData(selectedRow.id)}
             />
             <ImageModal
                 open={modalOpen}

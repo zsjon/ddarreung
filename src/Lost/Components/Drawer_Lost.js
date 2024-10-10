@@ -3,12 +3,40 @@ import { Button, Drawer, Modal } from "@mui/material";
 import Box from "@mui/material/Box";
 import ReactPlayer from "react-player";
 import FanShapeCanvas from "../../utils/FanShapeCanvas"; // 부채꼴 애니메이션 컴포넌트 추가
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { doc, updateDoc, getDoc } from 'firebase/firestore';
+import { db } from '../../utils/firebase'; // Firebase 초기화 파일
 
 const recUrl = "http://172.30.1.91:8000/stream.mjpg";
 
-const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve, onReportBug, bikeRows, onImageClick }) => {
+const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve, onReportBug, bikeRows, onImageClick, refreshBikeData }) => {
     const [modalOpen, setModalOpen] = useState(false); // 모달 창 열림 상태 관리
+    const [cctvAngle, setCctvAngle] = useState(null); // CCTV 감지 방향 상태 관리
+
+    // Firestore에서 CCTV 방향을 가져오거나 설정하는 함수
+    const fetchOrSetCctvAngle = async () => {
+        if (selectedRow && selectedRow.id) {
+            const cctvRef = doc(db, "seoul-cctv", selectedRow.id);
+            const cctvDoc = await getDoc(cctvRef);
+
+            if (cctvDoc.exists()) {
+                const data = cctvDoc.data();
+                if (data.cctvAngle) {
+                    setCctvAngle(data.cctvAngle); // Firestore에 저장된 CCTV 방향 사용
+                } else {
+                    const randomAngle = Math.floor(Math.random() * 180) - 90; // -90도에서 90도 사이의 랜덤 각도 설정
+                    await updateDoc(cctvRef, { cctvAngle: randomAngle }); // Firestore에 저장
+                    setCctvAngle(randomAngle);
+                }
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (open && selectedRow) {
+            fetchOrSetCctvAngle(); // Drawer가 열릴 때마다 CCTV 방향 가져오기 또는 설정
+        }
+    }, [open, selectedRow]);
 
     const handleOpenModal = () => {
         setModalOpen(true);
@@ -44,6 +72,10 @@ const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve
                         </Box>
 
                         <p>{selectedRow.cctvAddress}</p>
+
+                        <Button onClick={refreshBikeData} variant="contained" color="secondary" style={{ marginBottom: '10px' }}>
+                            정보 업데이트
+                        </Button>
 
                         <LostItemsTable
                             rows={bikeRows}
@@ -86,7 +118,7 @@ const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve
                             style={{ width: '100%', height: '100%' }}
                         />
 
-                        {/* FanShapeCanvas 추가 */}
+                        {/* FanShapeCanvas 추가, cctvAngle을 기준으로 ±90도 범위 표시 */}
                         <Box
                             position="absolute"
                             top="0"
@@ -94,7 +126,7 @@ const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve
                             width="100%"
                             height="100%"
                         >
-                            <FanShapeCanvas /> {/* 부채꼴 애니메이션 컴포넌트 */}
+                            <FanShapeCanvas angle={cctvAngle} /> {/* 부채꼴 애니메이션 컴포넌트 */}
                         </Box>
                     </Box>
 

@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 본선 전 최종 영상 처리">
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 토글별 그래프 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lost/Page/selected_park_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Page/selected_park_Lost.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/ChartData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ChartData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,24 +40,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/minse/Desktop/Gongmojeon/ddarreung/src/Columns&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2024.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/minse/Desktop/Gongmojeon/ddarreung/src/Columns",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "settings.nodejs",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2024.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\minse\Desktop\Gongmojeon\ddarreung\src\Columns" />
@@ -133,7 +131,7 @@
       <workItem from="1728445095025" duration="6781000" />
       <workItem from="1728459203059" duration="2958000" />
       <workItem from="1728475957037" duration="3080000" />
-      <workItem from="1728518782693" duration="10579000" />
+      <workItem from="1728518782693" duration="23214000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -335,7 +333,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728479297453</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="[ADD] 토글별 그래프 수정">
+      <option name="closed" value="true" />
+      <created>1728533190044</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1728533190044</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -377,6 +383,7 @@
     <MESSAGE value="[ADD] 혼잡도 기준 변경 및 공원선택 화면 반원 제거" />
     <MESSAGE value="[ADD] 대소문자 변경 및 부채꼴 속도 조절" />
     <MESSAGE value="[ADD] 본선 전 최종 영상 처리" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 본선 전 최종 영상 처리" />
+    <MESSAGE value="[ADD] 토글별 그래프 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 토글별 그래프 수정" />
   </component>
 </project>
