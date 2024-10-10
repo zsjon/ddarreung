@@ -110,8 +110,8 @@ const ChartData = ({ cctvId }) => {
             <Toggle
                 isChecked={isRealTime}
                 onChange={() => setIsRealTime(!isRealTime)}
-                labelOn="실시간 혼잡도 On"
-                labelOff="시간별 트렌드 분석"
+                labelOn="실시간 트렌드"
+                labelOff="실시간 혼잡도"
             />
             <Line data={chartData} />
         </div>

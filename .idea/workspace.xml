@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] CCTV별 각도 부여" />
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] CCTV별 각도 부여">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/ChartData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ChartData.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -125,7 +130,7 @@
       <workItem from="1728445095025" duration="6781000" />
       <workItem from="1728459203059" duration="2958000" />
       <workItem from="1728475957037" duration="3080000" />
-      <workItem from="1728518782693" duration="23758000" />
+      <workItem from="1728518782693" duration="24881000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -343,7 +348,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728548621178</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="[ADD] CCTV별 각도 부여">
+      <option name="closed" value="true" />
+      <created>1728549277637</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1728549277637</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

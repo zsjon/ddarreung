@@ -2,49 +2,13 @@ import LostItemsTable from "./lostItemsTable";
 import { Button, Drawer, Modal } from "@mui/material";
 import Box from "@mui/material/Box";
 import ReactPlayer from "react-player";
-import FanShapeCanvas from "../../utils/FanShapeCanvas"; // 부채꼴 애니메이션 컴포넌트 추가
-import { useState, useEffect } from 'react';
-import { doc, updateDoc, getDoc } from 'firebase/firestore';
-import { db } from '../../utils/firebase'; // Firebase 초기화 파일
+import FanShapeCanvas from "../../utils/FanShapeCanvas";
+import useCctvAngle from "../../utils/useCCTVAngle"; // 커스텀 훅 가져오기
 
 const recUrl = "http://172.30.1.91:8000/stream.mjpg";
 
 const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve, onReportBug, bikeRows, onImageClick, refreshBikeData }) => {
-    const [modalOpen, setModalOpen] = useState(false); // 모달 창 열림 상태 관리
-    const [cctvAngle, setCctvAngle] = useState(null); // CCTV 감지 방향 상태 관리
-
-    // Firestore에서 CCTV 방향을 가져오거나 설정하는 함수
-    const fetchOrSetCctvAngle = async () => {
-        if (selectedRow && selectedRow.id) {
-            const cctvRef = doc(db, "seoul-cctv", selectedRow.id);
-            const cctvDoc = await getDoc(cctvRef);
-
-            if (cctvDoc.exists()) {
-                const data = cctvDoc.data();
-                if (data.cctvAngle) {
-                    setCctvAngle(data.cctvAngle); // Firestore에 저장된 CCTV 방향 사용
-                } else {
-                    const randomAngle = Math.floor(Math.random() * 180) - 90; // -90도에서 90도 사이의 랜덤 각도 설정
-                    await updateDoc(cctvRef, { cctvAngle: randomAngle }); // Firestore에 저장
-                    setCctvAngle(randomAngle);
-                }
-            }
-        }
-    };
-
-    useEffect(() => {
-        if (open && selectedRow) {
-            fetchOrSetCctvAngle(); // Drawer가 열릴 때마다 CCTV 방향 가져오기 또는 설정
-        }
-    }, [open, selectedRow]);
-
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setModalOpen(false);
-    };
+    const { cctvAngle, modalOpen, handleOpenModal, handleCloseModal } = useCctvAngle(selectedRow, open); // 커스텀 훅 사용
 
     return (
         <>
