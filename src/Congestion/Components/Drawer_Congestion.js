@@ -65,12 +65,19 @@ const CCTVDrawer_Congestion = ({ open, selectedRow, onClose }) => {
                     textAlign="center"
                 >
                     <h2 id="modal-title">CCTV 회전 범위</h2>
-                    <Box position="relative" width="100%" height="350px">
-                        <img
-                            alt="drawer image"
-                            src={process.env.PUBLIC_URL + '/parkImage/Seoulsoop_cctv0003pic.png'}
-                            style={{ width: '100%', height: '100%' }}
-                        />
+                    <Box
+                        position="relative"
+                        width="100%"
+                        height="350px"
+                    >
+                        {/* selectedRow가 존재할 때만 img를 표시 */}
+                        {selectedRow && (
+                            <img
+                                alt="drawer image"
+                                src={`${process.env.PUBLIC_URL}/parkImage/${selectedRow.id}.png`}
+                                style={{ width: '100%', height: '100%' }}
+                            />
+                        )}
 
                         {/* FanShapeCanvas 추가, cctvAngle을 기준으로 ±90도 범위 표시 */}
                         <Box
@@ -80,7 +87,9 @@ const CCTVDrawer_Congestion = ({ open, selectedRow, onClose }) => {
                             width="100%"
                             height="100%"
                         >
-                            <FanShapeCanvas angle={cctvAngle} />
+                            {selectedRow && (
+                                <FanShapeCanvas angle={cctvAngle} isFixed={selectedRow.fixed} />
+                            )}
                         </Box>
                     </Box>
 

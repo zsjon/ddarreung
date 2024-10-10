@@ -114,11 +114,14 @@ const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve
                         width="100%"
                         height="350px"
                     >
-                        <img
-                            alt="drawer image"
-                            src={process.env.PUBLIC_URL + '/parkImage/Seoulsoop_cctv0003pic.png'}
-                            style={{ width: '100%', height: '100%' }}
-                        />
+                        {/* selectedRow가 존재할 때만 img를 표시 */}
+                        {selectedRow && (
+                            <img
+                                alt="drawer image"
+                                src={`${process.env.PUBLIC_URL}/parkImage/${selectedRow.id}.png`}
+                                style={{ width: '100%', height: '100%' }}
+                            />
+                        )}
 
                         {/* FanShapeCanvas 추가, cctvAngle을 기준으로 ±90도 범위 표시 */}
                         <Box
@@ -128,8 +131,9 @@ const CCTVDrawer_Lost = ({ open, selectedRow, selectedImage, onClose, onRetrieve
                             width="100%"
                             height="100%"
                         >
-                            {/* selectedRow가 존재할 때만 isFixed를 참조 */}
-                            <FanShapeCanvas angle={cctvAngle} isFixed={selectedRow ? selectedRow.fixed : false} />
+                            {selectedRow && (
+                                <FanShapeCanvas angle={cctvAngle} isFixed={selectedRow.fixed} />
+                            )}
                         </Box>
                     </Box>
 
