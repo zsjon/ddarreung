@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 고정형 CCTV 각도 설정">
-      <change beforePath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" afterDir="false" />
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] CCTV 회전속도 조정">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +128,7 @@
       <workItem from="1728445095025" duration="6781000" />
       <workItem from="1728459203059" duration="2958000" />
       <workItem from="1728475957037" duration="3080000" />
-      <workItem from="1728518782693" duration="28919000" />
+      <workItem from="1728518782693" duration="29254000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -369,7 +370,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728554120699</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="[ADD] CCTV 회전속도 조정">
+      <option name="closed" value="true" />
+      <created>1728554381731</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1728554381731</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -387,7 +396,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="[ADD] 웹아이콘 추가" />
     <MESSAGE value="[ADD] 메인페이지 추가 및 공원별 페이지 구현" />
     <MESSAGE value="[ADD] 시간별 각도별 CCTV 범위 변화 적용" />
     <MESSAGE value="[ADD] 데이터 삭제버튼 추가" />
@@ -412,6 +420,7 @@
     <MESSAGE value="[ADD] CCTV별 각도 부여" />
     <MESSAGE value="[ADD] CCTVAngle 컴포넌트화" />
     <MESSAGE value="[ADD] 고정형 CCTV 각도 설정" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 고정형 CCTV 각도 설정" />
+    <MESSAGE value="[ADD] CCTV 회전속도 조정" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] CCTV 회전속도 조정" />
   </component>
 </project>

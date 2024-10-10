@@ -1,4 +1,5 @@
-@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
 
 .App {
   text-align: center;
@@ -14,8 +15,6 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
 
 .App-header {
   background-color: #282c34;
