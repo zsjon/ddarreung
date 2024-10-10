@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 
-const FanShapeCanvas = ({ angle }) => {
+const FanShapeCanvas = ({ angle, isFixed }) => { // isFixed prop 추가
     const canvasRef = useRef(null);
     const [currentAngle, setCurrentAngle] = useState(angle); // 초기 각도는 전달받은 CCTV 각도
     const [direction, setDirection] = useState(1); // 회전 방향 (1은 시계 방향, -1은 반시계 방향)
@@ -30,27 +30,35 @@ const FanShapeCanvas = ({ angle }) => {
     useEffect(() => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
+
         let animationFrameId;
 
-        const render = () => {
-            drawFan(ctx, currentAngle); // 부채꼴을 그린다
-            setCurrentAngle((prevAngle) => {
-                let newAngle = prevAngle + direction * 0.005; // 각도를 0.5도씩 변화
-                // ±90도 범위를 넘으면 회전 방향을 반대로 바꿈
-                if (newAngle >= angle + 90 || newAngle <= angle - 90) {
-                    setDirection(direction * -1); // 방향 전환
-                }
-                return newAngle;
-            });
-            animationFrameId = requestAnimationFrame(render); // 애니메이션 반복
-        };
+        if (!isFixed) { // 회전형 CCTV일 경우에만 애니메이션을 적용
+            const render = () => {
+                drawFan(ctx, currentAngle); // 부채꼴을 그린다
+                setCurrentAngle((prevAngle) => {
+                    let newAngle = prevAngle + direction * 0.005; // 각도를 0.5도씩 변화
+                    // ±90도 범위를 넘으면 회전 방향을 반대로 바꿈
+                    if (newAngle >= angle + 90 || newAngle <= angle - 90) {
+                        setDirection(direction * -1); // 방향 전환
+                    }
+                    return newAngle;
+                });
+                animationFrameId = requestAnimationFrame(render); // 애니메이션 반복
+            };
 
-        render(); // 애니메이션 시작
+            render(); // 애니메이션 시작
+        } else {
+            // 고정형 CCTV일 경우 부채꼴을 한 번만 그린다
+            drawFan(ctx, angle);
+        }
 
         return () => {
-            cancelAnimationFrame(animationFrameId); // 컴포넌트 언마운트 시 애니메이션 정지
+            if (!isFixed) {
+                cancelAnimationFrame(animationFrameId); // 컴포넌트 언마운트 시 애니메이션 정지
+            }
         };
-    }, [currentAngle, direction, angle]);
+    }, [currentAngle, direction, angle, isFixed]);
 
     return (
         <div>
