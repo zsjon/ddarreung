@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 대소문자 변경 및 부채꼴 속도 조절">
-      <change afterPath="$PROJECT_DIR$/public/seoulcongestion_long.mp4" afterDir="false" />
+    <list default="true" id="e0e73e4d-7d75-450e-bb6e-1499186011e0" name="Changes" comment="[ADD] 본선 전 최종 영상 처리">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/parkImage/seoulsoop_cctv0003.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Congestion/Components/Drawer_Congestion.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lost/Components/Drawer_Lost.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/ChartData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ChartData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/FanShapeCanvas.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +132,8 @@
       <workItem from="1728379999790" duration="33205000" />
       <workItem from="1728445095025" duration="6781000" />
       <workItem from="1728459203059" duration="2958000" />
-      <workItem from="1728475957037" duration="2046000" />
+      <workItem from="1728475957037" duration="3080000" />
+      <workItem from="1728518782693" duration="10579000" />
     </task>
     <task id="LOCAL-00001" summary="[ADD] 최종발견시각 출력방식 변경">
       <option name="closed" value="true" />
@@ -323,7 +327,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728465611910</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="[ADD] 본선 전 최종 영상 처리">
+      <option name="closed" value="true" />
+      <created>1728479297453</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1728479297453</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -364,6 +376,7 @@
     <MESSAGE value="[ADD] CCTV 회전 모달창 구현 및 영상 링크 수정" />
     <MESSAGE value="[ADD] 혼잡도 기준 변경 및 공원선택 화면 반원 제거" />
     <MESSAGE value="[ADD] 대소문자 변경 및 부채꼴 속도 조절" />
-    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 대소문자 변경 및 부채꼴 속도 조절" />
+    <MESSAGE value="[ADD] 본선 전 최종 영상 처리" />
+    <option name="LAST_COMMIT_MESSAGE" value="[ADD] 본선 전 최종 영상 처리" />
   </component>
 </project>

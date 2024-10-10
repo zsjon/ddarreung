@@ -7,8 +7,8 @@ const FanShapeCanvas = () => {
 
     // 부채꼴 그리기 함수
     const drawFan = (ctx, angle) => {
-        const x = ctx.canvas.width / 2 + 8; // 중심점 x (이미지의 중심에 맞춤)
-        const y = ctx.canvas.height / 2 - 6; // 중심점 y
+        const x = ctx.canvas.width / 2 + 7; // 중심점 x (이미지의 중심에 맞춤)
+        const y = ctx.canvas.height / 2 - 8; // 중심점 y
         const radius = Math.min(x, y) - 100; // 반지름 설정, 경계로부터 여유 공간을 줌
 
         // 부채꼴 그리기

@@ -3,9 +3,9 @@ import Box from "@mui/material/Box";
 import ReactPlayer from "react-player";
 import ChartData from "../../utils/ChartData";
 import FanShapeCanvas from "../../utils/FanShapeCanvas";
-import {useState} from "react"; // 차트 컴포넌트를 불러옵니다.
+import {useState} from "react";
 
-const recURl = "http://192.168.1.38:8000/stream.mjpg";
+const recURl = "http://172.30.1.91:8000/stream.mjpg";
 
 const CCTVDrawer_Congestion = ({ open, selectedRow, onClose }) => {
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
@@ -45,7 +45,7 @@ const CCTVDrawer_Congestion = ({ open, selectedRow, onClose }) => {
 
                     <p>{selectedRow.cctvAddress}</p>
 
-                    <Box>
+                    <Box marginBottom="50px">
                         {/* selectedRow에 포함된 혼잡도(congestionLevel) 값을 표시 */}
                         <h1>구역 혼잡도: {selectedRow.congestionLevel}</h1>
                     </Box>
@@ -75,11 +75,11 @@ const CCTVDrawer_Congestion = ({ open, selectedRow, onClose }) => {
             </Button>
 
             {/* 모달 안에서 보여줄 CCTV 이미지와 부채꼴 애니메이션 */}
-            <Box position="relative" width="100%" height="100%">
+            <Box position="relative" width="100%" height="400px">
                 <img
                     alt="drawer image"
-                    src={process.env.PUBLIC_URL + '/parkImage/seoulsoop_cctv0003pic.png'} // 로컬 이미지 사용
-                    style={{ width: '100%', height: 'auto' }}
+                    src={process.env.PUBLIC_URL + '/parkImage/Seoulsoop_cctv0003pic.png'} // 로컬 이미지 사용
+                    style={{ width: '100%', height: '340px' }}
                 />
                 <Box position="absolute" top="0" left="0" width="100%" height="100%">
                     <FanShapeCanvas /> {/* 부채꼴 애니메이션 */}
