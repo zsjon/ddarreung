@@ -53,6 +53,9 @@
 ### 프로토타입 시연 영상 링크:
 #### https://youtu.be/f8VLiJ7wRhE
 
+### 최종 시연 영상 링크:
+#### https://youtu.be/SIyrcX0qS9I
+
 #### --------------------
 
 ### Team Participation
